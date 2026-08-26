@@ -1,0 +1,813 @@
+<title>Rush Platine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* ── Tokens : design sombre par défaut (dark-first), thème clair complet ── */
+  :root {
+    --bg: #0D0F10;
+    --glow-a: rgba(121, 137, 235, 0.10);
+    --glow-b: rgba(234, 209, 84, 0.05);
+    --card: #1A1D21;
+    --well: #131619;
+    --chip: #1E1F24;
+    --line: rgba(255, 255, 255, 0.10);
+    --ink: #F4F5F9;
+    --muted: #9B9C9E;
+    --faint: #686B6E;
+    --louis: #7080E2;
+    --louis-2: #A6B0F2;
+    --louis-ink: #0C1024;
+    --louis-soft: rgba(121, 137, 235, 0.10);
+    --louis-border: rgba(166, 176, 242, 0.28);
+    --thomas: #AC9019;
+    --thomas-2: #EAD154;
+    --thomas-ink: #2B2405;
+    --thomas-soft: rgba(234, 209, 84, 0.07);
+    --thomas-border: rgba(234, 209, 84, 0.25);
+    --plat: #45C4AC;
+    --win: #2E9BFF;
+    --loss: #EF4444;
+    --tier-fer: #7A8194;
+    --tier-bronze: #B58054;
+    --tier-argent: #93AAC2;
+    --tier-or: #D9AC48;
+    --glass: linear-gradient(118deg, rgba(215, 237, 237, 0.10) -48%, rgba(204, 235, 235, 0) 60%);
+    --shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #F3F4F9;
+      --glow-a: rgba(121, 137, 235, 0.10);
+      --glow-b: rgba(216, 185, 42, 0.06);
+      --card: #FFFFFF;
+      --well: #EBEDF4;
+      --chip: #F1F3FA;
+      --line: #E0E2EA;
+      --ink: #10131F;
+      --muted: #65697C;
+      --faint: #9B9C9E;
+      --louis: #5566D0;
+      --louis-2: #7989EB;
+      --louis-ink: #FFFFFF;
+      --louis-soft: rgba(121, 137, 235, 0.09);
+      --louis-border: rgba(121, 137, 235, 0.35);
+      --thomas: #9A7D10;
+      --thomas-2: #C4A61F;
+      --thomas-ink: #FFFFFF;
+      --thomas-soft: rgba(216, 185, 42, 0.10);
+      --thomas-border: rgba(180, 150, 25, 0.35);
+      --plat: #178A74;
+      --win: #2673E6;
+      --loss: #DC3B3B;
+      --tier-fer: #99A0B0;
+      --tier-bronze: #B98A62;
+      --tier-argent: #9FB2C4;
+      --tier-or: #CFA94F;
+      --glass: linear-gradient(118deg, rgba(121, 137, 235, 0.06) -48%, rgba(255, 255, 255, 0) 60%);
+      --shadow: 0 10px 30px rgba(16, 19, 31, 0.08);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #F3F4F9;
+    --glow-a: rgba(121, 137, 235, 0.10);
+    --glow-b: rgba(216, 185, 42, 0.06);
+    --card: #FFFFFF;
+    --well: #EBEDF4;
+    --chip: #F1F3FA;
+    --line: #E0E2EA;
+    --ink: #10131F;
+    --muted: #65697C;
+    --faint: #9B9C9E;
+    --louis: #5566D0;
+    --louis-2: #7989EB;
+    --louis-ink: #FFFFFF;
+    --louis-soft: rgba(121, 137, 235, 0.09);
+    --louis-border: rgba(121, 137, 235, 0.35);
+    --thomas: #9A7D10;
+    --thomas-2: #C4A61F;
+    --thomas-ink: #FFFFFF;
+    --thomas-soft: rgba(216, 185, 42, 0.10);
+    --thomas-border: rgba(180, 150, 25, 0.35);
+    --plat: #178A74;
+    --win: #2673E6;
+    --loss: #DC3B3B;
+    --tier-fer: #99A0B0;
+    --tier-bronze: #B98A62;
+    --tier-argent: #9FB2C4;
+    --tier-or: #CFA94F;
+    --glass: linear-gradient(118deg, rgba(121, 137, 235, 0.06) -48%, rgba(255, 255, 255, 0) 60%);
+    --shadow: 0 10px 30px rgba(16, 19, 31, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background:
+      radial-gradient(1100px 560px at 12% -8%, var(--glow-a), transparent 60%),
+      radial-gradient(900px 520px at 95% 4%, var(--glow-b), transparent 62%),
+      var(--bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.55;
+    margin: 0;
+    padding: 44px 20px 64px;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+
+  h1, h2, h3, .disp { font-family: "Plus Jakarta Sans", "Inter", sans-serif; margin: 0; text-wrap: balance; }
+  h1 { font-size: 2.7rem; font-weight: 800; letter-spacing: 0.01em; line-height: 1.05; }
+  h1 .grad {
+    background: linear-gradient(92deg, var(--louis) 10%, var(--louis-2) 38%, var(--thomas-2) 62%, var(--thomas) 90%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  h2 { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  h2::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, var(--louis), var(--thomas)); flex: none; }
+  .eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--faint); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ── En-tête ── */
+  header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 4px 6px; }
+  header .sub { color: var(--muted); margin-top: 8px; max-width: 46ch; }
+  .vs-box {
+    display: flex; align-items: center; gap: 16px;
+    background: linear-gradient(160deg, var(--louis-soft), var(--card) 45%, var(--card) 55%, var(--thomas-soft));
+    border: 1px solid var(--line); border-radius: 16px; padding: 16px 24px; box-shadow: var(--shadow);
+  }
+  .vs-side { display: flex; align-items: center; gap: 12px; }
+  .vs-side .info b { font-family: "Plus Jakarta Sans", sans-serif; font-size: 1.05rem; display: block; line-height: 1.2; }
+  .vs-side .info small { color: var(--muted); font-weight: 700; }
+  .vs-side.rev { flex-direction: row-reverse; text-align: right; }
+  .avatar {
+    width: 46px; height: 46px; border-radius: 50%; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 1.25rem;
+  }
+  .avatar.louis { color: var(--louis-ink); background: linear-gradient(140deg, var(--louis-2), var(--louis)); box-shadow: 0 0 18px var(--louis-soft), 0 4px 10px rgba(0,0,0,0.25); }
+  .avatar.thomas { color: var(--thomas-ink); background: linear-gradient(140deg, var(--thomas-2), var(--thomas)); box-shadow: 0 0 18px var(--thomas-soft), 0 4px 10px rgba(0,0,0,0.25); }
+  .vs-mid { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--faint); letter-spacing: 0.08em; }
+  .lead-note { text-align: center; font-size: 0.82rem; color: var(--muted); margin-top: 8px; }
+  .lead-note b { color: var(--ink); }
+
+  /* ── Cartes ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 28px; box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; inset: 0;
+    background: var(--glass);
+    pointer-events: none;
+  }
+  .card::after {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    pointer-events: none;
+  }
+  .card > * { position: relative; }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .card-head .hint { font-size: 0.82rem; color: var(--faint); }
+
+  /* ── La course ── */
+  .track-zone { padding-top: 88px; position: relative; }
+  .track { position: relative; height: 22px; display: flex; gap: 4px; }
+  .seg { height: 100%; border-radius: 5px; }
+  .seg:first-child { border-radius: 999px 5px 5px 999px; }
+  .seg:last-child { border-radius: 5px 999px 999px 5px; }
+  .seg-labels { display: flex; margin-top: 12px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
+  .goal-flag { position: absolute; right: -6px; top: -36px; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.08em;
+    background: linear-gradient(90deg, var(--plat), #7FE3CE); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .goal-tick { position: absolute; right: 0; top: -10px; width: 5px; height: 40px; border-radius: 999px; background: linear-gradient(180deg, #7FE3CE, var(--plat)); box-shadow: 0 0 14px rgba(69, 196, 172, 0.5); }
+  .runner {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 3px solid var(--card); z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 800; font-family: "Plus Jakarta Sans", sans-serif;
+  }
+  .runner.louis { color: var(--louis-ink); background: linear-gradient(140deg, var(--louis-2), var(--louis)); box-shadow: 0 0 16px var(--louis-border); }
+  .runner.thomas { color: var(--thomas-ink); background: linear-gradient(140deg, var(--thomas-2), var(--thomas)); box-shadow: 0 0 16px var(--thomas-border); }
+  .runner-tag {
+    position: absolute; transform: translateX(-50%); white-space: nowrap;
+    background: var(--chip); border: 1px solid var(--line); border-radius: 9px;
+    padding: 5px 13px; font-size: 0.8rem; text-align: center;
+  }
+  .runner-tag b { font-family: "Plus Jakarta Sans", sans-serif; }
+  .runner-tag .r { color: var(--muted); font-weight: 700; }
+  .runner-stem { position: absolute; width: 2px; border-radius: 999px; transform: translateX(-50%); opacity: 0.8; }
+  .race-facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .fact { background: var(--chip); border-radius: 10px; padding: 7px 15px; font-size: 0.85rem; color: var(--muted); border: 1px solid var(--line); }
+  .fact b { color: var(--ink); }
+  .abs-note { margin-top: 14px; font-size: 0.78rem; color: var(--faint); }
+
+  /* ── Cartes joueurs ── */
+  .players { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 780px) { .players { grid-template-columns: 1fr; } }
+  .card.p-louis { background: linear-gradient(165deg, var(--louis-soft), var(--card) 52%); border-color: var(--louis-border); }
+  .card.p-thomas { background: linear-gradient(165deg, var(--thomas-soft), var(--card) 52%); border-color: var(--thomas-border); }
+  .p-head { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  .p-head .name { font-family: "Plus Jakarta Sans", sans-serif; font-size: 1.45rem; font-weight: 800; }
+  .p-head .tag { color: var(--faint); font-size: 0.8rem; margin-left: auto; }
+  .avatar.sm { width: 38px; height: 38px; font-size: 1.05rem; }
+  .rank-pill {
+    display: inline-flex; align-items: baseline; gap: 8px; margin: 6px 0 20px;
+    background: var(--chip); border: 1px solid var(--line); border-radius: 10px; padding: 7px 15px;
+    font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 0.98rem;
+  }
+  .rank-pill small { font-family: "Inter", sans-serif; font-weight: 700; color: var(--muted); cursor: help; border-bottom: 1px dotted var(--faint); }
+  .p-body { display: flex; gap: 26px; align-items: center; }
+  .ring-box { flex: none; position: relative; width: 138px; height: 138px; }
+  .ring-box svg { display: block; }
+  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-center .pct { font-family: "Plus Jakarta Sans", sans-serif; font-size: 1.9rem; font-weight: 800; line-height: 1; }
+  .ring-center .lbl { font-size: 0.66rem; font-weight: 700; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 18px; flex: 1; }
+  .stat .k { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: var(--faint); }
+  .stat .v { font-family: "Plus Jakarta Sans", sans-serif; font-size: 1.3rem; font-weight: 700; }
+  .stat .v small { font-size: 0.82rem; color: var(--muted); font-weight: 700; }
+  .p-foot { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--muted); }
+  .p-foot b { color: var(--ink); }
+
+  /* ── Duel : rapport de force ── */
+  .duel-head { display: grid; grid-template-columns: 150px 64px 1fr 64px; gap: 14px; margin-bottom: 14px; align-items: center; }
+  .duel-head .l { grid-column: 2; text-align: right; }
+  .duel-head .r { grid-column: 4; }
+  .duel-head b { font-family: "Plus Jakarta Sans", sans-serif; font-size: 1rem; }
+  .duel-row { display: grid; grid-template-columns: 150px 64px 1fr 64px; gap: 14px; align-items: center; padding: 8px 0; }
+  .duel-row .metric { font-size: 0.82rem; color: var(--muted); font-weight: 700; line-height: 1.25; }
+  .duel-row .val { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 0.98rem; color: var(--faint); }
+  .duel-row .val.l { text-align: right; }
+  .duel-row .val.win-l { color: var(--louis); }
+  .duel-row .val.win-t { color: var(--thomas); }
+  .tug { height: 16px; border-radius: 999px; background: var(--well); position: relative; }
+  .tug .fl, .tug .fr { position: absolute; top: 2px; bottom: 2px; border-radius: 999px; }
+  .tug .fl { left: 2px; background: linear-gradient(90deg, var(--louis), var(--louis-2)); }
+  .tug .fr { right: 2px; background: linear-gradient(90deg, var(--thomas-2), var(--thomas)); }
+  .tug .mid { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 2px; border-radius: 999px; background: var(--line); transform: translateX(-50%); }
+  @media (max-width: 700px) {
+    .duel-row, .duel-head { grid-template-columns: 96px 52px 1fr 52px; gap: 8px; }
+    .duel-row .metric { font-size: 0.74rem; }
+  }
+
+  /* ── Graphique de montée ── */
+  .chart-wrap { position: relative; }
+  .chart-wrap svg { display: block; width: 100%; height: auto; }
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.82rem; color: var(--muted); margin-bottom: 14px; }
+  .chart-legend .li { display: inline-flex; align-items: center; gap: 8px; }
+  .chart-legend .sw { width: 18px; height: 4px; border-radius: 999px; }
+  .chart-legend .swd { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--faint); }
+  .tooltip {
+    position: absolute; pointer-events: none; z-index: 5; display: none;
+    background: var(--chip); border: 1px solid var(--line); border-radius: 10px;
+    padding: 9px 15px; font-size: 0.82rem; box-shadow: var(--shadow); white-space: nowrap;
+  }
+  .tooltip b { font-family: "Plus Jakarta Sans", sans-serif; }
+  details.data-table { margin-top: 14px; }
+  details.data-table summary { cursor: pointer; font-size: 0.82rem; color: var(--muted); border-radius: 999px; padding: 4px 10px; width: fit-content; }
+  details.data-table summary:focus-visible { outline: 2px solid var(--louis); outline-offset: 2px; }
+  details.data-table .scroll { overflow-x: auto; margin-top: 10px; }
+  details.data-table table { border-collapse: collapse; font-size: 0.82rem; }
+  details.data-table th, details.data-table td { padding: 4px 12px; text-align: left; color: var(--muted); border-bottom: 1px solid var(--line); }
+  details.data-table th { color: var(--faint); font-weight: 800; }
+
+  /* ── Forme ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 780px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-box { background: var(--well); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .form-box .who { display: flex; align-items: center; gap: 10px; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 14px; }
+  .beads { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .bead { width: 24px; height: 24px; flex: none; }
+  .form-box .sum { font-size: 0.84rem; color: var(--muted); }
+  .form-box .sum b { color: var(--ink); }
+
+  /* ── Pool de champions ── */
+  .pool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  @media (max-width: 780px) { .pool-grid { grid-template-columns: 1fr; } }
+  .pool-box .who { display: flex; align-items: center; gap: 10px; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 14px; }
+  .champ-row { display: grid; grid-template-columns: 36px 96px 1fr 44px 44px; gap: 10px; align-items: center; padding: 5px 0; font-size: 0.86rem; }
+  .champ-icon { width: 36px; height: 36px; border-radius: 50%; display: block; }
+  .champ-row.louis .champ-icon { border: 2px solid var(--louis-border); }
+  .champ-row.thomas .champ-icon { border: 2px solid var(--thomas-border); }
+  .champ-row .name { font-weight: 800; line-height: 1.2; }
+  .champ-row .name small { display: block; font-weight: 700; color: var(--faint); font-size: 0.68rem; }
+  .champ-row .wr, .champ-row .kda { text-align: right; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; }
+  .champ-row .kda { color: var(--muted); font-family: "Inter", sans-serif; font-weight: 700; }
+  .champ-bar { height: 10px; border-radius: 999px; background: var(--well); overflow: hidden; }
+  .champ-bar .fill { height: 100%; border-radius: 999px; }
+  .champ-row.louis .fill { background: linear-gradient(90deg, var(--louis), var(--louis-2)); }
+  .champ-row.thomas .fill { background: linear-gradient(90deg, var(--thomas), var(--thomas-2)); }
+  .champ-star { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; background: var(--chip); border: 1px solid var(--line); border-radius: 10px; padding: 6px 14px; font-size: 0.78rem; color: var(--muted); }
+  .champ-star b { color: var(--ink); }
+
+  footer { text-align: center; color: var(--faint); font-size: 0.8rem; padding-top: 8px; }
+  footer .accounts { margin-top: 4px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ring-progress { transition: stroke-dashoffset 1.1s cubic-bezier(0.22, 1, 0.36, 1); }
+    .tug .fl, .tug .fr, .champ-bar .fill { transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div>
+      <div class="eyebrow">Le défi · saison 2026</div>
+      <h1>Rush <span class="grad">Platine</span></h1>
+      <div class="sub">Un compte parti de Fer I, deux pilotes, une seule ligne d'arrivée : Platine IV. Données relevées sur OP.GG.</div>
+    </div>
+    <div>
+      <div class="vs-box" id="vsBox"></div>
+      <div class="lead-note" id="leadNote"></div>
+    </div>
+  </header>
+
+  <!-- La course -->
+  <section class="card">
+    <div class="card-head">
+      <h2>La course</h2>
+      <span class="hint">position réelle sur l'échelle, du départ à l'objectif</span>
+    </div>
+    <div class="track-zone" id="trackZone"></div>
+    <div class="race-facts" id="raceFacts"></div>
+    <div class="abs-note">« LP cumulés » : total de LP en comptant 100 LP par division franchie depuis Fer IV 0 LP. Le départ (Fer I 0 LP) vaut 300, l'arrivée (Platine IV) vaut 1600 — soit 1300 LP de chemin à parcourir.</div>
+  </section>
+
+  <!-- Cartes joueurs -->
+  <section class="players" id="players"></section>
+
+  <!-- Duel -->
+  <section class="card">
+    <div class="card-head">
+      <h2>Le duel</h2>
+      <span class="hint">moyennes de la saison · la barre penche du côté qui domine, le trait central = égalité</span>
+    </div>
+    <div id="duel"></div>
+  </section>
+
+  <!-- Montée -->
+  <section class="card">
+    <div class="card-head">
+      <h2>Montée dans les divisions</h2>
+      <span class="hint">rang selon le nombre de games jouées · trajectoire reconstituée depuis les victoires/défaites, calée sur les rangs relevés</span>
+    </div>
+    <div class="chart-legend" id="climbLegend"></div>
+    <div class="chart-wrap" id="climbChart"></div>
+    <details class="data-table">
+      <summary>Voir les données du graphique</summary>
+      <div class="scroll"><table id="climbTable"></table></div>
+    </details>
+  </section>
+
+  <!-- Forme -->
+  <section class="card">
+    <div class="card-head">
+      <h2>Forme</h2>
+      <span class="hint">la plus récente à gauche · ✓ victoire, ✕ défaite</span>
+    </div>
+    <div class="form-grid" id="formGrid"></div>
+  </section>
+
+  <!-- Pool de champions -->
+  <section class="card">
+    <div class="card-head">
+      <h2>Pool de champions</h2>
+      <span class="hint">winrate par champion, sur la saison</span>
+    </div>
+    <div class="pool-grid" id="poolGrid"></div>
+  </section>
+
+  <footer>
+    Mise à jour : <span id="updatedAt"></span> · source : OP.GG — demandez une mise à jour pour rafraîchir les chiffres.
+    <div class="accounts" id="accounts"></div>
+  </footer>
+
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* ═════════════ ICÔNES DE CHAMPIONS (Data Dragon, intégrées) ═════════════ */
+const CHAMP_IMG = {
+  "Darius": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD538EaAviPxDpujefHA9/cCBZJWIUE+uK9x8dfCjwJ4X0Q32+5nKRuVffgSMqEEj234OPQ18/+Hb1tP1vTr5d+LW6jnIjOG+VgePfivqX4qR6bc+BbTVtL1U3el66xmkglB43AgPHnlWwRlT1I+tcteUlNWdkehhoQktVdnzKmmQyWs98sUnkhxHEo/iY9B/Wo7zQL+0szdXNs0SAbiGOGA+lep+BNN+yQwLfGOV4gxjVR8qkk8/XB60njG90m5vBZTTK8jqT5RXgj8K61JPYToWV5aHjxgjVAzN+A71dtodKfRbp5mmF8hHlbfuYzyG/+tVl9GuDrrWABwwLpIRkKnXd9R0x61R1K0ey328jsJF5KkYOO2aptGKpuzdhmnrkAL99j19B617FN4g1o/DvSbTU9Ihm0FmZLC5t49n2aRCdyNzyepz/tHrXkuixgRPM3chBXtfwR8cX0Kz+DpNMs9RtvtBurcXKhvKIIDEA8HHDfnXnVpe89L2Pbo0+TDwn1f5GPrVrquiWaebp06ySxCWFJSFV1YAqwIOfw/lWTocOoxzy3UAl+2XHN1PtDY9lHUDGK9J+N/iGXUZdBM9mbKVrRWdXdSQT1G1Tn8Djr0rkdBmt2mNvDMFKjO0E74vQ84JX+Vb0eaULtGM3HmTZzfiq0ihvLUZ81gSJCxPzBvU/XBrlvFKNNcPOWDCILEGXnOB69+uPwr0XUbVb1pGuhmZGwXHH0+tef6wka2NwkRz5bkfhmunltY46srpor6FEZYFBHyhuB7n/9VaHhTWZ9A8WQ6rAoZrW4YlT0ZTlWB9iCaoaBf2drbKJ32uHLYx2xx/WqkN5ALiaR2OHcsOPeuJQbqSutGetVq0o4OioyXN1+494+IE934otf+Em8I3gsz5Ea6jbNsUlxuAlRyOhVivBB45ry/S9IuoNRivftqm8VwMGQtx/Ezt06dhnNXPBXivRrATWWtXF9/ZzAnZaPsZwQRtJ9Of1rEvNZ0lpZ2to3RHZjGrMSUXsCT14rppR5FynlVZ02+ZdTT1TXXiFxHDNvcsUQjsM9fyrmL9iLApnvzk1WN3G8hLHCjoKju7lZU2KeKqUndJExcHBuT9Ef/9k=",
+  "Ahri": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDxzwB4GtPEWkG9mMgYOV4OBVbxv4d8PaDeDTreSa4vQoLojcIT03H+gGfUirvgjxr/AMI74Xa1trE3NyXYh5H2xoT04HLfTisSxtp7+4NzLI0k9zMN0j9SzHkn9a9Z+y9lFRWvU4YKq6snJ+70MddILAHPU460SaZ5R+Zciuts9Nju3upVlMaFBFbAcsx3gAgD1OTVsaX/AKdJY6ggsbkHa8Eo2hz3K579yvHXIrl5Ezu5WldnBNZxxuNyH6Gte90jS28PPqVp5gkQhXRmztatTXtNS3WKJ13SRghjGd24ZOCD9MVzs9xJbWlzbBw8UwAOOmR0NOyjdNEyi+hJZQKdGidZvnMjZjx2A61u2PmRWBhI2sQGVum07gP5E/nUOi28LeFYLkR7mWcpLgc7DSTTXdvOlmGKzGdSkoIHYAEE8c4Brd0+WkpBTalOx2VlomsWGnpr9gpaTcI7do4zIsHbfju2OldVrfw8M/ha61jVNavpdSnQGJbjadm1Sx3AcdB26dM966Dwlrdv4e0S20y5gvL03Uhk3hg4AYDhmOOQeK6LxxfwR6DcwO0LqY+VRwwAPODj1x+NeVKUudPY9W2lmtD5Rijurq9trI3Ds00gjGTxycCqWqQPZm4tXwSmD/8AXFbd7NBZ6xE8cgd7YtNLKvRpD0A+mcVzmo3D3M088jbnlx/n8BXVJ6eZwSR6X8N9Je88I3E7uvkAtuU9RjnI7ZFZPiSzgjb/AEm4/wBGdj9kvEz+6bqYpB1X1B//AFhnhHxXZaZ4VbSZpCrzS5f2X/69LrOs6FfWTJFflHUY2tGfnP16YHvX0MY0J4OK50pW7nmw9oqrb2udLompWPiHSRok+pCzvXKbkk4WbachoznBB7oT7j0F/wAS3H2bwTLbhoLecOUNrBGF2hc8sf4mJFeQ2k9n9nu4LiXDBfMt3H94HkfiP1FWbbX7ifUIjql5LcwFTG5c5IBGA3uRwefSvAlyykr7nrQqyjFxvoZ1x5sjNwSvcj8s/wBKW7t5ILYOwwZRkAjnFa2k3+n27SJcyqzEABwOCATx/I0zxNqFhd+YLZ93zloyB0DclfzzUuC5b31Juj//2Q==",
+  "Aurora": "data:image/jpeg;base64,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",
+  "Gnar": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5itbRZod45bPTNTW+nNcOUiQkr94k4C/Wn6XGTblxkc9q37a6a1tlZQSrNghQMnHcnvWU6lnZHVCldJszV0GNnAEygL98sT+QqL+x41fa5PPQjvW/FE1ys8tvnk5wR7U+10+fylWZH3YOwkce/Nc867S3Oujh1KSSjc5pdLhMhQk9cZqndWawBwTyvT3rs73TXtrZpokLy46Y49yfauSvVPlNI77ye/rWtKtz7MWKw6o6NalnQpVEPlOvDNwR612EGkyrahUtwxI+Ysxz+AxxXH6DqVvpoSWRJZG3fdjbbx9a9z0rUPD1kkb3cSEMoZjMwUAfjXnY+pKlJWW562VUKdem76tFbwFoGnXR2bjHPkboWPJToTj6+ldWPD1tH4hvIZUVl0qFV2LyC5H69alsbLwtq8RudA1BftSsp+zq4YPk9FI6Hv1q7JZaq1hqRMclzd+Syo8KbWGMYyB1PH5mvna+M9nUXM9X/X9I9iGFiveg7Lz0fT7+uqPPL6yk1nUb6z0wCdLQBrpkHCKTj8RnjI4FeZeO9KTS7lUjPySqSQOBuHX+Yr1HwXoGveCIrzxR4hBt0mjFtDayy4nnydzbIzyV7e+TR428Kq3w5utV1CZftjDzljC58snoM+uK9rDylTxHIneOnz8zy8XKNbCc0klLpb8jyTwJpMmpX6yERSQW7DdE67t+egA/rX0Hp+naXf8Ahq+0jWLFbFpVRlnmjGcA87GI69DjvXz/AOAtbg0i6ZriUpGSG465r2bS/iV4Xtrcma43nGCpGc/hWWaxxDrXhFu21icuqUKeF5ZNXe6NHwx8I9JtryPWZvH32eOBgkMcYCyMCc4PzY2kn0NeveJfF2jeBPD1vcWlit6ruI2dZFRIzkAl+c+p4B6V8g+KdYtbjW7zU9HuvsdvJh/Ljl24PfatGreN59bura6vUs/tMEezzEgClz/ebHVvetqNCq+WpUV5WtdrX/IxlOhKThze7e9un4Ho3xc8c2OsXVpqlmEmKXmyG3YfvPJxy5HYk4wPQe9QfEG+u5fCEsFwkkKrEGWJxgjPqPWvKzqKSagNUuLxTKkivk8sxUjHH4VueLvGtvrNndRiQtvRQoPr3pSw0/aQ5V11+8p4iCpyi2rW0P/Z",
+  "Graves": "data:image/jpeg;base64,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",
+  "Illaoi": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDJ+APwa8KeO/BJ1nWTci5E7R/unwMCvSj+zN8PVBYyXoA5JMvSqX7KupW+mfCKe5lSWZkun2wQIXklbsqqOpP/AOvArkPid8SPE+qaq+m6gg0mzVRJ/Z28Hg/dEmOXJ68/L6D+I5Va8aXqa06TmWNZ+GnwJ0ozK+s313JCrEpZB5gxH8IdRs3e26vO7mx+GKTBIvCesBC2Mz6iqEj8FIB9s1nahq93e3YluLrzMcAynj6AdAPYDFdBoN3BcIy3EEZaMhZIm5BB6EZ7GuJ4mq9dkbyoxiu50Hg/wJ8IvFGuWOjWum65bXV3vB82dD5bKpbopJKkKRu9eCBmr/xp+B/g7wd4Avtc0pro3cBUIJJMjmq/w+udE0H4p6JqtukkVjJIYWiV8rG8imMPz/CC3T39q9d/aiH/ABZ/VT/tJ/Ou6jNzV2c01bofNvwp8aSaHodhZrOT5d55iQDeqMc8tKVYF1A5CDqRyccHL8WXcmpXup6vJO091e3TSvI8So/0wpwMcDiq/hM2em+Arq9ltbFpLiUATXKs0pYHhIcH5ABlmJBDZA9DWYbsS26BGDqzMCcY5zmvOqRvUbXc9CFnBJ9je0iQB4pLHyY7iVNkiXEW9W917/UVPp8VlHqskctyESOFgJGwpMgUkKPQbuP0rLtby4tY0Mdss7DkEuAR7f8A6qVWgutRBmibTri4ycxkPHIRz17E80uW92jNLlbuWZZdYsn0++kuYo4vtKbUTBKsrDIb8jX1J+05LHL8HdWKMG+ZDxXynrVxB9rnCWQkeSFgZB8xHyHt+leg+NPiXH4g+CEeluPMufLjhl5+ZCgA59R059Cp7mtaVZU5JSW5DpSnG63X5HgdvcTtapbbmaNGJVOuM9cVoxSm3Co2QMA/Q1U0y5tYYMTBdxPXHOPrVyS809xhpSeRwRnPtXRNNyskZxlZbm7ptzBMQk54+uKsXwhhbdGwKghlBOSD6g1y73VgFXyJWjIHPcH8KguNRzD5aS8/3h1I/pWHsZX2Nvax7m68xlt7kCQ5AyzIw7ZO39K56ecfYnjRjgnP/wBan2Wow29lJCys7uCOB04I6596zGfjGc1tTpNMzdTc/9k=",
+  "Irelia": "data:image/jpeg;base64,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",
+  "Kennen": "data:image/jpeg;base64,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",
+  "Nasus": "data:image/jpeg;base64,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",
+  "Renekton": "data:image/jpeg;base64,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",
+  "Ryze": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD578OaLaX9r50+4ndjANdNa+B9Om/56kngKDVTwGhbTScdHNdPqGqDSoVWNs3DjIA6qP8AGvs8FhMO8PGdSK2PIbrVK7hB2J9N+FGiy7Wvr1rcN/AuXf8AwH513Gnfs8+GdSixZ6leJc7dwjuo9iv9CD/SuK8KeIdaa7NlZbWvZXRYd/zfMeAAO5r3Hw34/k0q+h8NeP4G03xBbEPb3SqvlzxseA23gemen0p43AR9mpYeCv20v91tV3PSUEvdbd/U8vufgnoOnXbWmpRXUUoGfv5DD1B7iuX+I3w68M6B4WuNR09pzcx4xvbIr6S8d6voupWCw2+oWx1KCXMamVQWB6p7HocH0rwD4rXvm+FLuPOcsB+tcKw0Z4aVSUOVpPoedL2tOso8zaOJ+H5VNFZ26ByT9Ko6rcPNftPLuUdVBFXPAcZk0VlHG5iBWNdrJJcSiRiuxiGz/Cc81u6rhg6Z2YRRVWo3ua2j639guBcmzS4Ykf6w4rtvGPjXTtR0rTWh0hoXAPnTxIqtkDG0Hv615UkuQwT+9kAVrafNDPEsd3cNFBGMKQu7nufzrShj5uyv6HpLlPfNF1238a6BaxRaja/brKEy3Dy26pM8iJhcv33AYPJzivKfiBKW8NTgnOSK6HwLp92+lalHp6RzxWcHnrcQHJkWQgNn3XA47ZrA+IUDR+Gp2b1FddeSWGmr9Hp2PIxNlXikYvgiK7uvDfkwXjQYkOMIG/pn8qyfEdhNYzqk2oRTtJ8zhM7l/wB73q34P8X23h/QZIYlH212OH252j61k6h4hju3NxNF593uJWSQ5Vffbjk/U49q8SdSg8NFN+9budFKnKM5Sb0ZUZvJjZsFWYcDvirGlSeTMjs2MHOCeBWa12ry+ZJIXcnLMe9Na5jKqN3bmvLVTld0dJ9H/CXWY7HVYYYHWK21Q+U2FBUORsz/AOPo3/Aa574sXCyeGL2KexghmV8CeCU7JMEg/Jj5TkEEZ4Irz/wL4ptdGv7R7qZhDFcCTgZ28EE/y/Kjxn4nttZhu5LW9fF4/mzW7r/y0P3mHpk8/jXrTrwlTc76tWsclSlzST7H/9k=",
+  "Sylas": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5htreOSIM2c5xVg6evleaA2wHBPpUdif3WD0zV5WeQ/Z48ncQdueM+tWgKItIyepqcabGHQSNhHGQwORW9oukNdPvZN0anBA74/8Ar1sjQopiZNhCg4Cg8HFJM1VJtHCNYxAZ3HOelXpdLsf7Be9iZzPGcMD2OeP0xW5reivb2zTpHiNTz7VgXBZNMnVWODjcvY1aa7Gc4NOxDobIs0ZkCkbv4hkfiK6Oy0vGuxxnZbRSKXVsFlH0xyR/+qua0jG3BxgnuK6/RJ54NUsWfbLAG28jkg1Md7MuNrGnoI1ePTpLm2soruytQ6yt5iQum1sZ+Zuck+nNaen6lZ3WnvPBHLDFADv89QpOOeOeT9K3fDemm40+/NtqCw2E147So6ghQABnp1JzjHXbWdqenx2rzi0iZ7Z42CyMuMkdsD3ronG0U0jam9XdmPrVrd6hp0Wq5iaO5iYWtjJu+QAHLnBAMnXjkAYzXnt3xYvjncP6A169rb6ZpXgy5vLJCt8220jyfuyOPmYfRQx9jXkuqKFsl2j5dmD7Ecf4fnTqpaWVtDnk9d7mv4V8OJrXh+a4tZ/LvrdstE4+WRPXPbB79PXHWqtxaanp8oWZZIWU5G4ZBx6Hoa2Phv4g0jS7OW31C5ERdX+9kbTjhkYdG+vFbUfizw3LBPFdXCuWQ7XWLaS3Ubl6HkdRXLTUpSs9C7RSHeCtTt7iyFldu+xJTNPGjYyT0ceoGen1rtUbw9o8SvLLHNcyg+VOskgKg/3kXhh+Iz6V4m2sWy3TTRyrFLksrw8BT2xXU6B470ZZETVtHtblsczvI4X/AL4HGT9a76U00k2ZSdvNGl42shI1nDalhYhGuA5OTKeFDfkufxrg9VtpP7JluChEO8qh7FgAT+hH511mseKtC1C6Mz3jMirhYlTavsv+6AAKwfE+q6RcWAtbC43JHGzMCMb5GPYfQfyp1oxSbT3JhLm3P//Z",
+  "Syndra": "data:image/jpeg;base64,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",
+  "Taliyah": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDxvwF4U0LV9LiudTeUSSTeWAjYz1/kASfpXQ6h8NdGj0R72JpEuZkVraAvy3GSPr/hWT8N5WtobK6YgxxRXLIrfdL4xz+DV0HiXUrnVPFVpp9uwhhmIRJOuwjKHj2Ir5bGVcV9bcKc2l/l0PssvwuGlhYzqRTbOA1vwxZ2mlpe2crXARwkzjoCVB/nuH5etc2beENjJxXo/iln0TSbfToTDKXiH2y3ZsvHJ6/Qj+lYfg2wt9S1FrWWISRSr91xkZ9M9j6H2969SjWqRg3N3OethKLnaEUjm4bO3yPODBG6OO1RahZLbZwc9wc9RXS+KvD914evniCO9jMMxl+49M+ormrqQtbhGydv3SeuPSuuE5Saaeh59alCEWnGzOv8A3Rm0jVrMje0dqWjTvjJLEe/T8qrWuozR6jaakZS+yYSMPRsjd+fX8ar+DpVspLPU0bASfyLhfVG4zWrY6Uiaze6ecfu5flBHGOo/Q1yYiMYylM9DL5t04wex1Wr6Zp+p6tHfX/2iaB9rFISAzDA4ye3FTeB9Kh0XVbye4xsaH7pPC8hvzGKdp9mlraDzZSIoRuDHJ2r/wDWqzqbKgtIoZkmMq+ZIUORg84z9B+teeqk1oz0nGL2OI8e+I7vXb+W1gUrYQncEA5IH8ben9K4a9VkJVvvY5r0jUzb2VrdzhQqkbZFRQDLk5CE4yQTjP0rjdQsVm8Prq7Tbrhrp4pU9Pl3A4/MV6eGqJ20PIx0EotEGjOv9k38ZOCQrL9Q3/166O11ZW1uC7kUx+ZAkc5PTcOAa5TTbq3ig8uU453N7+greiv9FXT2ikn3zOdzHHQ+gp4iMndWepODqU4xi3JKx3N3JeWq/atPmlAkHzIF8xGPuOo47iqmltLDbzPPbxW6qP8AWFiML77vuiuNs/Fc9qn2aKbMA+6XGWHt9KltNQsdTeRdc1WSO3bmPym5Qj1TGDmuVYap9pHbLG0UrJkfifVhfTRQ2vy2tu25WPWR/wC8fbsB/jVC4mQ2Vw6Nh5F+eJu2e4/x962Lm28IW6R3Fpq73ksTBnt7iPako7rlTkVU8SQ+GF03Oj6lLLOrf6qVexPY+w4967YRtZJP7jyq1aMlJ33P/9k=",
+  "Tryndamere": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDwzwTo3hvU9Iu5dUnkivIm+RQcBxjjn61oeFfA1trF6xkWVbUPsYg4KFuF/XFYPhuFktjMSdrAHA+pH9K9Q8ETvZyuwINvIu1yv/LEnuw6gd6puxm73Cx+Fnh1WEeopdRnzkwwfrGw6+xBBrI+LXwwsPCV6q6e1w9t5SlpJOm4gng/TH519C+XpT6VZ3l9Ng3EpjURL5jEcOGA7qPUdmrlPjWi6loVlFayR3GEz5qHcGxhQc+gC9D3K+9HQzjUvJxufOlhpOgyaFJO86/2gH2rC7kdjk/Tv9eKw76ztoIyUJLEZAz0Fa6Wcc2rLAJPKjZtqydeeevrVXxBYzWk0yTsGkDZ3KOGBGQR7UrnQtSXw/JIbdFbBVTwGGRjnj9a7zwffw2+qhpL2O0iIw5ufuKvs3GPwIrL8H22jTeBJri9cRXUUp8qRT82fQ+3/wBapNIs7HU9PuIJZlgmDrJG8ufKJU52llBKZyecY+mKJISabPoTRRbalLA2piO/sI41hhk0qdX8pFYnI29zwGHB4GM9Bx/xP1zRIp9StLaOaKa8R44THDlkVR95s9DnA57lieVrCs7HS47qP+3rm7/tBJFLlZxIRDgHEbKfnLdh7c4rQ+IureEYYxceEdKkkjjiP2qWWBl2bjgKd4OWJ5z7dawdV/CkKnl8I1PbN6s8h1aDy7WxmEYjeSBS2BjLAYJHsSM1j63cy3MKLJ8xijCbvpnH869D8cy2mqxWeq6dbmOC4towYyOIWRQrR47YI/KvNr3b9mlfOSTj8q2fQtbsvaFBL/YZmVz5e8ll+neuq8L3q2GpGfT7q3uHgkUEHO1xnnIPVTnBB9e1cnoF7aR6X9nuJ9oLHKjritqwHhUXKvNdyxfIRuUjhuxI7j6c80oyak0OcFKKdzt/EFl/by6LqsaizD74pEjJHlsHOxvXBGcVc17RLhba3uPEPiC+vY7YMba2k2pAjsMCRiG+bAJIAXJIAOBmsXSvEegJa3CXGoFJ5V4fqCRyCR2Pv/jXM+IPEyXjqkt4s0Sk4ZR/PvUzjd3RpSmoKzRdsbwuNY07cxVSZo93bI5/kK5DUrUJYludxTLj+63cflirNrqVpBFJKswE0qsDk56/5FJdanY3Gk3ILYnd8gdiMAf0oV9EDS1Z/9k=",
+  "Vayne": "data:image/jpeg;base64,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",
+  "Viktor": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQUFBAYFBQUHBgYHCQ8KCQgICRMNDgsPFhMXFxYTFRUYGyMeGBohGhUVHikfISQlJygnGB0rLismLiMmJyb/2wBDAQYHBwkICRIKChImGRUZJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJib/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5y0fS7e8tfNk3bt2ODWgdAswP4/zqx4QiD6cSeBuOT6V0tlp8D3af2jJJZw4LNuiYkKBkADHVuxPFdkYxsrnNKTu7GLo3g60vY7q5lWUW1tHudgf4icKP8+lTat4ANroi63bxyy2ayeVM45EbH7pPsfX1Fez+AfB6a3E2rzpDa6RZ/PbWtxM6RyP2Zj1J/wBrj+ldyZNIh0m90fVy2pPe5+0GNlZNvQCMj+6O3FTa8rRQc9o3bPkFdFsz/f8Azqtqel21tZvNHu3Dpk165458AzeG5JLmGZLnTJUEtpcJ0dSwBQ+jDPT0FebeIU26bJ+FU4qwRm29yx4X3J4ZleNd0ryiNV9STiuptLPxRJrNnYm5uLmQQiY+UWm8lN2CSDxwfz7VzvgTEmmLCcf67cCegwc5P0qtr2s3NxqN08d3K0RfahLn7o4H4e3aiXKoKTCPM5uKPdJo/Fel+X/aOr2Gs6aylRBbXyRSnPCsUwG4PYg9McVT8CX08msXOmXwk3486NpODuBw3HbIOa8e0uwgv5VRpTDdk4USdGJ6YPY16h4KurlruzTUzm+06QxGRj80sDKcZ9SrDH0Iropb3MKitHl/Qm8cX2pMuo6bpt4bW3jkDyLcyrsaRRwY899p4HXr6145r/m/2U/nHMn8R9TmvRPHUcF94qnN2zLaQKX2I2Nzt90fjgZ9hXBeKUC6bIFAAGAAO1ZVErtmlN7Ip+H51h0SXdKUD7kwvXn+lU2RWlOzBVVwMDrVK0ngW12vJtcHlCOGq2l5pwwVaSFx/wACU/1FccpNpI7oQWrua0NxBFb2uJGS7jGHVhwR/CQfocYrsdH8QG51O0uZBGrhTG5UYZu/Pr0rzm4vrSeTlwuQBux0NJBqKQODFPscH72M1pCq4mc6aZ3HjC9F9fyOpAUEEgngkDoTXNay8kuhlpFKkgcGorvWrWS1ZfO3SsOTiqd7qEUmkm2MyyPgbcDB+hqVU5m7jdKyVuh//9k="
+};
+
+/* ═════════════════ DONNÉES — à mettre à jour depuis OP.GG ═════════════════
+   Échelle des LP cumulés : Fer IV 0 LP = 0, chaque division = 100 LP.
+   Départ du défi : Fer I 0 LP = 300. Objectif : Platine IV = 1600.
+
+   ══ NOTE POUR L'AGENT DE MISE À JOUR AUTOMATIQUE ══
+   Ne modifier QUE les valeurs de l'objet DATA, rien d'autre, puis republier.
+   - abs = (nb de divisions au-dessus de Fer IV) × 100 + LP courants.
+     Ordre : Fer IV,III,II,I · Bronze IV..I · Argent IV..I · Or IV..I · Platine IV = 1600.
+   - le graphique de montée se reconstruit tout seul à partir de form et abs :
+     form doit rester l'historique chronologique COMPLET des games classées depuis
+     le début du défi — on ne fait qu'AJOUTER les nouvelles games à la fin ("V"/"D").
+   - pace = (abs - 300) LP / jours depuis la 1ère game (Louis : 24 août 12h, Thomas : 25 août 12h).
+   - eta = date du jour + (1600 - abs) / pace jours, format "3 sept."
+   - nextMilestone = "<division suivante> dans <100 - LP> LP".
+   - form : tableau chronologique "V"/"D", la plus ancienne en premier.
+   - updated : "26 août 2026, 14h30" heure de Paris. */
+const START_ABS = 300;
+const GOAL_ABS = 1600;
+
+const DATA = {
+  updated: "26 août 2026, 12h05",
+  players: [
+    {
+      key: "louis", name: "Louis", tag: "peixoto123#99999", color: "var(--louis)", color2: "var(--louis-2)",
+      rank: "Bronze III", lp: 30, abs: 530,
+      games: 16, wins: 8, losses: 8, kda: 1.94, csMin: 6.8, lpPerGame: "+14.4",
+      pace: "+178 LP/jour", paceOver: "1,3 j", eta: "1er sept.",
+      nextMilestone: "Bronze II dans 70 LP",
+      form: ["V","D","D","D","D","V","V","V","V","V","D","D","V","D","D","V"],
+      streak: "1 victoire", bestStreak: "5 victoires",
+      champs: [
+        { n: "Viktor", g: 4, w: 1, l: 3, kda: 1.23 },
+        { n: "Aurora", g: 3, w: 3, l: 0, kda: 8.50 },
+        { n: "Syndra", g: 2, w: 1, l: 1, kda: 2.20 },
+        { n: "Illaoi", g: 1, w: 1, l: 0, kda: 2.50 },
+        { n: "Renekton", g: 1, w: 1, l: 0, kda: 3.50 },
+        { n: "Gnar", g: 1, w: 1, l: 0, kda: 4.67 },
+        { n: "Taliyah", g: 1, w: 0, l: 1, kda: 1.36 },
+        { n: "Ahri", g: 1, w: 0, l: 1, kda: 0.91 },
+        { n: "Sylas", g: 1, w: 0, l: 1, kda: 1.00 },
+        { n: "Ryze", g: 1, w: 0, l: 1, kda: 1.27 }
+      ],
+      signature: { champ: "Aurora", note: "3V 0D · 8.50 de KDA" }
+    },
+    {
+      key: "thomas", name: "Thomas", tag: "blackstar19998#EUW", color: "var(--thomas)", color2: "var(--thomas-2)",
+      rank: "Bronze II", lp: 17, abs: 617,
+      games: 12, wins: 11, losses: 1, kda: 4.57, csMin: 7.7, lpPerGame: "+26.4",
+      pace: "+288 LP/jour", paceOver: "1,1 j", eta: "29 août",
+      nextMilestone: "Bronze I dans 83 LP",
+      form: ["D","V","V","V","V","V","V","V","V","V","V","V"],
+      streak: "11 victoires", bestStreak: "11 victoires",
+      champs: [
+        { n: "Nasus", g: 2, w: 2, l: 0, kda: 6.00 },
+        { n: "Graves", g: 2, w: 2, l: 0, kda: 8.25 },
+        { n: "Tryndamere", g: 2, w: 2, l: 0, kda: 3.31 },
+        { n: "Renekton", g: 1, w: 1, l: 0, kda: 8.00 },
+        { n: "Darius", g: 1, w: 1, l: 0, kda: 4.00 },
+        { n: "Gnar", g: 1, w: 1, l: 0, kda: 4.60 },
+        { n: "Vayne", g: 1, w: 1, l: 0, kda: 3.50 },
+        { n: "Kennen", g: 1, w: 1, l: 0, kda: 13.00 },
+        { n: "Irelia", g: 1, w: 0, l: 1, kda: 2.82 }
+      ],
+      signature: { champ: "Graves", note: "2V 0D · 8.25 de KDA" }
+    }
+  ],
+  /* Le duel : { label, unité, [valeur Louis, valeur Thomas], higherIsBetter } */
+  duel: [
+    { label: "Games par jour", unit: "", vals: [12.4, 10.9], hib: true },
+    { label: "Durée moyenne", unit: "min", vals: [32, 28], hib: null },
+    { label: "Participation aux kills", unit: "%", vals: [44, 42], hib: true },
+    { label: "Score de lane", unit: "", vals: [50, 65], hib: true },
+    { label: "KDA", unit: "", vals: [1.94, 4.57], hib: true },
+    { label: "LP par game", unit: "LP", vals: [14.4, 26.4], hib: true },
+    { label: "LP gagnés", unit: "LP", vals: [230, 317], hib: true },
+    { label: "Meilleure série", unit: "V", vals: [5, 11], hib: true }
+  ],
+  climbAxis: {
+    /* y = divisions au-dessus de Fer IV (+ LP/100) ; l'axe x (nombre de games) est dérivé de form */
+    divisions: ["Fer IV", "Fer III", "Fer II", "Fer I", "Br IV", "Br III", "Br II", "Br I", "Ar IV", "Ar III", "Ar II", "Ar I", "Or IV", "Or III", "Or II", "Or I", "Pt IV"],
+    departY: 3.0
+  }
+};
+/* ═════════════════════════ fin des données ═════════════════════════ */
+
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => String(n).replace(".", ",");
+const [L, T] = DATA.players;
+const pathLen = GOAL_ABS - START_ABS;
+const pct = (p) => Math.round((p.abs - START_ABS) / pathLen * 100);
+const leader = L.abs >= T.abs ? L : T;
+const trailer = leader === L ? T : L;
+const gap = leader.abs - trailer.abs;
+const ABS_TITLE = "Total de LP en comptant 100 LP par division depuis Fer IV 0 LP — l'arrivée (Platine IV) vaut 1600.";
+
+$("updatedAt").textContent = DATA.updated;
+$("accounts").textContent = L.name + " : " + L.tag + " · " + T.name + " : " + T.tag;
+
+/* ── En-tête VS ── */
+$("vsBox").innerHTML =
+  '<div class="vs-side"><span class="avatar louis">L</span><span class="info"><b>' + L.name + '</b><small class="num">' + pct(L) + '% du chemin</small></span></div>' +
+  '<span class="vs-mid">VS</span>' +
+  '<div class="vs-side rev"><span class="avatar thomas">T</span><span class="info"><b>' + T.name + '</b><small class="num">' + pct(T) + '% du chemin</small></span></div>';
+$("leadNote").innerHTML = 'En tête : <b>' + leader.name + '</b> · <span class="num">+' + gap + ' LP</span> d’avance';
+
+/* ── La course ── */
+(function renderTrack() {
+  const zone = $("trackZone");
+  const segs = [
+    { name: "Fer I", from: 300, to: 400, c1: "#5A6070", c2: "var(--tier-fer)" },
+    { name: "Bronze", from: 400, to: 800, c1: "#7D5A3C", c2: "var(--tier-bronze)" },
+    { name: "Argent", from: 800, to: 1200, c1: "#5F7285", c2: "var(--tier-argent)" },
+    { name: "Or", from: 1200, to: 1600, c1: "#8F7330", c2: "var(--tier-or)" }
+  ];
+  let segHtml = "", lblHtml = "";
+  for (const s of segs) {
+    const w = (s.to - s.from) / pathLen * 100;
+    segHtml += '<div class="seg" style="width:' + w + '%;background:linear-gradient(180deg,' + s.c2 + ',' + s.c1 + ')"></div>';
+    lblHtml += '<div style="width:' + w + '%">' + s.name + '</div>';
+  }
+  const sorted = [...DATA.players].sort((a, b) => b.abs - a.abs);
+  let runners = "";
+  sorted.forEach((p, i) => {
+    const x = (p.abs - START_ABS) / pathLen * 100;
+    const tagTop = i === 0 ? -80 : -46;
+    const stemTop = i === 0 ? -52 : -20;
+    const stemH = i === 0 ? 46 : 14;
+    runners +=
+      '<div class="runner-tag" style="left:' + x + '%;top:' + tagTop + 'px">' +
+        '<b style="color:' + p.color + '">' + p.name + '</b> ' +
+        '<span class="r num">' + p.rank + ' · ' + p.lp + ' LP</span></div>' +
+      '<div class="runner-stem" style="left:' + x + '%;top:' + stemTop + 'px;height:' + stemH + 'px;background:' + p.color + '"></div>' +
+      '<div class="runner ' + p.key + '" style="left:' + x + '%" title="' + p.name + ' · ' + p.rank + ' ' + p.lp + ' LP">' + p.name[0] + '</div>';
+  });
+  zone.innerHTML =
+    '<div class="track" style="position:relative">' + segHtml + runners +
+      '<div class="goal-flag">PLATINE IV</div><div class="goal-tick"></div>' +
+    '</div>' +
+    '<div class="seg-labels">' + lblHtml + '</div>';
+
+  $("raceFacts").innerHTML = [
+    'Écart : <b class="num">' + gap + ' LP</b>',
+    'Restant pour ' + leader.name + ' : <b class="num">' + (GOAL_ABS - leader.abs) + ' LP</b>',
+    'Restant pour ' + trailer.name + ' : <b class="num">' + (GOAL_ABS - trailer.abs) + ' LP</b>',
+    'Chemin total : <b class="num">' + pathLen + ' LP</b> (Fer I → Platine IV)'
+  ].map((f) => '<span class="fact">' + f + '</span>').join("");
+})();
+
+/* ── Cartes joueurs (anneau de progression en dégradé) ── */
+(function renderPlayers() {
+  const R = 57, C = 2 * Math.PI * R;
+  $("players").innerHTML = DATA.players.map((p) => {
+    const prog = (p.abs - START_ABS) / pathLen;
+    const wr = Math.round(p.wins / p.games * 100);
+    return '<article class="card p-' + p.key + '">' +
+      '<div class="p-head">' +
+        '<span class="avatar sm ' + p.key + '">' + p.name[0] + '</span>' +
+        '<span class="name">' + p.name + '</span>' +
+        '<span class="tag">' + p.tag + '</span>' +
+      '</div>' +
+      '<div class="rank-pill num">' + p.rank + ' · ' + p.lp + ' LP <small title="' + ABS_TITLE + '">' + p.abs + ' LP cumulés</small></div>' +
+      '<div class="p-body">' +
+        '<div class="ring-box">' +
+          '<svg viewBox="0 0 138 138" width="138" height="138" role="img" aria-label="' + p.name + ' : ' + Math.round(prog * 100) + '% du chemin vers Platine">' +
+            '<defs><linearGradient id="grad-' + p.key + '" x1="0" y1="0" x2="1" y2="1">' +
+              '<stop offset="0%" stop-color="' + p.color2 + '"/><stop offset="100%" stop-color="' + p.color + '"/>' +
+            '</linearGradient></defs>' +
+            '<circle cx="69" cy="69" r="' + R + '" fill="none" stroke="var(--well)" stroke-width="12"/>' +
+            '<circle class="ring-progress" cx="69" cy="69" r="' + R + '" fill="none" stroke="url(#grad-' + p.key + ')" stroke-width="12" stroke-linecap="round" ' +
+              'stroke-dasharray="' + C + '" stroke-dashoffset="' + C + '" data-target="' + (C * (1 - prog)) + '" transform="rotate(-90 69 69)"/>' +
+          '</svg>' +
+          '<div class="ring-center"><span class="pct num">' + Math.round(prog * 100) + '%</span><span class="lbl">du chemin</span></div>' +
+        '</div>' +
+        '<div class="stat-grid">' +
+          stat("Games", '<span class="num">' + p.games + '</span>') +
+          stat("Bilan", '<span class="num">' + p.wins + 'V <small>' + p.losses + 'D</small></span>') +
+          stat("Winrate", '<span class="num">' + wr + '%</span>') +
+          stat("KDA", '<span class="num">' + fmt(p.kda) + '</span>') +
+          stat("CS / min", '<span class="num">' + fmt(p.csMin) + '</span>') +
+          stat("LP / game", '<span class="num">' + p.lpPerGame + '</span>') +
+        '</div>' +
+      '</div>' +
+      '<div class="p-foot">' +
+        '<span>Rythme : <b class="num">' + p.pace + '</b> sur ' + p.paceOver + '</span>' +
+        '<span>Platine estimé : <b>' + p.eta + '</b></span>' +
+        '<span>Prochain jalon : <b class="num">' + p.nextMilestone + '</b></span>' +
+      '</div>' +
+    '</article>';
+  }).join("");
+
+  function stat(k, v) { return '<div class="stat"><div class="k">' + k + '</div><div class="v">' + v + '</div></div>'; }
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    document.querySelectorAll(".ring-progress").forEach((el) => {
+      el.style.strokeDashoffset = el.dataset.target;
+    });
+  }));
+})();
+
+/* ── Le duel : une seule barre, rapport de force ── */
+(function renderDuel() {
+  let html = '<div class="duel-head"><b class="l" style="color:var(--louis)">' + L.name + '</b><b class="r" style="color:var(--thomas)">' + T.name + '</b></div>';
+  html += DATA.duel.map((row) => {
+    const [vL, vT] = row.vals;
+    const split = vL / (vL + vT) * 100;
+    const bestL = row.hib === true && vL > vT;
+    const bestT = row.hib === true && vT > vL;
+    const u = row.unit ? " " + row.unit : "";
+    return '<div class="duel-row">' +
+      '<div class="metric">' + row.label + '</div>' +
+      '<div class="val l num' + (bestL ? " win-l" : "") + '">' + fmt(vL) + u + '</div>' +
+      '<div class="tug">' +
+        '<div class="fl" style="width:calc(' + split + '% - 4px)"></div>' +
+        '<div class="fr" style="width:calc(' + (100 - split) + '% - 4px)"></div>' +
+        '<div class="mid"></div>' +
+      '</div>' +
+      '<div class="val num' + (bestT ? " win-t" : "") + '">' + fmt(vT) + u + '</div>' +
+    '</div>';
+  }).join("");
+  $("duel").innerHTML = html;
+})();
+
+/* ── Montée dans les divisions ── */
+(function renderClimb() {
+  const A = DATA.climbAxis;
+  const W = 920, H = 380, padL = 62, padR = 96, padT = 18, padB = 42;
+  /* trajectoire reconstruite depuis la forme (V/D) : gains/pertes de LP constants,
+     calés sur le départ (Fer I = 300) et le rang actuel (abs) */
+  const LOSS_LP = 8;
+  const series = DATA.players.map((p) => {
+    const losses = p.form.filter((g) => g === "D").length;
+    const wins = p.form.length - losses;
+    const winLp = wins > 0 ? (p.abs - START_ABS + LOSS_LP * losses) / wins : 0;
+    let cur = START_ABS;
+    const pts = [[0, cur / 100]];
+    p.form.forEach((g, i) => {
+      cur += g === "V" ? winLp : -LOSS_LP;
+      pts.push([i + 1, cur / 100]);
+    });
+    pts[pts.length - 1][1] = p.abs / 100;
+    return { p, pts };
+  });
+  const allPtsRaw = series.flatMap((s) => s.pts);
+  const xDataMax = Math.max(...allPtsRaw.map((pt) => pt[0]));
+  const yDataMax = Math.max(...allPtsRaw.map((pt) => pt[1]));
+  const yDataMin = Math.min(...allPtsRaw.map((pt) => pt[1]));
+  const xMin = 0, xMax = xDataMax + 1.2;
+  const yMax = Math.min(A.divisions.length - 0.4, Math.max(4.6, yDataMax + 0.8));
+  const yMin = Math.max(0, Math.min(A.departY, yDataMin) - 0.6);
+  const sx = (x) => padL + (x - xMin) / (xMax - xMin) * (W - padL - padR);
+  const sy = (y) => padT + (yMax - y) / (yMax - yMin) * (H - padT - padB);
+
+  const divName = (v) => {
+    const idx = Math.min(Math.max(Math.floor(v), 0), A.divisions.length - 1);
+    return A.divisions[idx];
+  };
+
+  function smoothPts(pts) {
+    let d = "M" + sx(pts[0][0]) + " " + sy(pts[0][1]);
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[Math.max(i - 1, 0)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(i + 2, pts.length - 1)];
+      const c1x = sx(p1[0]) + (sx(p2[0]) - sx(p0[0])) / 6, c1y = sy(p1[1]) + (sy(p2[1]) - sy(p0[1])) / 6;
+      const c2x = sx(p2[0]) - (sx(p3[0]) - sx(p1[0])) / 6, c2y = sy(p2[1]) - (sy(p3[1]) - sy(p1[1])) / 6;
+      d += " C" + c1x + " " + c1y + " " + c2x + " " + c2y + " " + sx(p2[0]) + " " + sy(p2[1]);
+    }
+    return d;
+  }
+
+  let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Niveau moyen des lobbies rencontrés au fil des jours">';
+  svg += '<defs>';
+  for (const p of DATA.players) {
+    svg += '<linearGradient id="area-' + p.key + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="' + p.color + '" stop-opacity="0.18"/>' +
+      '<stop offset="100%" stop-color="' + p.color + '" stop-opacity="0"/></linearGradient>';
+  }
+  svg += '</defs>';
+  /* grille + labels Y */
+  for (let y = Math.max(0, Math.ceil(yMin)); y <= Math.floor(yMax); y++) {
+    svg += '<line x1="' + padL + '" y1="' + sy(y) + '" x2="' + (W - padR + 30) + '" y2="' + sy(y) + '" stroke="var(--line)" stroke-width="1"/>';
+    svg += '<text x="' + (padL - 10) + '" y="' + (sy(y) + 4) + '" text-anchor="end" font-size="11.5" fill="var(--faint)" font-family="Inter, sans-serif">' + A.divisions[y] + '</text>';
+  }
+  /* labels X */
+  const tickStep = Math.max(1, Math.ceil((xMax - xMin) / 12));
+  for (let i = 0; i <= Math.floor(xMax); i += tickStep) {
+    svg += '<text x="' + sx(i) + '" y="' + (H - 14) + '" text-anchor="middle" font-size="11.5" fill="var(--faint)" font-family="Inter, sans-serif">' + i + '</text>';
+  }
+  svg += '<text x="' + (W - padR + 38) + '" y="' + (H - 14) + '" text-anchor="start" font-size="11" fill="var(--faint)" font-family="Inter, sans-serif">games</text>';
+  /* ligne de départ */
+  svg += '<line x1="' + padL + '" y1="' + sy(A.departY) + '" x2="' + (W - padR + 30) + '" y2="' + sy(A.departY) + '" stroke="var(--faint)" stroke-width="1.5" stroke-dasharray="3 6" stroke-linecap="round"/>';
+  svg += '<text x="' + (W - padR + 38) + '" y="' + (sy(A.departY) + 4) + '" font-size="11" fill="var(--faint)" font-family="Inter, sans-serif">départ</text>';
+  /* aires + courbes */
+  for (const s of series) {
+    const p = s.p;
+    const line = smoothPts(s.pts);
+    const first = s.pts[0], last = s.pts[s.pts.length - 1];
+    svg += '<path d="' + line + ' L' + sx(last[0]) + ' ' + sy(yMin) + ' L' + sx(first[0]) + ' ' + sy(yMin) + ' Z" fill="url(#area-' + p.key + ')" stroke="none"/>';
+    svg += '<path d="' + line + '" fill="none" stroke="' + p.color + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+    svg += '<circle cx="' + sx(last[0]) + '" cy="' + sy(last[1]) + '" r="5" fill="' + p.color + '" stroke="var(--card)" stroke-width="2"/>';
+    svg += '<text x="' + (sx(last[0]) + 10) + '" y="' + (sy(last[1]) + 4) + '" font-size="12.5" font-weight="700" fill="' + p.color + '" font-family="Plus Jakarta Sans, sans-serif">' + p.name + '</text>';
+  }
+  /* crosshair + zone de survol */
+  svg += '<line id="xhair" x1="0" y1="' + padT + '" x2="0" y2="' + (H - padB) + '" stroke="var(--faint)" stroke-width="1" stroke-dasharray="2 4" visibility="hidden"/>';
+  svg += '<circle id="hoverDot" r="5" visibility="hidden" stroke="var(--card)" stroke-width="2"/>';
+  svg += '<rect id="hoverZone" x="' + padL + '" y="' + padT + '" width="' + (W - padL - padR + 30) + '" height="' + (H - padT - padB) + '" fill="transparent"/>';
+  svg += '</svg>';
+  $("climbChart").innerHTML = svg;
+
+  $("climbLegend").innerHTML =
+    '<span class="li"><span class="sw" style="background:linear-gradient(90deg,var(--louis),var(--louis-2))"></span>' + L.name + ' — rang réel</span>' +
+    '<span class="li"><span class="sw" style="background:linear-gradient(90deg,var(--thomas),var(--thomas-2))"></span>' + T.name + ' — rang réel</span>';
+
+  /* tableau de données (accessibilité) */
+  const allPts = [];
+  for (const s of series) for (const [x, y] of s.pts) allPts.push([s.p.name, x, y]);
+  allPts.sort((a, b) => a[1] - b[1]);
+  $("climbTable").innerHTML =
+    '<tr><th>Joueur</th><th>Games jouées</th><th>Rang (reconstitué)</th></tr>' +
+    allPts.map(([n, x, y]) =>
+      '<tr><td>' + n + '</td><td>' + x + '</td><td>' + divName(y) + ' (' + fmt(Math.round(y * 100) / 100) + ')</td></tr>'
+    ).join("");
+
+  /* interaction : point le plus proche + tooltip */
+  const svgEl = $("climbChart").querySelector("svg");
+  const zone = svgEl.querySelector("#hoverZone");
+  const xhair = svgEl.querySelector("#xhair");
+  const dot = svgEl.querySelector("#hoverDot");
+  const tip = $("tooltip");
+
+  zone.addEventListener("mousemove", (e) => {
+    const r = svgEl.getBoundingClientRect();
+    const mx = (e.clientX - r.left) / r.width * W;
+    const my = (e.clientY - r.top) / r.height * H;
+    let best = null;
+    for (const s of series) for (const pt of s.pts) {
+      const d = Math.hypot(sx(pt[0]) - mx, sy(pt[1]) - my);
+      if (!best || d < best.d) best = { d, p: s.p, pt };
+    }
+    if (!best) return;
+    const cx = sx(best.pt[0]), cy = sy(best.pt[1]);
+    xhair.setAttribute("x1", cx); xhair.setAttribute("x2", cx); xhair.setAttribute("visibility", "visible");
+    dot.setAttribute("cx", cx); dot.setAttribute("cy", cy); dot.setAttribute("fill", best.p.color); dot.setAttribute("visibility", "visible");
+    const when = best.pt[0] === 0 ? "départ" : "après " + best.pt[0] + " game" + (best.pt[0] > 1 ? "s" : "");
+    tip.innerHTML = '<b style="color:' + best.p.color + '">' + best.p.name + '</b> · ' + when + '<br>rang : <b>' + divName(best.pt[1]) + '</b>';
+    tip.style.display = "block";
+    const wr = document.body.getBoundingClientRect();
+    tip.style.left = (e.clientX - wr.left + 16) + "px";
+    tip.style.top = (e.clientY - wr.top - 14) + "px";
+  });
+  zone.addEventListener("mouseleave", () => {
+    xhair.setAttribute("visibility", "hidden");
+    dot.setAttribute("visibility", "hidden");
+    tip.style.display = "none";
+  });
+})();
+
+/* ── Forme (la plus récente à gauche) ── */
+(function renderForm() {
+  const beadWin =
+    '<svg class="bead" viewBox="0 0 24 24" role="img" aria-label="Victoire"><title>Victoire</title>' +
+    '<circle cx="12" cy="12" r="11" fill="var(--win)"/>' +
+    '<path d="M7.2 12.6l3.1 3.1 6.4-7" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const beadLoss =
+    '<svg class="bead" viewBox="0 0 24 24" role="img" aria-label="Défaite"><title>Défaite</title>' +
+    '<circle cx="12" cy="12" r="10" fill="none" stroke="var(--loss)" stroke-width="2.4"/>' +
+    '<path d="M8.8 8.8l6.4 6.4M15.2 8.8l-6.4 6.4" stroke="var(--loss)" stroke-width="2.4" stroke-linecap="round"/></svg>';
+  $("formGrid").innerHTML = DATA.players.map((p) => {
+    const wr = Math.round(p.wins / p.games * 100);
+    const beads = [...p.form].reverse().map((g) => (g === "V" ? beadWin : beadLoss)).join("");
+    return '<div class="form-box">' +
+      '<div class="who"><span class="avatar sm ' + p.key + '">' + p.name[0] + '</span>' + p.name + '</div>' +
+      '<div class="beads">' + beads + '</div>' +
+      '<div class="sum num"><b>' + p.wins + 'V / ' + p.losses + 'D</b> · ' + wr + '% de winrate · série en cours : <b>' + p.streak + '</b> · meilleure série : ' + p.bestStreak + '</div>' +
+    '</div>';
+  }).join("");
+})();
+
+/* ── Pool de champions ── */
+(function renderPool() {
+  $("poolGrid").innerHTML = DATA.players.map((p) => {
+    const rows = p.champs.map((c) => {
+      const wr = Math.round(c.w / c.g * 100);
+      const img = CHAMP_IMG[c.n]
+        ? '<img class="champ-icon" src="' + CHAMP_IMG[c.n] + '" alt="" loading="lazy">'
+        : '<span class="champ-icon" style="background:var(--chip)"></span>';
+      return '<div class="champ-row ' + p.key + '">' +
+        img +
+        '<div class="name">' + c.n + '<small class="num">' + c.g + ' game' + (c.g > 1 ? "s" : "") + ' · ' + c.w + 'V ' + c.l + 'D</small></div>' +
+        '<div class="champ-bar"><div class="fill" style="width:' + wr + '%"></div></div>' +
+        '<div class="wr num">' + wr + '%</div>' +
+        '<div class="kda num">' + fmt(c.kda) + '</div>' +
+      '</div>';
+    }).join("");
+    return '<div class="pool-box">' +
+      '<div class="who"><span class="avatar sm ' + p.key + '">' + p.name[0] + '</span>' + p.name +
+        '<span style="margin-left:auto;font-family:Inter,sans-serif;font-weight:700;font-size:0.7rem;color:var(--faint)">WINRATE · KDA</span></div>' +
+      rows +
+      '<div class="champ-star">Pick signature : <b>' + p.signature.champ + '</b> — <span class="num">' + p.signature.note + '</span></div>' +
+    '</div>';
+  }).join("");
+})();
+</script>
