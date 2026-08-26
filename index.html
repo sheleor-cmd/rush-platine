@@ -302,7 +302,16 @@
   .champ-star b { color: var(--ink); }
 
   footer { text-align: center; color: var(--faint); font-size: 0.8rem; padding-top: 8px; }
-  footer .accounts { margin-top: 4px; }
+  footer .accounts { margin-top: 6px; }
+  .maj-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; color: var(--muted); }
+  .maj-bar b { color: var(--ink); }
+  .maj-btn {
+    display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+    background: var(--chip); color: var(--ink); border: 1px solid var(--line); border-radius: 10px;
+    padding: 7px 15px; font-weight: 700; font-size: 0.82rem; transition: border-color 0.15s, transform 0.15s;
+  }
+  .maj-btn:hover { border-color: var(--louis); transform: translateY(-1px); }
+  .maj-btn:focus-visible { outline: 2px solid var(--louis); outline-offset: 2px; }
 
   @media (prefers-reduced-motion: no-preference) {
     .ring-progress { transition: stroke-dashoffset 1.1s cubic-bezier(0.22, 1, 0.36, 1); }
@@ -380,8 +389,12 @@
   </section>
 
   <footer>
-    Mise à jour : <span id="updatedAt"></span> · source : OP.GG — demandez une mise à jour pour rafraîchir les chiffres.
+    <div class="maj-bar">
+      <span>🔄 Mise à jour automatique toutes les 15 min · dernier relevé : <b id="updatedAt"></b></span>
+      <a class="maj-btn" href="https://github.com/sheleor-cmd/rush-platine/actions/workflows/update.yml" target="_blank" rel="noopener" title="Ouvre GitHub Actions : cliquez sur « Run workflow » pour relever immédiatement (compte GitHub requis)">⚡ Relevé immédiat</a>
+    </div>
     <div class="accounts" id="accounts"></div>
+    <div>source : OP.GG · hébergé sur GitHub Pages</div>
   </footer>
 
 </div>
@@ -416,86 +429,89 @@ const CHAMP_IMG = {
    Départ du défi : Fer I 0 LP = 300. Objectif : Platine IV = 1600.
 
    ══ NOTE POUR L'AGENT DE MISE À JOUR AUTOMATIQUE ══
-   Ne modifier QUE les valeurs de l'objet DATA, rien d'autre, puis republier.
+   La mise à jour nominale est faite par update.py (GitHub Action du dépôt
+   sheleor-cmd/rush-platine, toutes les 15 min). Si tu édites à la main :
+   - DATA est du JSON STRICT entre les marqueurs __DATA_START__/__DATA_END__ —
+     clés entre guillemets, pas de commentaires, il doit rester parsable.
    - abs = (nb de divisions au-dessus de Fer IV) × 100 + LP courants.
      Ordre : Fer IV,III,II,I · Bronze IV..I · Argent IV..I · Or IV..I · Platine IV = 1600.
    - le graphique de montée se reconstruit tout seul à partir de form et abs :
      form doit rester l'historique chronologique COMPLET des games classées depuis
      le début du défi — on ne fait qu'AJOUTER les nouvelles games à la fin ("V"/"D").
+   - k/d/a sont des cumuls kills/deaths/assists ; kda = (k+a)/d arrondi à 2 déc.
    - pace = (abs - 300) LP / jours depuis la 1ère game (Louis : 24 août 12h, Thomas : 25 août 12h).
    - eta = date du jour + (1600 - abs) / pace jours, format "3 sept."
    - nextMilestone = "<division suivante> dans <100 - LP> LP".
-   - form : tableau chronologique "V"/"D", la plus ancienne en premier.
    - updated : "26 août 2026, 14h30" heure de Paris. */
 const START_ABS = 300;
 const GOAL_ABS = 1600;
 
-const DATA = {
-  updated: "26 août 2026, 15h30",
-  players: [
+const DATA = /*__DATA_START__*/{
+  "updated": "26 août 2026, 15h30",
+  "players": [
     {
-      key: "louis", name: "Louis", tag: "peixoto123#99999", color: "var(--louis)", color2: "var(--louis-2)",
-      rank: "Bronze III", lp: 30, abs: 530,
-      games: 20, wins: 9, losses: 11, kda: 1.81, csMin: 6.8, lpPerGame: "+11.5",
-      pace: "+100 LP/jour", paceOver: "2,3 j", eta: "6 sept.",
-      nextMilestone: "Bronze II dans 70 LP",
-      form: ["V","D","D","D","D","V","V","V","V","V","D","D","V","D","D","V","D","D","D","V"],
-      streak: "1 victoire", bestStreak: "5 victoires",
-      champs: [
-        { n: "Viktor", g: 5, w: 1, l: 4, kda: 1.19 },
-        { n: "Aurora", g: 4, w: 4, l: 0, kda: 9.00 },
-        { n: "Jax", g: 1, w: 0, l: 1, kda: 0.90 },
-        { n: "Syndra", g: 3, w: 1, l: 2, kda: 1.41 },
-        { n: "Illaoi", g: 1, w: 1, l: 0, kda: 2.50 },
-        { n: "Renekton", g: 1, w: 1, l: 0, kda: 3.50 },
-        { n: "Gnar", g: 1, w: 1, l: 0, kda: 4.67 },
-        { n: "Taliyah", g: 1, w: 0, l: 1, kda: 1.36 },
-        { n: "Ahri", g: 1, w: 0, l: 1, kda: 0.91 },
-        { n: "Sylas", g: 1, w: 0, l: 1, kda: 1.00 },
-        { n: "Ryze", g: 1, w: 0, l: 1, kda: 1.27 }
+      "key": "louis", "name": "Louis", "tag": "peixoto123#99999", "color": "var(--louis)", "color2": "var(--louis-2)",
+      "rank": "Bronze III", "lp": 30, "abs": 530,
+      "games": 20, "wins": 9, "losses": 11, "kda": 1.93, "csMin": 6.8, "lpPerGame": "+11.5",
+      "k": 122, "d": 118, "a": 106,
+      "pace": "+100 LP/jour", "paceOver": "2,3 j", "eta": "6 sept.",
+      "nextMilestone": "Bronze II dans 70 LP",
+      "form": ["V","D","D","D","D","V","V","V","V","V","D","D","V","D","D","V","D","D","D","V"],
+      "streak": "1 victoire", "bestStreak": "5 victoires",
+      "champs": [
+        { "n": "Viktor", "g": 5, "w": 1, "l": 4, "k": 18, "d": 25, "a": 12, "kda": 1.20 },
+        { "n": "Aurora", "g": 4, "w": 4, "l": 0, "k": 40, "d": 8, "a": 32, "kda": 9.00 },
+        { "n": "Jax", "g": 1, "w": 0, "l": 1, "k": 4, "d": 10, "a": 5, "kda": 0.90 },
+        { "n": "Syndra", "g": 3, "w": 1, "l": 2, "k": 16, "d": 22, "a": 15, "kda": 1.41 },
+        { "n": "Illaoi", "g": 1, "w": 1, "l": 0, "k": 6, "d": 4, "a": 4, "kda": 2.50 },
+        { "n": "Renekton", "g": 1, "w": 1, "l": 0, "k": 8, "d": 4, "a": 6, "kda": 3.50 },
+        { "n": "Gnar", "g": 1, "w": 1, "l": 0, "k": 6, "d": 3, "a": 8, "kda": 4.67 },
+        { "n": "Taliyah", "g": 1, "w": 0, "l": 1, "k": 8, "d": 11, "a": 7, "kda": 1.36 },
+        { "n": "Ahri", "g": 1, "w": 0, "l": 1, "k": 4, "d": 11, "a": 6, "kda": 0.91 },
+        { "n": "Sylas", "g": 1, "w": 0, "l": 1, "k": 6, "d": 9, "a": 3, "kda": 1.00 },
+        { "n": "Ryze", "g": 1, "w": 0, "l": 1, "k": 6, "d": 11, "a": 8, "kda": 1.27 }
       ],
-      signature: { champ: "Aurora", note: "3V 0D · 8.50 de KDA" }
+      "signature": { "champ": "Aurora", "note": "4V 0D · 9.00 de KDA" }
     },
     {
-      key: "thomas", name: "Thomas", tag: "blackstar19998#EUW", color: "var(--thomas)", color2: "var(--thomas-2)",
-      rank: "Bronze II", lp: 9, abs: 609,
-      games: 16, wins: 12, losses: 4, kda: 3.55, csMin: 7.7, lpPerGame: "+19.3",
-      pace: "+247 LP/jour", paceOver: "1,3 j", eta: "30 août",
-      nextMilestone: "Bronze I dans 91 LP",
-      form: ["D","V","V","V","V","V","V","V","V","V","V","V","D","V","D","D"],
-      streak: "2 défaites", bestStreak: "11 victoires",
-      champs: [
-        { n: "Nasus", g: 2, w: 2, l: 0, kda: 6.00 },
-        { n: "Graves", g: 2, w: 2, l: 0, kda: 8.25 },
-        { n: "Tryndamere", g: 2, w: 2, l: 0, kda: 3.31 },
-        { n: "Darius", g: 2, w: 1, l: 1, kda: 2.40 },
-        { n: "Vayne", g: 2, w: 2, l: 0, kda: 3.50 },
-        { n: "Renekton", g: 1, w: 1, l: 0, kda: 8.00 },
-        { n: "Gnar", g: 1, w: 1, l: 0, kda: 4.60 },
-        { n: "Kennen", g: 2, w: 1, l: 1, kda: 2.69 },
-        { n: "Jax", g: 1, w: 0, l: 1, kda: 1.71 },
-        { n: "Irelia", g: 1, w: 0, l: 1, kda: 2.82 }
+      "key": "thomas", "name": "Thomas", "tag": "blackstar19998#EUW", "color": "var(--thomas)", "color2": "var(--thomas-2)",
+      "rank": "Bronze II", "lp": 9, "abs": 609,
+      "games": 16, "wins": 12, "losses": 4, "kda": 3.52, "csMin": 7.7, "lpPerGame": "+19.3",
+      "k": 165, "d": 66, "a": 67,
+      "pace": "+247 LP/jour", "paceOver": "1,3 j", "eta": "30 août",
+      "nextMilestone": "Bronze I dans 91 LP",
+      "form": ["D","V","V","V","V","V","V","V","V","V","V","V","D","V","D","D"],
+      "streak": "2 défaites", "bestStreak": "11 victoires",
+      "champs": [
+        { "n": "Nasus", "g": 2, "w": 2, "l": 0, "k": 8, "d": 4, "a": 16, "kda": 6.00 },
+        { "n": "Graves", "g": 2, "w": 2, "l": 0, "k": 30, "d": 4, "a": 3, "kda": 8.25 },
+        { "n": "Tryndamere", "g": 2, "w": 2, "l": 0, "k": 33, "d": 13, "a": 10, "kda": 3.31 },
+        { "n": "Darius", "g": 2, "w": 1, "l": 1, "k": 13, "d": 9, "a": 10, "kda": 2.56 },
+        { "n": "Vayne", "g": 2, "w": 2, "l": 0, "k": 28, "d": 10, "a": 4, "kda": 3.20 },
+        { "n": "Renekton", "g": 1, "w": 1, "l": 0, "k": 14, "d": 2, "a": 2, "kda": 8.00 },
+        { "n": "Gnar", "g": 1, "w": 1, "l": 0, "k": 14, "d": 5, "a": 9, "kda": 4.60 },
+        { "n": "Kennen", "g": 2, "w": 1, "l": 1, "k": 23, "d": 13, "a": 12, "kda": 2.69 },
+        { "n": "Jax", "g": 1, "w": 0, "l": 1, "k": 9, "d": 7, "a": 3, "kda": 1.71 },
+        { "n": "Irelia", "g": 1, "w": 0, "l": 1, "k": 7, "d": 5, "a": 7, "kda": 2.80 }
       ],
-      signature: { champ: "Graves", note: "2V 0D · 8.25 de KDA" }
+      "signature": { "champ": "Graves", "note": "2V 0D · 8.25 de KDA" }
     }
   ],
-  /* Le duel : { label, unité, [valeur Louis, valeur Thomas], higherIsBetter } */
-  duel: [
-    { label: "Games par jour", unit: "", vals: [8.7, 12.8], hib: true },
-    { label: "Durée moyenne", unit: "min", vals: [32, 28], hib: null },
-    { label: "Participation aux kills", unit: "%", vals: [44, 42], hib: true },
-    { label: "Score de lane", unit: "", vals: [50, 65], hib: true },
-    { label: "KDA", unit: "", vals: [1.81, 3.55], hib: true },
-    { label: "LP par game", unit: "LP", vals: [11.5, 19.3], hib: true },
-    { label: "LP gagnés", unit: "LP", vals: [230, 309], hib: true },
-    { label: "Meilleure série", unit: "V", vals: [5, 11], hib: true }
+  "duel": [
+    { "label": "Games par jour", "unit": "", "vals": [8.7, 12.8], "hib": true },
+    { "label": "Durée moyenne", "unit": "min", "vals": [32, 28], "hib": null },
+    { "label": "Participation aux kills", "unit": "%", "vals": [44, 42], "hib": true },
+    { "label": "Score de lane", "unit": "", "vals": [50, 65], "hib": true },
+    { "label": "KDA", "unit": "", "vals": [1.93, 3.52], "hib": true },
+    { "label": "LP par game", "unit": "LP", "vals": [11.5, 19.3], "hib": true },
+    { "label": "LP gagnés", "unit": "LP", "vals": [230, 309], "hib": true },
+    { "label": "Meilleure série", "unit": "V", "vals": [5, 11], "hib": true }
   ],
-  climbAxis: {
-    /* y = divisions au-dessus de Fer IV (+ LP/100) ; l'axe x (nombre de games) est dérivé de form */
-    divisions: ["Fer IV", "Fer III", "Fer II", "Fer I", "Br IV", "Br III", "Br II", "Br I", "Ar IV", "Ar III", "Ar II", "Ar I", "Or IV", "Or III", "Or II", "Or I", "Pt IV"],
-    departY: 3.0
+  "climbAxis": {
+    "divisions": ["Fer IV", "Fer III", "Fer II", "Fer I", "Br IV", "Br III", "Br II", "Br I", "Ar IV", "Ar III", "Ar II", "Ar I", "Or IV", "Or III", "Or II", "Or I", "Pt IV"],
+    "departY": 3.0
   }
-};
+}/*__DATA_END__*/;
 /* ═════════════════════════ fin des données ═════════════════════════ */
 
 const $ = (id) => document.getElementById(id);
