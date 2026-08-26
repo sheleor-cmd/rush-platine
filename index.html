@@ -431,19 +431,20 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = {
-  updated: "26 août 2026, 14h40",
+  updated: "26 août 2026, 15h30",
   players: [
     {
       key: "louis", name: "Louis", tag: "peixoto123#99999", color: "var(--louis)", color2: "var(--louis-2)",
-      rank: "Bronze III", lp: 10, abs: 510,
-      games: 18, wins: 8, losses: 10, kda: 1.82, csMin: 6.8, lpPerGame: "+11.7",
-      pace: "+98 LP/jour", paceOver: "2,2 j", eta: "6 sept.",
-      nextMilestone: "Bronze II dans 90 LP",
-      form: ["V","D","D","D","D","V","V","V","V","V","D","D","V","D","D","V","D","D"],
-      streak: "2 défaites", bestStreak: "5 victoires",
+      rank: "Bronze III", lp: 30, abs: 530,
+      games: 20, wins: 9, losses: 11, kda: 1.81, csMin: 6.8, lpPerGame: "+11.5",
+      pace: "+100 LP/jour", paceOver: "2,3 j", eta: "6 sept.",
+      nextMilestone: "Bronze II dans 70 LP",
+      form: ["V","D","D","D","D","V","V","V","V","V","D","D","V","D","D","V","D","D","D","V"],
+      streak: "1 victoire", bestStreak: "5 victoires",
       champs: [
         { n: "Viktor", g: 5, w: 1, l: 4, kda: 1.19 },
-        { n: "Aurora", g: 3, w: 3, l: 0, kda: 8.50 },
+        { n: "Aurora", g: 4, w: 4, l: 0, kda: 9.00 },
+        { n: "Jax", g: 1, w: 0, l: 1, kda: 0.90 },
         { n: "Syndra", g: 3, w: 1, l: 2, kda: 1.41 },
         { n: "Illaoi", g: 1, w: 1, l: 0, kda: 2.50 },
         { n: "Renekton", g: 1, w: 1, l: 0, kda: 3.50 },
@@ -457,12 +458,12 @@ const DATA = {
     },
     {
       key: "thomas", name: "Thomas", tag: "blackstar19998#EUW", color: "var(--thomas)", color2: "var(--thomas-2)",
-      rank: "Bronze II", lp: 21, abs: 621,
-      games: 15, wins: 12, losses: 3, kda: 3.95, csMin: 7.7, lpPerGame: "+21.4",
-      pace: "+280 LP/jour", paceOver: "1,2 j", eta: "30 août",
-      nextMilestone: "Bronze I dans 79 LP",
-      form: ["D","V","V","V","V","V","V","V","V","V","V","V","D","V","D"],
-      streak: "1 défaite", bestStreak: "11 victoires",
+      rank: "Bronze II", lp: 9, abs: 609,
+      games: 16, wins: 12, losses: 4, kda: 3.55, csMin: 7.7, lpPerGame: "+19.3",
+      pace: "+247 LP/jour", paceOver: "1,3 j", eta: "30 août",
+      nextMilestone: "Bronze I dans 91 LP",
+      form: ["D","V","V","V","V","V","V","V","V","V","V","V","D","V","D","D"],
+      streak: "2 défaites", bestStreak: "11 victoires",
       champs: [
         { n: "Nasus", g: 2, w: 2, l: 0, kda: 6.00 },
         { n: "Graves", g: 2, w: 2, l: 0, kda: 8.25 },
@@ -471,7 +472,7 @@ const DATA = {
         { n: "Vayne", g: 2, w: 2, l: 0, kda: 3.50 },
         { n: "Renekton", g: 1, w: 1, l: 0, kda: 8.00 },
         { n: "Gnar", g: 1, w: 1, l: 0, kda: 4.60 },
-        { n: "Kennen", g: 1, w: 1, l: 0, kda: 13.00 },
+        { n: "Kennen", g: 2, w: 1, l: 1, kda: 2.69 },
         { n: "Jax", g: 1, w: 0, l: 1, kda: 1.71 },
         { n: "Irelia", g: 1, w: 0, l: 1, kda: 2.82 }
       ],
@@ -480,13 +481,13 @@ const DATA = {
   ],
   /* Le duel : { label, unité, [valeur Louis, valeur Thomas], higherIsBetter } */
   duel: [
-    { label: "Games par jour", unit: "", vals: [8.4, 12.5], hib: true },
+    { label: "Games par jour", unit: "", vals: [8.7, 12.8], hib: true },
     { label: "Durée moyenne", unit: "min", vals: [32, 28], hib: null },
     { label: "Participation aux kills", unit: "%", vals: [44, 42], hib: true },
     { label: "Score de lane", unit: "", vals: [50, 65], hib: true },
-    { label: "KDA", unit: "", vals: [1.82, 3.95], hib: true },
-    { label: "LP par game", unit: "LP", vals: [11.7, 21.4], hib: true },
-    { label: "LP gagnés", unit: "LP", vals: [210, 321], hib: true },
+    { label: "KDA", unit: "", vals: [1.81, 3.55], hib: true },
+    { label: "LP par game", unit: "LP", vals: [11.5, 19.3], hib: true },
+    { label: "LP gagnés", unit: "LP", vals: [230, 309], hib: true },
     { label: "Meilleure série", unit: "V", vals: [5, 11], hib: true }
   ],
   climbAxis: {
