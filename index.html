@@ -404,6 +404,7 @@
 <script>
 /* ═════════════ ICÔNES DE CHAMPIONS (Data Dragon, intégrées) ═════════════ */
 const CHAMP_IMG = {
+  "Viego": "data:image/jpeg;base64,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",
   "Camille": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD520bQob+zE0isSSRwa3bD4fxXiea7CGLONzNyfovU/wAq1fh9pAvtCSTHRjzXdeArW08Qu1kqoZpIWWInruU5H8iPoaU5WCK5mc9B8B0m0IaqDOFedYEVyFLEsBWw/wAA9C0zQrjVdVmuUWOMsiIw+Y9gc19C+GtEtNS0OPStSU+W6q6FSRyMdD2II6daj8d/DNdc0+3gXVpoYLdg3KK27HQE8VHMzSyPjfXvBVhpKW0a+YZpF3yZP3R2Fc3qmlwWdvvQHOe9fS3iD4Q+GluHu9S8Qam8hGBFAiA/QZrxj4k6JomlWpGmX1zM4fBikdX2j3KgAH2zWkXchprU7T4Sac1x4JLouWYuB9cVx2l+Kn0TWoWsC8E9u4L+YQuWHoP0967/AOE10bD4XXF4ilngWV1AGSSBx+tc34X8OweIPEFnbzzjyixbK4K7mxuIIHU4H5VFVpas0w8ZSbSPXvDHx9sIrfFxE5lf5pVCfdPcj1+hHXoa29T+LFkLfzrfw+spkTzBJcqqJt/vdeRXCeO/hrd+FXW509Hu7BxsUxY3qxHCt+IGD0zjvXLeJLqbwfe6HpusaasUSxCR4ZnOS7sThh2BxwD3BPeuaNW8kjqlh1GDncqeNPibrevsPJW302wlBDR2kQUkZI5YfSuH8R6yp0BrCJFClgS2wAn8a+g9L1/wWtmpGkWzF9py8QQ5weDjqR0z715R8a9d0K/s0ttJ06G3ZZcmUffIx0PbrmuiByT8jtfgLII/BkPr5rVo6Xpo0r4kX8ssaLbMRdRN2Cv1z/wIMPpXnPww+JuheFvDsdjfySrMrlvlXIrq9Q+NPg+8ClizuvAZogSKqrT51YilUdOfNY77xZ8T9O0sRCCUTzeam7ZyqgEZyenSvCfjF4tfxH4pmYzrdWMr+cox3ChBz7BeK3b34q+GriJo9zMjcFDHkEfSvN/FGraJeX0UmliRIsEuGHAOegrGGH5JKW5tLEc8eW1jasZb1bVDZXpYLj5JV3Ffb/69Y3iizZrd7z7QZMkZHoe4x2qS18UWUKqHL5XgOg5xVbX/ABBY6lYmKESebnOSmP610WVzDXqf/9k=",
   "Xerath": "data:image/jpeg;base64,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",
   "Diana": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDyn4dfD7R/EWire3sbswLbsHsK3X+EmiJcSw+RNlDj73vWn8Cyr+G5YmA+YEDPpkf4ivUfC+jy+I7mUW8caJGMGR8njt9elbTi5NW7DhazbPHE+D2kSKv7qVd3cntTbn4WeH7aJi1tKWzhfn79hXsniPw7eaJKUlbegUHenTbnH864TVdV+w3Z83DxqCFz2J71nKnKO7NVFNXR5/qvw70aOS3hs4pjI7hCM5JJ7U3xJ8M9L8O+HJ7mXebxEz97gGuxS4hsY/7WdvMEKl1I/vscZ/Wue8Sazbav4X1NobtZ3Gd/PIPvUNu9jJoufCDUDZaDBIoHyyMG9we1e2fCvXoYPtsYzLskKusYyy85Bx+OD+FeC/DEH/hG0I/vmt24bUPD+qDXtLlvYcr5U32aXYC/8BOQQehGD1xXoxS5U2RHV8p754u1KO5srq9ljeGFIGgiEq7WlZiOQD2GK+aPGXiWIzrHaq9wFlAkkQZQH+7u6ZrovEeqa74u0y3S5v7hpXJSch/lx7egqjLotytvbxX8yyWNiv8Ao1uqKihjwWIA5OAOTk1lOUHGx206M46Lqc5Nqk9p4YuFlQbZpFbp78j8wK8/e9ntY51Rivmghx2Nej+NY4rfQ9Os14klnDkewz/jXnutpGpCKPmCAk+9ccVfU56mk+U9Y+HOmyWfgC21W4KQ2stwYUd3A3ueigZzmjX/ABbPHqVvpqSRm2sxuaEDAd2+9ux94kYGT0HAxXmGm+Jng0WPTZJ38qOQyKmeA2MZFB1yN5WleVmkc5Z2PJPqa6HUbXKTBcruewLrOnJo7T26SyWzyfMVUs9q/Qo+Prwf4vbmrkUg8QxmeOGaC3j43TYGcdT1rx/TfF76FqwvLKVCSAskcg3RyrxlXXoR/wDrHNbniT4uvrOmLpFlZjTrZ+Lhlk3PKP7oIA2r+Gaza6HfHFRcddzP8T61/a2svJAc2tqhSJuzc8t+JrBe3a+iu7liAkS/maS41OA2W1XG5mA2qMBV9qjOsRx6VJap96Tr+ZpRRx3Tk2z/2Q==",
@@ -451,7 +452,7 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = /*__DATA_START__*/{
-  "updated": "27 août 2026, 16h47",
+  "updated": "27 août 2026, 18h01",
   "players": [
     {
       "key": "louis",
@@ -648,21 +649,21 @@ const DATA = /*__DATA_START__*/{
       "color": "var(--thomas)",
       "color2": "var(--thomas-2)",
       "rank": "Argent IV",
-      "lp": 31,
-      "abs": 831,
-      "games": 33,
-      "wins": 22,
+      "lp": 61,
+      "abs": 861,
+      "games": 34,
+      "wins": 23,
       "losses": 11,
-      "kda": 3.39,
+      "kda": 3.42,
       "csMin": 7.7,
-      "lpPerGame": "+16.1",
-      "k": 285,
-      "d": 128,
-      "a": 149,
-      "pace": "+241 LP/jour",
-      "paceOver": "2,2 j",
+      "lpPerGame": "+16.5",
+      "k": 288,
+      "d": 129,
+      "a": 153,
+      "pace": "+249 LP/jour",
+      "paceOver": "2,3 j",
       "eta": "30 août",
-      "nextMilestone": "Argent III dans 69 LP",
+      "nextMilestone": "Argent III dans 39 LP",
       "form": [
         "D",
         "V",
@@ -696,9 +697,10 @@ const DATA = /*__DATA_START__*/{
         "D",
         "D",
         "D",
-        "D"
+        "D",
+        "V"
       ],
-      "streak": "4 défaites",
+      "streak": "1 victoire",
       "bestStreak": "11 victoires",
       "champs": [
         {
@@ -840,6 +842,16 @@ const DATA = /*__DATA_START__*/{
           "d": 4,
           "a": 4,
           "kda": 2.5
+        },
+        {
+          "n": "Viego",
+          "g": 1,
+          "w": 1,
+          "l": 0,
+          "k": 3,
+          "d": 1,
+          "a": 4,
+          "kda": 7.0
         }
       ],
       "signature": {
@@ -853,8 +865,8 @@ const DATA = /*__DATA_START__*/{
       "label": "Games par jour",
       "unit": "",
       "vals": [
-        10.9,
-        15.0
+        10.8,
+        15.1
       ],
       "hib": true
     },
@@ -890,7 +902,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "",
       "vals": [
         1.99,
-        3.39
+        3.42
       ],
       "hib": true
     },
@@ -899,7 +911,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "LP",
       "vals": [
         7.8,
-        16.1
+        16.5
       ],
       "hib": true
     },
@@ -908,7 +920,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "LP",
       "vals": [
         274,
-        531
+        561
       ],
       "hib": true
     },
