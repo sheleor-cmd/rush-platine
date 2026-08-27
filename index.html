@@ -404,6 +404,8 @@
 <script>
 /* ═════════════ ICÔNES DE CHAMPIONS (Data Dragon, intégrées) ═════════════ */
 const CHAMP_IMG = {
+  "Lux": "data:image/jpeg;base64,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",
+  "Rumble": "data:image/jpeg;base64,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",
   "Viego": "data:image/jpeg;base64,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",
   "Camille": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD520bQob+zE0isSSRwa3bD4fxXiea7CGLONzNyfovU/wAq1fh9pAvtCSTHRjzXdeArW08Qu1kqoZpIWWInruU5H8iPoaU5WCK5mc9B8B0m0IaqDOFedYEVyFLEsBWw/wAA9C0zQrjVdVmuUWOMsiIw+Y9gc19C+GtEtNS0OPStSU+W6q6FSRyMdD2II6daj8d/DNdc0+3gXVpoYLdg3KK27HQE8VHMzSyPjfXvBVhpKW0a+YZpF3yZP3R2Fc3qmlwWdvvQHOe9fS3iD4Q+GluHu9S8Qam8hGBFAiA/QZrxj4k6JomlWpGmX1zM4fBikdX2j3KgAH2zWkXchprU7T4Sac1x4JLouWYuB9cVx2l+Kn0TWoWsC8E9u4L+YQuWHoP0967/AOE10bD4XXF4ilngWV1AGSSBx+tc34X8OweIPEFnbzzjyixbK4K7mxuIIHU4H5VFVpas0w8ZSbSPXvDHx9sIrfFxE5lf5pVCfdPcj1+hHXoa29T+LFkLfzrfw+spkTzBJcqqJt/vdeRXCeO/hrd+FXW509Hu7BxsUxY3qxHCt+IGD0zjvXLeJLqbwfe6HpusaasUSxCR4ZnOS7sThh2BxwD3BPeuaNW8kjqlh1GDncqeNPibrevsPJW302wlBDR2kQUkZI5YfSuH8R6yp0BrCJFClgS2wAn8a+g9L1/wWtmpGkWzF9py8QQ5weDjqR0z715R8a9d0K/s0ttJ06G3ZZcmUffIx0PbrmuiByT8jtfgLII/BkPr5rVo6Xpo0r4kX8ssaLbMRdRN2Cv1z/wIMPpXnPww+JuheFvDsdjfySrMrlvlXIrq9Q+NPg+8ClizuvAZogSKqrT51YilUdOfNY77xZ8T9O0sRCCUTzeam7ZyqgEZyenSvCfjF4tfxH4pmYzrdWMr+cox3ChBz7BeK3b34q+GriJo9zMjcFDHkEfSvN/FGraJeX0UmliRIsEuGHAOegrGGH5JKW5tLEc8eW1jasZb1bVDZXpYLj5JV3Ffb/69Y3iizZrd7z7QZMkZHoe4x2qS18UWUKqHL5XgOg5xVbX/ABBY6lYmKESebnOSmP610WVzDXqf/9k=",
   "Xerath": "data:image/jpeg;base64,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",
@@ -452,7 +454,7 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = /*__DATA_START__*/{
-  "updated": "27 août 2026, 18h01",
+  "updated": "27 août 2026, 20h31",
   "players": [
     {
       "key": "louis",
@@ -460,22 +462,22 @@ const DATA = /*__DATA_START__*/{
       "tag": "peixoto123#99999",
       "color": "var(--louis)",
       "color2": "var(--louis-2)",
-      "rank": "Bronze III",
-      "lp": 74,
-      "abs": 574,
-      "games": 35,
-      "wins": 14,
-      "losses": 21,
-      "kda": 1.99,
+      "rank": "Bronze II",
+      "lp": 13,
+      "abs": 613,
+      "games": 37,
+      "wins": 15,
+      "losses": 22,
+      "kda": 2.06,
       "csMin": 6.8,
-      "lpPerGame": "+7.8",
-      "k": 214,
-      "d": 221,
-      "a": 226,
-      "pace": "+87 LP/jour",
-      "paceOver": "3,2 j",
-      "eta": "8 sept.",
-      "nextMilestone": "Bronze II dans 26 LP",
+      "lpPerGame": "+8.5",
+      "k": 225,
+      "d": 229,
+      "a": 246,
+      "pace": "+93 LP/jour",
+      "paceOver": "3,4 j",
+      "eta": "7 sept.",
+      "nextMilestone": "Bronze I dans 87 LP",
       "form": [
         "V",
         "D",
@@ -511,9 +513,11 @@ const DATA = /*__DATA_START__*/{
         "D",
         "D",
         "V",
+        "V",
+        "D",
         "V"
       ],
-      "streak": "2 victoires",
+      "streak": "1 victoire",
       "bestStreak": "5 victoires",
       "champs": [
         {
@@ -635,6 +639,26 @@ const DATA = /*__DATA_START__*/{
           "d": 5,
           "a": 8,
           "kda": 2.4
+        },
+        {
+          "n": "Rumble",
+          "g": 1,
+          "w": 0,
+          "l": 1,
+          "k": 8,
+          "d": 7,
+          "a": 8,
+          "kda": 2.29
+        },
+        {
+          "n": "Lux",
+          "g": 1,
+          "w": 1,
+          "l": 0,
+          "k": 3,
+          "d": 1,
+          "a": 12,
+          "kda": 15.0
         }
       ],
       "signature": {
@@ -865,8 +889,8 @@ const DATA = /*__DATA_START__*/{
       "label": "Games par jour",
       "unit": "",
       "vals": [
-        10.8,
-        15.1
+        11.0,
+        14.4
       ],
       "hib": true
     },
@@ -901,7 +925,7 @@ const DATA = /*__DATA_START__*/{
       "label": "KDA",
       "unit": "",
       "vals": [
-        1.99,
+        2.06,
         3.42
       ],
       "hib": true
@@ -910,7 +934,7 @@ const DATA = /*__DATA_START__*/{
       "label": "LP par game",
       "unit": "LP",
       "vals": [
-        7.8,
+        8.5,
         16.5
       ],
       "hib": true
@@ -919,7 +943,7 @@ const DATA = /*__DATA_START__*/{
       "label": "LP gagnés",
       "unit": "LP",
       "vals": [
-        274,
+        313,
         561
       ],
       "hib": true
