@@ -2,7 +2,9 @@ name: Mise à jour Rush Platine
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    # minutes décalées : les créneaux :00/:15/:30/:45 sont saturés chez GitHub
+    # et les crons y sont massivement ignorés sur les dépôts gratuits
+    - cron: "12,27,42,57 * * * *"
   workflow_dispatch:
 
 concurrency:
