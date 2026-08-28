@@ -181,10 +181,10 @@ def compute_tribunal(games, my_puuid):
         duo_lanes = [(m.get("stats") or {}).get("lane_score") for m in ally_bot]
         duo_lanes = [x for x in duo_lanes if isinstance(x, (int, float))]
         lanes.extend(duo_lanes)
-        # « pire botlane » : le plus bas score de lane moyen du duo (le KDA flatte les assists)
-        duo_score = sum(duo_lanes) / len(duo_lanes) if duo_lanes else game_kda * 20
-        if worst_kda is None or duo_score < worst_kda:
-            worst_kda = duo_score
+        # « pire botlane » : le pire K/D du duo (kills / morts, les assists ne comptent pas)
+        duo_kd = k / max(1, d)
+        if worst_kda is None or duo_kd < worst_kda or (duo_kd == worst_kda and worst and d > int(worst["kda"].split("/")[1])):
+            worst_kda = duo_kd
             worst = {"champs": " + ".join((m.get("champion") or {}).get("name", "?") for m in ally_bot),
                      "kda": f"{k}/{d}/{a}",
                      "lane": round(sum(duo_lanes) / len(duo_lanes)) if duo_lanes else None}
