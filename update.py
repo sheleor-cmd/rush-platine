@@ -119,24 +119,39 @@ def fetch_profile(player):
             "wins": wins, "losses": losses, "recent": games}
 
 
+CHALLENGE_CUTOFF = "2026-08-23T00:00:00+00:00"
+
+
 def fetch_games(player):
-    """Les ~20 dernières games solo/duo avec les 10 participants (action getGames)."""
-    try:
-        out = opgg_action(player["slug"], ACTION_GAMES,
-                          [{"locale": "en", "region": "euw", "puuid": player["puuid"],
-                            "gameType": "soloranked", "endedAt": "", "champion": ""}])
-    except Exception as e:
-        print(f"getGames {player['key']}: {e}", file=sys.stderr)
-        return []
-    for line in out.split("\n"):
-        if line.startswith("1:"):
-            try:
-                obj = json.loads(line[2:])
-                return [g for g in obj.get("data", [])
-                        if (g.get("game_type") or {}).get("game_type") == "SOLORANKED"]
-            except Exception as e:
-                print(f"getGames parse {player['key']}: {e}", file=sys.stderr)
-    return []
+    """TOUTES les games solo/duo du défi, avec les 10 participants (getGames paginé via endedAt)."""
+    games, ended_at = [], ""
+    for _ in range(12):  # garde-fou : 12 pages × ~20 games
+        try:
+            out = opgg_action(player["slug"], ACTION_GAMES,
+                              [{"locale": "en", "region": "euw", "puuid": player["puuid"],
+                                "gameType": "soloranked", "endedAt": ended_at, "champion": ""}])
+        except Exception as e:
+            print(f"getGames {player['key']}: {e}", file=sys.stderr)
+            break
+        batch = []
+        for line in out.split("\n"):
+            if line.startswith("1:"):
+                try:
+                    batch = json.loads(line[2:]).get("data", [])
+                except Exception as e:
+                    print(f"getGames parse {player['key']}: {e}", file=sys.stderr)
+                break
+        if not batch:
+            break
+        games.extend(g for g in batch
+                     if (g.get("game_type") or {}).get("game_type") == "SOLORANKED"
+                     and g.get("created_at", "9999") >= "2026-08-23")
+        last = batch[-1].get("created_at", "")
+        if not last or last < "2026-08-23":
+            break
+        ended_at = last
+        time.sleep(1)
+    return games
 
 
 def compute_tribunal(games, my_puuid):
