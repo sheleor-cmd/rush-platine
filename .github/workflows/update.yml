@@ -33,7 +33,7 @@ jobs:
         run: |
           git config user.name "rush-platine-bot"
           git config user.email "sheleor@gmail.com"
-          git add index.html
+          git add index.html cache.json
           git commit -m "maj auto"
           git pull --rebase origin main || true
           git push origin main

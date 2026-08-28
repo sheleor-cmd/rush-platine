@@ -26,6 +26,8 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 ACTION_RENEWAL = "405a04669583947dc03eb8c7f367adf28c8f714e86"
 ACTION_STATUS = "400c02bdfd8c90756a329b312a7455e73880ad43ec"
 ACTION_GAMES = "409a2b9ca50d15e50a4dace93552e3a40113dc2753"
+ACTION_SUMMARY = "4028494596c44675d8e9f617b8f659312f3b678072"
+CACHE_FILE = "cache.json"
 START_ABS = 300
 GOAL_ABS = 1600
 TIERS = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond"]
@@ -224,6 +226,79 @@ def compute_tribunal(games, my_puuid):
     }
 
 
+def load_cache():
+    try:
+        with open(CACHE_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def save_cache(cache):
+    with open(CACHE_FILE, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(cache, f, ensure_ascii=False)
+
+
+def fetch_winrate(puuid, slug):
+    """Winrate solo/duo global d'un joueur (agrégat toutes-champions du résumé ranked)."""
+    try:
+        out = opgg_action(slug, ACTION_SUMMARY,
+                          [{"region": "euw", "puuid": puuid, "locale": "en"}])
+        for line in out.split("\n"):
+            if line.startswith("1:"):
+                for it in json.loads(line[2:]) or []:
+                    if it.get("is_all_champions"):
+                        return {"wr": it.get("win_rate"), "play": it.get("play")}
+    except Exception as e:
+        print(f"winrate {puuid[:12]}: {e}", file=sys.stderr)
+    return None
+
+
+def tier_abs(ti):
+    if not ti or ti.get("tier") not in [t.upper() for t in TIERS]:
+        return None
+    tier = ti["tier"].capitalize() if ti["tier"].capitalize() in TIERS else ti["tier"].title()
+    try:
+        idx = [t.upper() for t in TIERS].index(ti["tier"])
+    except ValueError:
+        return None
+    return idx * 400 + (4 - int(ti.get("division") or 4)) * 100 + int(ti.get("lp") or 0)
+
+
+def compute_lobby(games, my_puuid, slug, cache):
+    """Rang moyen + winrate moyen des alliés et des adversaires sur toutes les games."""
+    sides = {"ally": {"abs": [], "wr": []}, "enemy": {"abs": [], "wr": []}}
+    for g in games:
+        if (g.get("game_length") or 0) < 600:
+            continue
+        team = g.get("team_red") if g.get("summoner_team") == "RED" else g.get("team_blue")
+        enemy = g.get("team_blue") if g.get("summoner_team") == "RED" else g.get("team_red")
+        for side, members in (("ally", team), ("enemy", enemy)):
+            for m in (members or []):
+                pu = (m.get("summoner") or {}).get("puuid")
+                if not pu or pu == my_puuid:
+                    continue
+                ab = tier_abs(m.get("tier_info"))
+                if ab is not None:
+                    sides[side]["abs"].append(ab)
+                if pu not in cache:
+                    cache[pu] = fetch_winrate(pu, slug) or {}
+                    time.sleep(0.2)
+                wr = (cache.get(pu) or {}).get("wr")
+                if isinstance(wr, (int, float)):
+                    sides[side]["wr"].append(wr)
+    def pack(s):
+        if not s["abs"]:
+            return None
+        avg = sum(s["abs"]) / len(s["abs"])
+        return {"rank": DIV_FR[min(int(avg // 100), len(DIV_FR) - 1)],
+                "wr": round(sum(s["wr"]) / len(s["wr"])) if s["wr"] else None}
+    a, e = pack(sides["ally"]), pack(sides["enemy"])
+    if not a or not e:
+        return None
+    return {"ally": a, "enemy": e}
+
+
 def streak_fr(form):
     if not form:
         return "—", "—"
@@ -321,15 +396,24 @@ def main():
             stored["nextMilestone"] = f"{nxt} dans {100 - live['lp']} LP"
         stored["streak"], stored["bestStreak"] = streak_fr(stored["form"])
 
-    need_seed = "tribunal" not in data
+    need_seed = "tribunal" not in data or "lobby" not in data
     if changed or need_seed:
-        trib = {}
+        cache = load_cache()
+        trib, lobby = {}, {}
         for p in PLAYERS:
-            t = compute_tribunal(fetch_games(p), p["puuid"])
+            games = fetch_games(p)
+            t = compute_tribunal(games, p["puuid"])
             if t:
                 trib[p["key"]] = t
+            lb = compute_lobby(games, p["puuid"], p["slug"], cache)
+            if lb:
+                lobby[p["key"]] = lb
+        save_cache(cache)
         if trib:
             data["tribunal"] = trib
+            changed = True
+        if lobby:
+            data["lobby"] = lobby
             changed = True
 
     if not changed:

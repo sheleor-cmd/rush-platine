@@ -353,6 +353,15 @@
   <!-- Cartes joueurs -->
   <section class="players" id="players"></section>
 
+  <!-- Niveau des lobbies -->
+  <section class="card" id="lobbyCard" style="display:none">
+    <div class="card-head">
+      <h2>Niveau des lobbies</h2>
+      <span class="hint">rang et winrate moyens des coéquipiers et des adversaires rencontrés, sur tout le défi</span>
+    </div>
+    <div class="pool-grid" id="lobby"></div>
+  </section>
+
   <!-- Duel -->
   <section class="card">
     <div class="card-head">
@@ -467,7 +476,7 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = /*__DATA_START__*/{
-  "updated": "28 août 2026, 7h56",
+  "updated": "28 août 2026, 9h10",
   "players": [
     {
       "key": "louis",
@@ -880,8 +889,8 @@ const DATA = /*__DATA_START__*/{
       "label": "Games par jour",
       "unit": "",
       "vals": [
-        11.7,
-        12.0
+        11.6,
+        11.8
       ],
       "hib": true
     },
@@ -1005,6 +1014,28 @@ const DATA = /*__DATA_START__*/{
       "avgRank": 4.0,
       "verdict": "Classé sans suite : botlanes dans la moyenne",
       "tone": "mid"
+    }
+  },
+  "lobby": {
+    "louis": {
+      "ally": {
+        "rank": "Bronze I",
+        "wr": 49
+      },
+      "enemy": {
+        "rank": "Argent IV",
+        "wr": 49
+      }
+    },
+    "thomas": {
+      "ally": {
+        "rank": "Bronze I",
+        "wr": 49
+      },
+      "enemy": {
+        "rank": "Bronze I",
+        "wr": 47
+      }
     }
   }
 }/*__DATA_END__*/;
@@ -1346,6 +1377,28 @@ $("leadNote").innerHTML = 'En tête : <b>' + leader.name + '</b> · <span class=
       '</div>' +
       '<div class="trib-worst">💀 Pire botlane : <b>' + t.worst.champs + '</b> — <span class="num">' + t.worst.kda + '</span>' + (t.worst.lane != null ? ' · score de lane <span class="num">' + t.worst.lane + '/100</span>' : '') + '</div>' +
       '<div class="trib-me">Et pendant ce temps, ' + p.name + ' : MVP de son équipe dans <b class="num">' + t.mvpPct + '%</b> des games · classement OP moyen : <b class="num">' + rank + '</b></div>' +
+    '</div>';
+  }).join("");
+})();
+
+/* ── Niveau des lobbies ── */
+(function renderLobby() {
+  const lb = DATA.lobby;
+  if (!lb) return;
+  const tile = (k, v) => '<div class="stat"><div class="k">' + k + '</div><div class="v">' + v + '</div></div>';
+  $("lobbyCard").style.display = "";
+  $("lobby").innerHTML = DATA.players.map((p) => {
+    const l = lb[p.key];
+    if (!l) return "";
+    const wr = (x) => (x == null ? "—" : '<span class="num">' + x + '%</span>');
+    return '<div class="form-box">' +
+      '<div class="who"><span class="avatar sm ' + p.key + '">' + p.name[0] + '</span>' + p.name + '</div>' +
+      '<div class="stat-grid trib-grid" style="grid-template-columns:repeat(2,1fr)">' +
+        tile("Rang moyen des alliés", l.ally.rank) +
+        tile("Winrate moyen des alliés", wr(l.ally.wr)) +
+        tile("Rang moyen des adversaires", l.enemy.rank) +
+        tile("Winrate moyen des adversaires", wr(l.enemy.wr)) +
+      '</div>' +
     '</div>';
   }).join("");
 })();
