@@ -195,7 +195,13 @@ def compute_tribunal(games, my_puuid):
             de = sum(m["stats"]["death"] for m in en_bot)
             ae = sum(m["stats"]["assist"] for m in en_bot)
             ek += ke; ed += de; ea += ae
-            if game_kda >= (ke + ae) / max(1, de):
+            # lane gagnée = meilleur score de lane moyen que le duo adverse (KDA en secours)
+            en_lanes = [x for x in ((m.get("stats") or {}).get("lane_score") for m in en_bot)
+                        if isinstance(x, (int, float))]
+            if duo_lanes and en_lanes:
+                if sum(duo_lanes) / len(duo_lanes) >= sum(en_lanes) / len(en_lanes):
+                    botwin += 1
+            elif game_kda >= (ke + ae) / max(1, de):
                 botwin += 1
         st = g.get("stats") or {}
         if me and (me.get("stats") or {}).get("is_opscore_max_in_team"):
