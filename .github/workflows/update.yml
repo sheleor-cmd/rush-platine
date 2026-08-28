@@ -6,6 +6,9 @@ on:
     # et les crons y sont massivement ignorés sur les dépôts gratuits
     - cron: "12,27,42,57 * * * *"
   workflow_dispatch:
+  push:
+    paths:
+      - ".trigger"
 
 concurrency:
   group: rush-update
@@ -17,7 +20,7 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 

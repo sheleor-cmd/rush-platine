@@ -127,7 +127,7 @@ CHALLENGE_CUTOFF = "2026-08-23T00:00:00+00:00"
 def fetch_games(player):
     """TOUTES les games solo/duo du défi, avec les 10 participants (getGames paginé via endedAt)."""
     games, ended_at = [], ""
-    for _ in range(12):  # garde-fou : 12 pages × ~20 games
+    for _ in range(30):  # garde-fou : 30 pages × ~20 games
         try:
             out = opgg_action(player["slug"], ACTION_GAMES,
                               [{"locale": "en", "region": "euw", "puuid": player["puuid"],
@@ -281,10 +281,17 @@ def compute_lobby(games, my_puuid, slug, cache):
                 ab = tier_abs(m.get("tier_info"))
                 if ab is not None:
                     sides[side]["abs"].append(ab)
-                if pu not in cache:
-                    cache[pu] = fetch_winrate(pu, slug) or {}
+                ent = cache.get(pu)
+                now_t = time.time()
+                stale = (ent is None or "t" not in ent
+                         or (ent.get("wr") is None and now_t - ent["t"] > 86400)
+                         or now_t - ent.get("t", 0) > 7 * 86400)
+                if stale:
+                    ent = dict(fetch_winrate(pu, slug) or {})
+                    ent["t"] = int(now_t)
+                    cache[pu] = ent
                     time.sleep(0.2)
-                wr = (cache.get(pu) or {}).get("wr")
+                wr = (ent or {}).get("wr")
                 if isinstance(wr, (int, float)):
                     sides[side]["wr"].append(wr)
     def pack(s):
@@ -347,7 +354,8 @@ def rebuild_from_games(stored, games, my_puuid):
     ordered = sorted((g for g in games if (g.get("game_length") or 0) >= 600),
                      key=lambda g: g.get("created_at", ""))
     form, champs = [], {}
-    K = D = A = 0
+    K = D = A = sec = cs = 0
+    lane_scores, kps = [], []
     for g in ordered:
         team = g.get("team_red") if g.get("summoner_team") == "RED" else g.get("team_blue")
         me = next((m for m in (team or [])
@@ -363,8 +371,22 @@ def rebuild_from_games(stored, games, my_puuid):
         c["w" if win else "l"] += 1
         c["k"] += s.get("kill", 0); c["d"] += s.get("death", 0); c["a"] += s.get("assist", 0)
         K += s.get("kill", 0); D += s.get("death", 0); A += s.get("assist", 0)
+        sec += g.get("game_length") or 0
+        cs += s.get("minion_kill", 0) + (s.get("neutral_minion_kill") or 0)
+        if isinstance(s.get("lane_score"), (int, float)):
+            lane_scores.append(s["lane_score"])
+        team_kills = sum((mm.get("stats") or {}).get("kill", 0) for mm in (team or []))
+        if team_kills > 0:
+            kps.append((s.get("kill", 0) + s.get("assist", 0)) / team_kills * 100)
     if not form:
         return []
+    if sec:
+        stored["csMin"] = round(cs / (sec / 60), 1)
+        stored["avgLen"] = round(sec / len(form) / 60)
+    if lane_scores:
+        stored["laneScore"] = round(sum(lane_scores) / len(lane_scores))
+    if kps:
+        stored["kp"] = round(sum(kps) / len(kps))
     for c in champs.values():
         c["kda"] = round((c["k"] + c["a"]) / max(1, c["d"]), 2)
     lst = sorted(champs.values(), key=lambda c: (-c["g"], -c["w"], c["n"]))
@@ -534,6 +556,12 @@ def main():
     set_duel("LP gagnés", lo["abs"] - START_ABS, th["abs"] - START_ABS)
     b_lo = int(lo["bestStreak"].split()[0]); b_th = int(th["bestStreak"].split()[0])
     set_duel("Meilleure série", b_lo, b_th)
+    if lo.get("avgLen") and th.get("avgLen"):
+        set_duel("Durée moyenne", lo["avgLen"], th["avgLen"])
+    if lo.get("kp") is not None and th.get("kp") is not None:
+        set_duel("Participation aux kills", lo["kp"], th["kp"])
+    if lo.get("laneScore") is not None and th.get("laneScore") is not None:
+        set_duel("Score de lane", lo["laneScore"], th["laneScore"])
 
     now_p = now.astimezone(PARIS)
     full_fr = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet",
