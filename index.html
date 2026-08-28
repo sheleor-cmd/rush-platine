@@ -467,7 +467,7 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = /*__DATA_START__*/{
-  "updated": "28 août 2026, 7h22",
+  "updated": "28 août 2026, 7h53",
   "players": [
     {
       "key": "louis",
@@ -881,7 +881,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "",
       "vals": [
         11.8,
-        12.1
+        12.0
       ],
       "hib": true
     },
@@ -981,7 +981,8 @@ const DATA = /*__DATA_START__*/{
       "botWinPct": 38,
       "worst": {
         "champs": "Jinx + Nautilus",
-        "kda": "1/27/8"
+        "kda": "1/27/8",
+        "lane": 22
       },
       "mvpPct": 19,
       "avgRank": 5.8,
@@ -996,8 +997,9 @@ const DATA = /*__DATA_START__*/{
       "fusPct": 0,
       "botWinPct": 65,
       "worst": {
-        "champs": "Kai'Sa + Seraphine",
-        "kda": "6/12/6"
+        "champs": "Tristana + Lux",
+        "kda": "5/17/12",
+        "lane": 30
       },
       "mvpPct": 32,
       "avgRank": 4.0,
@@ -1342,7 +1344,7 @@ $("leadNote").innerHTML = 'En tête : <b>' + leader.name + '</b> · <span class=
         tile("Score de lane bot", t.botLane == null ? "—" : '<span class="num">' + t.botLane + '</span><small>/100</small>') +
         tile("Lane bot gagnée", '<span class="num">' + t.botWinPct + '%</span> <small>des games</small>') +
       '</div>' +
-      '<div class="trib-worst">💀 Pire botlane : <b>' + t.worst.champs + '</b> — <span class="num">' + t.worst.kda + '</span></div>' +
+      '<div class="trib-worst">💀 Pire botlane : <b>' + t.worst.champs + '</b> — <span class="num">' + t.worst.kda + '</span>' + (t.worst.lane != null ? ' · score de lane <span class="num">' + t.worst.lane + '/100</span>' : '') + '</div>' +
       '<div class="trib-me">Et pendant ce temps, ' + p.name + ' : MVP de son équipe dans <b class="num">' + t.mvpPct + '%</b> des games · classement OP moyen : <b class="num">' + rank + '</b></div>' +
     '</div>';
   }).join("");
