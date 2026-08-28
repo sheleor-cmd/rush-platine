@@ -338,6 +338,47 @@ def compute_fun(games, my_puuid):
             "longest": round(t["longest"] / 60)}
 
 
+def rebuild_from_games(stored, games, my_puuid):
+    """Reconstruit forme, pool de champions, KDA et pick signature depuis l'historique complet.
+
+    Source de vérité par game (résultat, champion, K/D/A du joueur) — élimine toute
+    dérive des mises à jour incrémentales. Retourne la liste des champions joués.
+    """
+    ordered = sorted((g for g in games if (g.get("game_length") or 0) >= 600),
+                     key=lambda g: g.get("created_at", ""))
+    form, champs = [], {}
+    K = D = A = 0
+    for g in ordered:
+        team = g.get("team_red") if g.get("summoner_team") == "RED" else g.get("team_blue")
+        me = next((m for m in (team or [])
+                   if (m.get("summoner") or {}).get("puuid") == my_puuid), None)
+        if not me:
+            continue
+        s = me.get("stats") or {}
+        name = (me.get("champion") or {}).get("name") or "?"
+        win = g.get("game_result") == "WIN"
+        form.append("V" if win else "D")
+        c = champs.setdefault(name, {"n": name, "g": 0, "w": 0, "l": 0, "k": 0, "d": 0, "a": 0, "kda": 0})
+        c["g"] += 1
+        c["w" if win else "l"] += 1
+        c["k"] += s.get("kill", 0); c["d"] += s.get("death", 0); c["a"] += s.get("assist", 0)
+        K += s.get("kill", 0); D += s.get("death", 0); A += s.get("assist", 0)
+    if not form:
+        return []
+    for c in champs.values():
+        c["kda"] = round((c["k"] + c["a"]) / max(1, c["d"]), 2)
+    lst = sorted(champs.values(), key=lambda c: (-c["g"], -c["w"], c["n"]))
+    stored["form"] = form
+    stored["champs"] = lst
+    stored["k"], stored["d"], stored["a"] = K, D, A
+    stored["kda"] = round((K + A) / max(1, D), 2)
+    stored["streak"], stored["bestStreak"] = streak_fr(form)
+    best = max(lst, key=lambda c: (c["w"], c["w"] / max(1, c["g"]), c["kda"]))
+    stored["signature"] = {"champ": best["n"],
+                           "note": f"{best['w']}V {best['l']}D · {best['kda']:.2f} de KDA"}
+    return [c["n"] for c in lst]
+
+
 def streak_fr(form):
     if not form:
         return "—", "—"
@@ -354,11 +395,20 @@ def streak_fr(form):
     return cur, f"{best} victoire{'s' if best > 1 else ''}"
 
 
+_ddragon = {}
+
+
 def champ_icon_b64(name):
     try:
         from PIL import Image
         versions = json.loads(http("https://ddragon.leagueoflegends.com/api/versions.json"))
-        png = http(f"https://ddragon.leagueoflegends.com/cdn/{versions[0]}/img/champion/{name}.png")
+        if not _ddragon:
+            meta = json.loads(http(
+                f"https://ddragon.leagueoflegends.com/cdn/{versions[0]}/data/en_US/champion.json"))
+            for cid, c in meta.get("data", {}).items():
+                _ddragon[c.get("name", cid)] = cid
+        cid = _ddragon.get(name, name)
+        png = http(f"https://ddragon.leagueoflegends.com/cdn/{versions[0]}/img/champion/{cid}.png")
         img = Image.open(io.BytesIO(png)).convert("RGB").resize((48, 48), Image.BICUBIC)
         buf = io.BytesIO()
         img.save(buf, "JPEG", quality=82)
@@ -438,6 +488,7 @@ def main():
     need_seed = "tribunal" not in data or "lobby" not in data or "fun" not in data
     if changed or need_seed:
         cache = load_cache()
+        stored_by_key = {s["key"]: s for s in data["players"]}
         trib, lobby, fun = {}, {}, {}
         for p in PLAYERS:
             games = fetch_games(p)
@@ -450,6 +501,13 @@ def main():
             fn = compute_fun(games, p["puuid"])
             if fn:
                 fun[p["key"]] = fn
+            # reconstruction exacte (forme, pool, KDA, signature) + icônes manquantes
+            for name in rebuild_from_games(stored_by_key[p["key"]], games, p["puuid"]):
+                if f'"{name}":' not in html:
+                    icon = champ_icon_b64(name)
+                    if icon:
+                        html = html.replace("const CHAMP_IMG = {",
+                                            'const CHAMP_IMG = {\n  "%s": "%s",' % (name, icon), 1)
         save_cache(cache)
         for key, val in (("tribunal", trib), ("lobby", lobby), ("fun", fun)):
             if val:
