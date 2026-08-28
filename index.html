@@ -427,7 +427,7 @@
 
   <footer>
     <div class="maj-bar">
-      <span>🔄 Mise à jour automatique toutes les 15 min · dernier relevé : <b id="updatedAt"></b></span>
+      <span>🔄 Dernières données : <b id="updatedAt"></b> · <span id="lastCheck">vérification auto toutes les 15 min</span></span>
       <a class="maj-btn" href="https://github.com/sheleor-cmd/rush-platine/actions/workflows/update.yml" target="_blank" rel="noopener" title="Ouvre GitHub Actions : cliquez sur « Run workflow » pour relever immédiatement (compte GitHub requis)">⚡ Relevé immédiat</a>
     </div>
     <div class="accounts" id="accounts"></div>
@@ -1465,6 +1465,23 @@ $("leadNote").innerHTML = 'En tête : <b>' + leader.name + '</b> · <span class=
       '</div>' +
     '</div>';
   }).join("");
+})();
+
+/* ── Dernière vérification (API GitHub, lue par le navigateur) ── */
+(function lastCheck() {
+  try {
+    fetch("https://api.github.com/repos/sheleor-cmd/rush-platine/actions/workflows/update.yml/runs?per_page=1&status=success")
+      .then((r) => r.json())
+      .then((j) => {
+        const run = j.workflow_runs && j.workflow_runs[0];
+        if (!run) return;
+        const mins = Math.max(0, Math.round((Date.now() - new Date(run.updated_at).getTime()) / 60000));
+        const label = mins < 1 ? "à l'instant" : mins < 60 ? "il y a " + mins + " min" : "il y a " + Math.round(mins / 60) + " h";
+        const el = document.getElementById("lastCheck");
+        if (el) el.innerHTML = 'dernière vérification OP.GG : <b class="num">' + label + '</b> ✓';
+      })
+      .catch(() => {});
+  } catch (e) {}
 })();
 
 /* ── Stats funs ── */
