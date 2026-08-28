@@ -25,6 +25,7 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
 ACTION_RENEWAL = "405a04669583947dc03eb8c7f367adf28c8f714e86"
 ACTION_STATUS = "400c02bdfd8c90756a329b312a7455e73880ad43ec"
+ACTION_GAMES = "409a2b9ca50d15e50a4dace93552e3a40113dc2753"
 START_ABS = 300
 GOAL_ABS = 1600
 TIERS = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond"]
@@ -116,6 +117,94 @@ def fetch_profile(player):
             print(f"json-ld {player['key']}: {e}", file=sys.stderr)
     return {"tier": tier, "div": div, "lp": lp, "abs": abs_lp,
             "wins": wins, "losses": losses, "recent": games}
+
+
+def fetch_games(player):
+    """Les ~20 dernières games solo/duo avec les 10 participants (action getGames)."""
+    try:
+        out = opgg_action(player["slug"], ACTION_GAMES,
+                          [{"locale": "en", "region": "euw", "puuid": player["puuid"],
+                            "gameType": "soloranked", "endedAt": "", "champion": ""}])
+    except Exception as e:
+        print(f"getGames {player['key']}: {e}", file=sys.stderr)
+        return []
+    for line in out.split("\n"):
+        if line.startswith("1:"):
+            try:
+                obj = json.loads(line[2:])
+                return [g for g in obj.get("data", [])
+                        if (g.get("game_type") or {}).get("game_type") == "SOLORANKED"]
+            except Exception as e:
+                print(f"getGames parse {player['key']}: {e}", file=sys.stderr)
+    return []
+
+
+def compute_tribunal(games, my_puuid):
+    """Statistiques (à charge et à décharge) sur les botlanes alliées."""
+    n = bk = bd = ba = ek = ed = ea = fus = botwin = mvp = 0
+    lanes, ranks = [], []
+    worst, worst_kda = None, None
+    for g in games:
+        if (g.get("game_length") or 0) < 600:  # remake
+            continue
+        team = g.get("team_red") if g.get("summoner_team") == "RED" else g.get("team_blue")
+        enemy = g.get("team_blue") if g.get("summoner_team") == "RED" else g.get("team_red")
+        ally_bot = [m for m in (team or []) if m.get("position") in ("ADC", "SUPPORT")
+                    and (m.get("summoner") or {}).get("puuid") != my_puuid]
+        en_bot = [m for m in (enemy or []) if m.get("position") in ("ADC", "SUPPORT")]
+        me = next((m for m in (team or []) if (m.get("summoner") or {}).get("puuid") == my_puuid), None)
+        if len(ally_bot) < 2:
+            continue
+        n += 1
+        k = sum(m["stats"]["kill"] for m in ally_bot)
+        d = sum(m["stats"]["death"] for m in ally_bot)
+        a = sum(m["stats"]["assist"] for m in ally_bot)
+        bk += k; bd += d; ba += a
+        game_kda = (k + a) / max(1, d)
+        if game_kda < 1:
+            fus += 1
+        if worst_kda is None or game_kda < worst_kda:
+            worst_kda = game_kda
+            worst = {"champs": " + ".join((m.get("champion") or {}).get("name", "?") for m in ally_bot),
+                     "kda": f"{k}/{d}/{a}"}
+        for m in ally_bot:
+            ls = (m.get("stats") or {}).get("lane_score")
+            if isinstance(ls, (int, float)):
+                lanes.append(ls)
+        if en_bot:
+            ke = sum(m["stats"]["kill"] for m in en_bot)
+            de = sum(m["stats"]["death"] for m in en_bot)
+            ae = sum(m["stats"]["assist"] for m in en_bot)
+            ek += ke; ed += de; ea += ae
+            if game_kda >= (ke + ae) / max(1, de):
+                botwin += 1
+        st = g.get("stats") or {}
+        if me and (me.get("stats") or {}).get("is_opscore_max_in_team"):
+            mvp += 1
+        if isinstance(st.get("op_score_rank"), (int, float)):
+            ranks.append(st["op_score_rank"])
+    if n == 0:
+        return None
+    bot_kda = round((bk + ba) / max(1, bd), 2)
+    enemy_kda = round((ek + ea) / max(1, ed), 2)
+    fus_pct = round(fus / n * 100)
+    mvp_pct = round(mvp / n * 100)
+    avg_rank = round(sum(ranks) / len(ranks), 1) if ranks else None
+    if fus_pct >= 30 and mvp_pct >= 30:
+        verdict, tone = "Plainte recevable : enfer botlane confirmé", "bad"
+    elif bot_kda < enemy_kda and (avg_rank or 10) <= 4:
+        verdict, tone = "Les stats donnent (un peu) raison à la plainte", "mid"
+    elif (avg_rank or 0) >= 5.5:
+        verdict, tone = "Plainte rejetée : le plaignant n'est pas irréprochable", "good"
+    else:
+        verdict, tone = "Classé sans suite : botlanes dans la moyenne", "mid"
+    return {
+        "sample": n, "botKda": bot_kda, "enemyBotKda": enemy_kda,
+        "botLane": round(sum(lanes) / len(lanes)) if lanes else None,
+        "fusPct": fus_pct, "botWinPct": round(botwin / n * 100),
+        "worst": worst, "mvpPct": mvp_pct, "avgRank": avg_rank,
+        "verdict": verdict, "tone": tone,
+    }
 
 
 def streak_fr(form):
@@ -214,6 +303,17 @@ def main():
             nxt = DIV_FR[min(live["abs"] // 100 + 1, len(DIV_FR) - 1)]
             stored["nextMilestone"] = f"{nxt} dans {100 - live['lp']} LP"
         stored["streak"], stored["bestStreak"] = streak_fr(stored["form"])
+
+    need_seed = "tribunal" not in data
+    if changed or need_seed:
+        trib = {}
+        for p in PLAYERS:
+            t = compute_tribunal(fetch_games(p), p["puuid"])
+            if t:
+                trib[p["key"]] = t
+        if trib:
+            data["tribunal"] = trib
+            changed = True
 
     if not changed:
         print("UNCHANGED")
