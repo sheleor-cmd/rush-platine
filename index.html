@@ -302,12 +302,8 @@
   .champ-star b { color: var(--ink); }
 
   /* ── Tribunal des botlanes ── */
-  .verdict {
-    display: inline-block; border: 1.5px solid; border-radius: 10px; padding: 6px 14px;
-    font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 0.88rem; margin-bottom: 4px;
-  }
   .trib-sample { margin-left: auto; font-family: "Inter", sans-serif; font-weight: 600; font-size: 0.72rem; color: var(--faint); }
-  .trib-grid { grid-template-columns: repeat(2, 1fr); margin-top: 16px; }
+  .trib-grid { grid-template-columns: repeat(3, 1fr); margin-top: 4px; }
   .trib-worst, .trib-me { font-size: 0.84rem; color: var(--muted); margin-top: 10px; line-height: 1.5; }
   .trib-worst b, .trib-me b { color: var(--ink); }
 
@@ -1337,16 +1333,13 @@ $("leadNote").innerHTML = 'En tête : <b>' + leader.name + '</b> · <span class=
   $("tribunal").innerHTML = DATA.players.map((p) => {
     const t = trib[p.key];
     if (!t) return "";
-    const toneColor = t.tone === "bad" ? "var(--loss)" : t.tone === "good" ? "var(--win)" : "var(--plat)";
     const rank = t.avgRank == null ? "—" : fmt(t.avgRank) + "ᵉ/10";
     return '<div class="form-box">' +
       '<div class="who"><span class="avatar sm ' + p.key + '">' + p.name[0] + '</span>' + p.name +
         '<span class="trib-sample num">' + t.sample + ' games analysées</span></div>' +
-      '<div class="verdict" style="border-color:' + toneColor + ';color:' + toneColor + '">' + t.verdict + '</div>' +
       '<div class="stat-grid trib-grid">' +
         tile("KDA botlane alliée", '<span class="num">' + fmt(t.botKda) + '</span> <small class="num">vs ' + fmt(t.enemyBotKda) + ' en face</small>') +
         tile("Score de lane bot", t.botLane == null ? "—" : '<span class="num">' + t.botLane + '</span><small>/100</small>') +
-        tile("Botlanes en fusion", '<span class="num">' + t.fusPct + '%</span> <small>KDA &lt; 1</small>') +
         tile("Lane bot gagnée", '<span class="num">' + t.botWinPct + '%</span> <small>des games</small>') +
       '</div>' +
       '<div class="trib-worst">💀 Pire botlane : <b>' + t.worst.champs + '</b> — <span class="num">' + t.worst.kda + '</span></div>' +
