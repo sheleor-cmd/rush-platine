@@ -412,6 +412,15 @@
     <div class="pool-grid" id="tribunal"></div>
   </section>
 
+  <!-- Stats funs -->
+  <section class="card" id="funCard" style="display:none">
+    <div class="card-head">
+      <h2>Stats funs</h2>
+      <span class="hint">cumulées sur toutes les games du défi · le temps passé mort est une estimation</span>
+    </div>
+    <div class="pool-grid" id="fun"></div>
+  </section>
+
   <footer>
     <div class="maj-bar">
       <span>🔄 Mise à jour automatique toutes les 15 min · dernier relevé : <b id="updatedAt"></b></span>
@@ -476,7 +485,7 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = /*__DATA_START__*/{
-  "updated": "28 août 2026, 9h10",
+  "updated": "28 août 2026, 10h00",
   "players": [
     {
       "key": "louis",
@@ -889,8 +898,8 @@ const DATA = /*__DATA_START__*/{
       "label": "Games par jour",
       "unit": "",
       "vals": [
-        11.6,
-        11.8
+        11.5,
+        11.7
       ],
       "hib": true
     },
@@ -1036,6 +1045,42 @@ const DATA = /*__DATA_START__*/{
         "rank": "Bronze I",
         "wr": 47
       }
+    }
+  },
+  "fun": {
+    "louis": {
+      "kills": 296,
+      "deaths": 318,
+      "assists": 311,
+      "ingame": "22 h 50",
+      "dead": "2 h 31",
+      "cs": 9230,
+      "gold": 566476,
+      "ie": 167,
+      "dmg": 1391793,
+      "teemos": 2327,
+      "wards": 517,
+      "wardKills": 55,
+      "spree": 12,
+      "multi": "Triple kill",
+      "longest": 50
+    },
+    "thomas": {
+      "kills": 290,
+      "deaths": 129,
+      "assists": 149,
+      "ingame": "14 h 11",
+      "dead": "56 min",
+      "cs": 6360,
+      "gold": 407385,
+      "ie": 120,
+      "dmg": 815091,
+      "teemos": 1363,
+      "wards": 248,
+      "wardKills": 38,
+      "spree": 11,
+      "multi": "Triple kill",
+      "longest": 41
     }
   }
 }/*__DATA_END__*/;
@@ -1399,6 +1444,35 @@ $("leadNote").innerHTML = 'En tête : <b>' + leader.name + '</b> · <span class=
         tile("Rang moyen des adversaires", l.enemy.rank) +
         tile("Winrate moyen des adversaires", wr(l.enemy.wr)) +
       '</div>' +
+    '</div>';
+  }).join("");
+})();
+
+/* ── Stats funs ── */
+(function renderFun() {
+  const fun = DATA.fun;
+  if (!fun) return;
+  const nf = (n) => Number(n).toLocaleString("fr-FR");
+  const tile = (k, v) => '<div class="stat"><div class="k">' + k + '</div><div class="v">' + v + '</div></div>';
+  $("funCard").style.display = "";
+  $("fun").innerHTML = DATA.players.map((p) => {
+    const f = fun[p.key];
+    if (!f) return "";
+    return '<div class="form-box">' +
+      '<div class="who"><span class="avatar sm ' + p.key + '">' + p.name[0] + '</span>' + p.name + '</div>' +
+      '<div class="stat-grid trib-grid">' +
+        tile("⚔️ Kills totaux", '<span class="num">' + nf(f.kills) + '</span>') +
+        tile("💀 Morts totales", '<span class="num">' + nf(f.deaths) + '</span>') +
+        tile("🤝 Assists", '<span class="num">' + nf(f.assists) + '</span>') +
+        tile("⏱️ Temps in game", '<span class="num">' + f.ingame + '</span>') +
+        tile("⚰️ Temps passé mort", '<span class="num">≈ ' + f.dead + '</span>') +
+        tile("🐢 Plus longue game", '<span class="num">' + f.longest + ' min</span>') +
+        tile("🌾 CS totaux", '<span class="num">' + nf(f.cs) + '</span> <small>sbires</small>') +
+        tile("💰 Or farmé", '<span class="num">' + nf(f.gold) + '</span> <small>PO</small>') +
+        tile("🔥 Plus grosse série", '<span class="num">' + f.spree + '</span> <small>kills</small>') +
+      '</div>' +
+      '<div class="trib-worst">🍄 Dégâts totaux aux champions : <b class="num">' + nf(f.dmg) + '</b> — soit <b class="num">' + nf(f.teemos) + '</b> Teemo niveau 1 vaporisés</div>' +
+      '<div class="trib-me">💸 De quoi s\'acheter <b class="num">' + f.ie + '</b> Infinity Edge · 👁️ <b class="num">' + f.wards + '</b> wards posées, <b class="num">' + f.wardKills + '</b> détruites · 🏅 record multikill : <b>' + f.multi + '</b></div>' +
     '</div>';
   }).join("");
 })();

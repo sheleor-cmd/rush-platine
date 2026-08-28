@@ -299,6 +299,45 @@ def compute_lobby(games, my_puuid, slug, cache):
     return {"ally": a, "enemy": e}
 
 
+def compute_fun(games, my_puuid):
+    """Stats cumulées rigolotes sur toutes les games du défi."""
+    t = {"k": 0, "d": 0, "a": 0, "sec": 0, "dead": 0.0, "cs": 0, "gold": 0, "dmg": 0,
+         "wards": 0, "wkill": 0, "spree": 0, "multi": 0, "longest": 0}
+    for g in games:
+        L = g.get("game_length") or 0
+        if L < 600:
+            continue
+        team = g.get("team_red") if g.get("summoner_team") == "RED" else g.get("team_blue")
+        me = next((m for m in (team or [])
+                   if (m.get("summoner") or {}).get("puuid") == my_puuid), None)
+        s = (me or {}).get("stats") or {}
+        t["k"] += s.get("kill", 0); t["d"] += s.get("death", 0); t["a"] += s.get("assist", 0)
+        t["sec"] += L
+        # timer de mort moyen ~ 5 s + 0,7 s par minute de jeu (estimation)
+        t["dead"] += s.get("death", 0) * (5 + 0.7 * L / 60)
+        t["cs"] += s.get("minion_kill", 0) + (s.get("neutral_minion_kill") or 0)
+        t["gold"] += s.get("gold_earned", 0)
+        t["dmg"] += s.get("total_damage_dealt_to_champions", 0)
+        t["wards"] += s.get("ward_place", 0); t["wkill"] += s.get("ward_kill", 0)
+        t["spree"] = max(t["spree"], s.get("largest_killing_spree", 0))
+        t["multi"] = max(t["multi"], s.get("largest_multi_kill", 0))
+        t["longest"] = max(t["longest"], L)
+    if t["sec"] == 0:
+        return None
+    h, m = divmod(int(t["sec"] // 60), 60)
+    dh, dm = divmod(int(t["dead"] // 60), 60)
+    multi_lbl = {0: "—", 1: "Solo kill", 2: "Double kill", 3: "Triple kill",
+                 4: "Quadra kill", 5: "PENTAKILL"}.get(t["multi"], "—")
+    return {"kills": t["k"], "deaths": t["d"], "assists": t["a"],
+            "ingame": f"{h} h {m:02d}",
+            "dead": (f"{dh} h {dm:02d}" if dh else f"{dm} min"),
+            "cs": t["cs"], "gold": t["gold"], "ie": round(t["gold"] / 3400),
+            "dmg": t["dmg"], "teemos": round(t["dmg"] / 598),
+            "wards": t["wards"], "wardKills": t["wkill"],
+            "spree": t["spree"], "multi": multi_lbl,
+            "longest": round(t["longest"] / 60)}
+
+
 def streak_fr(form):
     if not form:
         return "—", "—"
@@ -396,10 +435,10 @@ def main():
             stored["nextMilestone"] = f"{nxt} dans {100 - live['lp']} LP"
         stored["streak"], stored["bestStreak"] = streak_fr(stored["form"])
 
-    need_seed = "tribunal" not in data or "lobby" not in data
+    need_seed = "tribunal" not in data or "lobby" not in data or "fun" not in data
     if changed or need_seed:
         cache = load_cache()
-        trib, lobby = {}, {}
+        trib, lobby, fun = {}, {}, {}
         for p in PLAYERS:
             games = fetch_games(p)
             t = compute_tribunal(games, p["puuid"])
@@ -408,13 +447,14 @@ def main():
             lb = compute_lobby(games, p["puuid"], p["slug"], cache)
             if lb:
                 lobby[p["key"]] = lb
+            fn = compute_fun(games, p["puuid"])
+            if fn:
+                fun[p["key"]] = fn
         save_cache(cache)
-        if trib:
-            data["tribunal"] = trib
-            changed = True
-        if lobby:
-            data["lobby"] = lobby
-            changed = True
+        for key, val in (("tribunal", trib), ("lobby", lobby), ("fun", fun)):
+            if val:
+                data[key] = val
+                changed = True
 
     if not changed:
         print("UNCHANGED")
