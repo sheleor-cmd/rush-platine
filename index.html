@@ -441,6 +441,7 @@
 <script>
 /* ═════════════ ICÔNES DE CHAMPIONS (Data Dragon, intégrées) ═════════════ */
 const CHAMP_IMG = {
+  "Lulu": "data:image/jpeg;base64,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",
   "Brand": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDxXwB4Q0rxDZNLfEhkfkA4JWvWz8Ifh7p2gHULm2uJ55SEtoTJtL8csR12jNeb/DBYo4LczyeXDO5idsZ2Z7/hW/8AEu51hvGGp6XZPMlvaeXawhWKqsJA5JHUHLE+ufavDxTrTruEJtLc9zDU6PsoucLv8x8nw58H3Wp2NvYW8siyEtdiSQKtvGCMuWGdoxnrzx05FcjrGi+E9H1Ai3Rr2281lViSN6jgHBAPJraTTr64sHh+0rFISHWEKBFKhHBPfrxz061kP4dfWLSV7e0lieI7WZDlQw/hPpVUef7c3b1OqrCna0Ka+49K+Ffwy+G/xGtGV7aW31GFd0sCy8Oucbl9Oeo96b8Xfgz4M8F+DJ7+wguFv8jZukyAK8o8I+Jb/wAF+J4LqJ3hlglCsuccBhkH8q9J+K3jebxX4YlnlCqky70C9MZI/oa55U8TTxUbTbg/P8DjdCnOEqiSVlt5mP8AC7SdMs/CsfiHWJh9lilZUt8ZM8g5Cgdx3Pt9arJqEeseJZLy7lliW6ZpXac5Z0UZGR6kkYHoK5LQtcu7fRbeCSXfBEXaOE9B7n2z+eKSx13ytUN9eEGOWN4AXzhScfMa9CWHcpyk3uKniY04RivmdF4h8ayW17c2qTSkbRDJhRknJYnPbliPwqlovjbVtOvQ2lb49PaJYbuJ8FJY8/Nv9+47g4xVZdIuNW1u3s7dBI2pXJ8pUbPm9ABn0yTXstv8H7qHQZ47Z9MuJkTa8FoC0kfOSWzgk9sgHHb1qKsqNGKhLqb0vaVb1HKyR4Rd+HdYvw1+YppJprgqVaPa+4KTkjtxXQeLLa507w1aW12HjkW1T90y4xkk8e3NbXhF9X0XUpbbV/OtdOtZDIXlkKMI2yrBDkbi23bxk8n3rlPFN5c6jbXF3dSF5ZAA3ooAwAPYDAreMnOaWlkcdWEacHvdmf4b0Oa/0qS68+GKGPIYuGJH4DJqXUdHjmjl/su5ivY413sqH51A6kr17ViabqMdrbBfNlikB4KNirv/AAk052h7gPs+65UK6/8AAhg1pOFXnck9DOnOi4cslZk2g381mqyBpMQFxEwPCM6lQfYZNdfceNfGlmiXS+IZ5JUGQSSXUdhuI/lXHWur2Hml5to3DDYHDZ65FdHoN9olhq9pd/bIZtPWVHls7jD7QDkgZ7f5PrWFRXleUL/I7qajGCUan4nQa9q114ha2lvVT7Ysa+c2P49o3cdB0/PJ71zPim1EGjOR+frW9rPinw4l9cNbXXnqzuQx4zk5zXJeIddsb2wkjim3E9BVUItWSVkcuJad23c//9k=",
   "Kai'Sa": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDyf4d+AdG8RaXFc38czMXIYRnlvQD3JwPxrP8AF9r4Q07UX07R7RrhYTtmud+Q7jqsf+yDxu7449a1fC+tPoHw3nu4W23EjGCFv7pbOW/AZ/OuKtreOaaC3Vt8krYLDoo9B6/WvXquCpwjGKvbUrluxJrW3udsdnZDe3cDIUf1NbukeH9FW0ki1mwuPMYfJcQSAFPcpjn3wa6vQPCLmLcUCJ5gO4j+HFU9Z+xSPNaWn74wKTJcBwkaH0BPU/SuZWb2NHQ0MHRdO0G0vvsusWCzQk4WYEjA9Tjt7jp71tfEP4f+HdI8OtquillbKloJJAzID0YH+ND2YVyq6l5R+yXY5U/ubpTkp7H1FX9d8QXMnhaTSrhUeNXDxkchSepQ9ge46H0zXQnT5JaIwcJJ3Rg3WoJJ4c0+zjlyUdzKnoeMUzTYLi8vCkESyFQEUMDyfYjpWahHlRjHfmun8BSCfUJrckKGO7Pr2rilO9rm9NXaO+0e9msrWbS7yTz0KDIL7tpyeAajv/C2n33+kFm80FTHH5eUTHbGQD+RrVtYpNInuI7eZRFcIu8CIOVIPBO7jHWuo02x03UdNVo8k8qCO3t+FXCTT0Ovl01PIdd8L20emtcWjJ5sTnzkAxjPQgdh2rkLyWQ6Y0W4NGDwp6p9K+ndf8DNZfDnUp7y1jExZPKnwF3Rk88noeK+Z9StU+yXDFsNG2B/tV0VKfKvkc+k02ijJAG022uE6glH/mP60aHqR0nVYrnnarfMB3FNs76JLOW2lztccHHQ9jVORlZ9w/GuB9DNPY9zstHg8XLHci+EahOFY/I3ueDn0r0X4Z+A7TT7mOITvNvYGWTefLAHoCePrXzx4O8ev4aiMWI5Iz1jlUkfUY6V2dv8YLa5Q291fSW9sw+eOFSu8eh74rWnJJm0qt42TPWf2mPHix6NpOi6HPC9o8j+bIoDK7IAMD1xnr6mvm3VrBDoc08cpMqkGaNhgjngg9xXTfEr4gaJr+oaNBpTyGw06zCEsuN0rMWc/wDoI/CuW1TxDYT+H5bOBm+0SzBn46qBwPzJrdTioteRnGSUbH//2Q==",
   "Rell": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDxjwd4EtvEOhC7kgO/eQZS+BjsMf1o1rwFp1jE7QvcyMnBdAvlZ75Ymu/+C+nQT+FY7m6lkEKM3yfeUn2HrWd8RfEVuNUh0fS7a0YnHmOyK5UnsePvd68+GJnKu6ceh6KoRVNSfU8203woup6mbOISZGcgMCy/XHFdNJ8EdahshdhYZRj7hfDZ9cenp3rsNE0ux8MWn2y9nihnb71y6giMnp1qW9+IZ0cRtHrtrq9ipc3IW3AlK4+XZtOODgH65rr9q2/dFOiopXR5rbeBEN2lrKsqzEZIZOB7Y6496n8ZeCINB0lrkWzQyKwUOG3JJ3yp9MEV3+qXGn69ZC/sZcxyLvjmiba6N2IPYir3xelnb4X20V3brFKnlkyKzFJsjIbB4VsHPHHJ+lc08TJVIR7uxUsPHkbXYsfBRWi8BxXWQoQyKqsCTI56Y9gO/aqHiLw1cT+Ibe6ntni2OX4GA3GScdOpHPXk1337NtppafDe1u7qIS3IlcxgseoPHsBVvxJA/wDa81vKI8PH5qEY53Hcf5/WvAni3TxU7d2ejhYRq01FrZHHW91YXVpNpmrWUdxa3ClWyOR7g1wOt+BLbzhbBLcMu1Le9j/dMUGBiQD5W+UYyADnk5ya7jU7URsSoxg1n3rfaIl+XJCnBxkA4OCfbNexQrOSQqmHjd3MG60K08J6A5F6lmZFQ+c6Fg7E4AVRgdiST6D1rt/jbp91Z/B/TIb77Ot5FDB5jR5xMMYBA9uPzxVHwm9x4n1uztb2xtDAimKQGUTi4zwqhCuAQ+0+wrtf2l9Gg034XG3iUKtpMEiCIFCxk8IMdAMdK5sVUbxFJf3jmqe5Fp9UyP8AZ8e3g+ECS3BRY1aQux6hfY1xU/i3+3b+6V5Rb3cBOxEI4BJII9q4Pwv8Uo9J8GQeHpriaOJXO9FHGCev1rnx4ytmlvPNiDpIXktyAFeGQ4wQwGSMDG0nHPrU0Mrk8RVqzW70NaWJp0MPFKV2/wAD1O18Uw3jva3+2GdTt3/wP/hVLVtKiv4zHJDG56qWAOR6Z9K5TSfGfhyJ/P1NJLlig3IoxubHr2FelSeKfgcIgLfV/EFs56+WVKg+wKmutUZU5Pki7f1sOeKp2TnK/wDXU7f9nHwuttDeajcWUVuIpMRRrtILbcA9M5xu4zjkcA1o/tTMk3wmnuFx80yZIrG0b9ob4X+FdGj03S5b2VEO/dKnzSP3LEfSuE+Onx08PePfCh0nRJplEjLI8LxgAOCc4PpXLSp1qldOcdE/6ZwYipGo3JM//9k=",
@@ -514,7 +515,7 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = /*__DATA_START__*/{
-  "updated": "15 septembre 2026, 21h13",
+  "updated": "16 septembre 2026, 0h22",
   "players": [
     {
       "key": "louis",
@@ -523,22 +524,22 @@ const DATA = /*__DATA_START__*/{
       "opgg": "https://op.gg/lol/summoners/euw/peixoto123-99999",
       "color": "var(--louis)",
       "color2": "var(--louis-2)",
-      "rank": "Argent III",
-      "lp": 10,
-      "abs": 910,
-      "games": 117,
-      "wins": 57,
-      "losses": 60,
+      "rank": "Argent IV",
+      "lp": 96,
+      "abs": 896,
+      "games": 120,
+      "wins": 58,
+      "losses": 62,
       "kda": 2.08,
-      "csMin": 6.1,
-      "lpPerGame": "+5.2",
-      "k": 740,
-      "d": 799,
-      "a": 920,
-      "pace": "+27 LP/jour",
-      "paceOver": "22,4 j",
-      "eta": "11 oct.",
-      "nextMilestone": "Argent II dans 90 LP",
+      "csMin": 6.0,
+      "lpPerGame": "+5.0",
+      "k": 757,
+      "d": 827,
+      "a": 963,
+      "pace": "+26 LP/jour",
+      "paceOver": "22,5 j",
+      "eta": "12 oct.",
+      "nextMilestone": "Argent III dans 4 LP",
       "form": [
         "V",
         "D",
@@ -654,9 +655,12 @@ const DATA = /*__DATA_START__*/{
         "V",
         "V",
         "V",
+        "D",
+        "V",
+        "D",
         "D"
       ],
-      "streak": "1 défaite",
+      "streak": "2 défaites",
       "bestStreak": "8 victoires",
       "champs": [
         {
@@ -691,13 +695,13 @@ const DATA = /*__DATA_START__*/{
         },
         {
           "n": "Camille",
-          "g": 9,
-          "w": 5,
+          "g": 10,
+          "w": 6,
           "l": 4,
-          "k": 66,
-          "d": 69,
-          "a": 52,
-          "kda": 1.71
+          "k": 81,
+          "d": 82,
+          "a": 67,
+          "kda": 1.8
         },
         {
           "n": "Syndra",
@@ -731,13 +735,13 @@ const DATA = /*__DATA_START__*/{
         },
         {
           "n": "Karma",
-          "g": 3,
+          "g": 4,
           "w": 3,
-          "l": 0,
-          "k": 2,
-          "d": 16,
-          "a": 41,
-          "kda": 2.69
+          "l": 1,
+          "k": 3,
+          "d": 25,
+          "a": 50,
+          "kda": 2.12
         },
         {
           "n": "Lux",
@@ -870,6 +874,16 @@ const DATA = /*__DATA_START__*/{
           "kda": 2.6
         },
         {
+          "n": "Lulu",
+          "g": 1,
+          "w": 0,
+          "l": 1,
+          "k": 1,
+          "d": 6,
+          "a": 19,
+          "kda": 3.33
+        },
+        {
           "n": "Malzahar",
           "g": 1,
           "w": 0,
@@ -956,21 +970,21 @@ const DATA = /*__DATA_START__*/{
       "color": "var(--thomas)",
       "color2": "var(--thomas-2)",
       "rank": "Or IV",
-      "lp": 40,
-      "abs": 1240,
-      "games": 62,
+      "lp": 17,
+      "abs": 1217,
+      "games": 64,
       "wins": 39,
-      "losses": 23,
-      "kda": 2.89,
+      "losses": 25,
+      "kda": 2.85,
       "csMin": 7.4,
-      "lpPerGame": "+15.2",
-      "k": 510,
-      "d": 288,
-      "a": 321,
-      "pace": "+44 LP/jour",
-      "paceOver": "21,4 j",
-      "eta": "24 sept.",
-      "nextMilestone": "Or III dans 60 LP",
+      "lpPerGame": "+14.3",
+      "k": 526,
+      "d": 301,
+      "a": 332,
+      "pace": "+43 LP/jour",
+      "paceOver": "21,5 j",
+      "eta": "25 sept.",
+      "nextMilestone": "Or III dans 83 LP",
       "form": [
         "V",
         "V",
@@ -1030,20 +1044,22 @@ const DATA = /*__DATA_START__*/{
         "V",
         "V",
         "V",
+        "D",
+        "D",
         "D"
       ],
-      "streak": "1 défaite",
+      "streak": "3 défaites",
       "bestStreak": "11 victoires",
       "champs": [
         {
           "n": "Vayne",
-          "g": 8,
+          "g": 9,
           "w": 3,
-          "l": 5,
-          "k": 58,
-          "d": 41,
-          "a": 23,
-          "kda": 1.98
+          "l": 6,
+          "k": 71,
+          "d": 44,
+          "a": 29,
+          "kda": 2.27
         },
         {
           "n": "Graves",
@@ -1054,6 +1070,16 @@ const DATA = /*__DATA_START__*/{
           "d": 27,
           "a": 34,
           "kda": 3.81
+        },
+        {
+          "n": "Ezreal",
+          "g": 5,
+          "w": 4,
+          "l": 1,
+          "k": 39,
+          "d": 28,
+          "a": 28,
+          "kda": 2.39
         },
         {
           "n": "Kennen",
@@ -1074,16 +1100,6 @@ const DATA = /*__DATA_START__*/{
           "d": 21,
           "a": 33,
           "kda": 3.33
-        },
-        {
-          "n": "Ezreal",
-          "g": 4,
-          "w": 4,
-          "l": 0,
-          "k": 36,
-          "d": 18,
-          "a": 23,
-          "kda": 3.28
         },
         {
           "n": "Tryndamere",
@@ -1271,7 +1287,7 @@ const DATA = /*__DATA_START__*/{
         "note": "4V 0D · 3.33 de KDA"
       },
       "avgLen": 28,
-      "laneScore": 57,
+      "laneScore": 56,
       "kp": 43
     }
   ],
@@ -1280,8 +1296,8 @@ const DATA = /*__DATA_START__*/{
       "label": "Games par jour",
       "unit": "",
       "vals": [
-        5.2,
-        2.9
+        5.3,
+        3.0
       ],
       "hib": true
     },
@@ -1308,7 +1324,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "",
       "vals": [
         52,
-        57
+        56
       ],
       "hib": true
     },
@@ -1317,7 +1333,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "",
       "vals": [
         2.08,
-        2.89
+        2.85
       ],
       "hib": true
     },
@@ -1325,8 +1341,8 @@ const DATA = /*__DATA_START__*/{
       "label": "LP par game",
       "unit": "LP",
       "vals": [
-        5.2,
-        15.2
+        5.0,
+        14.3
       ],
       "hib": true
     },
@@ -1334,8 +1350,8 @@ const DATA = /*__DATA_START__*/{
       "label": "LP gagnés",
       "unit": "LP",
       "vals": [
-        610,
-        940
+        596,
+        917
       ],
       "hib": true
     },
@@ -1388,42 +1404,42 @@ const DATA = /*__DATA_START__*/{
         "wr": 48
       },
       "enemy": {
-        "rank": "Argent IV",
+        "rank": "Argent III",
         "wr": 47
       }
     }
   },
   "fun": {
     "louis": {
-      "kills": 740,
-      "deaths": 799,
-      "assists": 920,
-      "ingame": "59 h 13",
-      "dead": "6 h 09",
-      "cs": 21533,
-      "gold": 1440447,
-      "ie": 424,
-      "dmg": 3317402,
-      "teemos": 5547,
-      "wards": 1527,
-      "wardKills": 205,
+      "kills": 757,
+      "deaths": 827,
+      "assists": 963,
+      "ingame": "61 h 07",
+      "dead": "6 h 24",
+      "cs": 21986,
+      "gold": 1482527,
+      "ie": 436,
+      "dmg": 3402023,
+      "teemos": 5689,
+      "wards": 1579,
+      "wardKills": 226,
       "spree": 12,
       "multi": "Triple kill",
       "longest": 55
     },
     "thomas": {
-      "kills": 510,
-      "deaths": 288,
-      "assists": 321,
-      "ingame": "27 h 27",
-      "dead": "2 h 05",
-      "cs": 12184,
-      "gold": 781417,
-      "ie": 230,
-      "dmg": 1537678,
-      "teemos": 2571,
-      "wards": 487,
-      "wardKills": 80,
+      "kills": 526,
+      "deaths": 301,
+      "assists": 332,
+      "ingame": "28 h 31",
+      "dead": "2 h 11",
+      "cs": 12723,
+      "gold": 814718,
+      "ie": 240,
+      "dmg": 1606755,
+      "teemos": 2687,
+      "wards": 505,
+      "wardKills": 87,
       "spree": 13,
       "multi": "Quadra kill",
       "longest": 44
@@ -1431,18 +1447,18 @@ const DATA = /*__DATA_START__*/{
   },
   "tribunal": {
     "louis": {
-      "sample": 97,
-      "botKda": 2.08,
-      "enemyBotKda": 2.46,
+      "sample": 98,
+      "botKda": 2.11,
+      "enemyBotKda": 2.43,
       "botLane": 48,
       "fusPct": 8,
-      "botWinPct": 45,
+      "botWinPct": 46,
       "worst": {
         "champs": "Jinx + Nautilus",
         "kda": "1/27/8",
         "lane": 22
       },
-      "mvpPct": 20,
+      "mvpPct": 19,
       "avgRank": 5.7,
       "verdict": "Plainte rejetée : le plaignant n'est pas irréprochable",
       "tone": "good"
