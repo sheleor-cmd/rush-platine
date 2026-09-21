@@ -441,6 +441,8 @@
 <script>
 /* ═════════════ ICÔNES DE CHAMPIONS (Data Dragon, intégrées) ═════════════ */
 const CHAMP_IMG = {
+  "Yasuo": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5etIo3dfMztzg+1aF5Y2UJRoct6r1rPtXCjmum8EWcN/4itUuhvhEqeYp6MCwBFdkeXl2NqST0MqODT2YBo2Ukcgmp7bTLCVpFKnPG3n3H/169j8V/CTTr7VZLeyiFk00T3VvIg+RkAhULj2Znz36eteWTeGNY0vXY9LkgLyM3ylOQw9jSbj2OlUrPa59CaF8Avhz4t07UV04XCXUagWz+Z96TZuIx3GRz9a8g8W/D/RtH0O4u7eKRZoxxlulfRnw68J3fgmz8OajqCRNcy/apLjyZSeHC4zkDhAD69Sa8b+JLiTw7fuvRmJH5mt8AozhU5ley0/E8vOI+yrU3Tdk+no7HiFtMVs3i6o+cj0I5z9a7DwMosGgv2sbq6G7f5cCgsQPr6cmuXsLB5LUSCMujggj39RXqHwrt7XUrcaXJdyWNyrKY50Yo8Z9QRzWLhKKV+p6GGak7roety6lpni3wlaanoV+ZJrU+YisQsiHGHiYDjlexyMhT2rh7gpd65ZOpB3OCWA5A7jHUe4rmdb8N+JbfxjefZtWW3ff/wAfErgNcADlmKjDeoyM++a2BaeLNK006pBHDJfW7RJ9oiw4RpNxWQg9SAp+hIrGeqO+nJrdHrvxm8fzeGdC0j+y7Zf9EmEEj3Kny5C0Z3xDBB3AYyR0yR1rzb4h+JPBuufD+6utN06aB5jsSVJmYRSAZMbqeh64PQgcdCB558S9ftrzVYdL01pGtdPhEcjvIzma5IBmlJY5LFuM/wCzxxXNw6pJZaffWhbdb3cWyRPXByrfUHp9SO9OClCHuu36nl1pQnK04p2/A0PBCpNYvDIpli3ZdB95P9pf8K9Fs/Cc1hPDqFvm+hUZieF9su32zw3+6fwxXkvhLXYdKuFE8hjU5G4DO36juK9N8P8AxO0rT42DXKxz7vnjcb4Jx2Pqp9xzXv4eph6mGVOq1c8HEvE0antMOa2vXk2k6NJrUGNTCSAOkJ+aMHPEgHzRn/ewOvWud134l2t9pcj2EkykxIypKeUYKQRxweta+peO/B+oyLqFnqF3pOqAYLRuRkem5cEiuI8Sax4d1VYkukj+0FsSahaAJI4JHLqBtfjPOA3TJPSvMxGFhH3oSTX4nrYbNKlSPLUi0zkiGOScszHOT3JqW+jZbNiRSyXFpFOxVsRgnywW3Hb2ycD+QqG81KGeB0UnJ6VgrcurJd7n/9k=",
+  "Braum": "data:image/jpeg;base64,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",
   "Tristana": "data:image/jpeg;base64,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",
   "Pantheon": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDi/g/8MvCfirw3FeazbyvO0hUsr44r2OD9mb4bT2clx9juVATeD5x7DkV5B8HdTe18NwIp4Ehr6A0nxRD/AGDqCSzxxAWkhBfG3IQ9c9q4asqkZuz0O6KpumrrUzbX9lb4aXVvHOlpdFZFDD98ajuv2Ufh2PlitboFlOD5veuq+HfiOTUvDNgz3FqYm3eW0EwZXGfrng5GPau3uLxdPtDNNghRk5YL/OtYVpTWuhhUpKEtNT5K8RfA3wto+9tsqKr7csSR0PU9uhrhPGXgjQNK8I3F9aQSx3sE4TLNwUIyD/OvcPjZ4psb/wAi0s7ZbVjJ5srswYscEDAHQcn68V4d4tuC3hW9hDu4DRksy7eSTxg80qbk5blyUVG1i98K/tEujIkEUkhViSEUk11+u+I5NET+zrjT5Z5LmMNNE5KARZ5AP944+g9+3M/CLWJrDw9JFBIY5XLbWHUDGOPesjxXceINK1Ey6m8sqXCkJKxOJFB5wezDPSuiVJvUwjNJ2Zu+BdcutP1po4pmhtAGlCZ4UswwAfqefpXtupfFe11jQ7ezB/4mKebG0cf8LrhQOe+M/nXzOLuS2tkMMhUSrlGI+6cg/wCB/E1KfEtxCROEkt7tQSQ38PGAVPfvzXNOm29DqU0ldnd6XrSz+MfMudspt4JZAG5CuBgH6gmuR+KGuyX9hNEzZBcGqGmXk2n2890xb7Tcjbz1RM5/MnH5Vg+I5pJbNmkfcSwraFNRehjOfNqdd8L9YFlpcUM8VvNEZT91sTIPYH5W5x3H41pfEBb+60rdcR3JthMJI5HhZU6Y4JGOn8q4DQbfQ30+OS61/wCxXIJzE1uzY9wwNbcfxDvZdLj0e516T7HA+PvyFSncbPusD9M/TmuqM4x1S1OWUJStd6FNJFn0qKPJMluwHrgZJB+mMiregGyj8S2MutI0tjF80iA4yCcAE+mSD+Fc82tWsFyLi0lIxyFZcfUfStSfxVo01vMFt9plt/KCFf8AVOHDAg+nUfSsUvfT6G7a5Hfc6Hxd4en0K4CkmWCb5reYHIlQ88/7QyMj39CK47X4mSwOfUV0tv400i/sZYLy7dJWlUxeapZUWOLav03HIP8AwH0rmNe1uxvrFooCS5IPIptWlpsTF3jqf//Z",
   "Jhin": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5nayiGjrc4PmGTbn2p+n6XHcIJZd208Ko/iPr9Km27vDf0kBrUtEWNY1x/CAPpVSERv4Xh8jeAcsMjHaqmmaElzPIksbfL8uP9r/DGT+VejyaW4ggktxv3ouUA9R2pbjwtf6THFcz2UkKSnarMDjmpTdieY4O88L28LIkYcvIMoD3qprGj2tnZGWJWDZHU13GrLZR32nW80wjkE6lSBnaM9T7Zx+tcv4oGLOUDoH/AK1cNVqO5j2jSXGmSQKB5Ua72b/azgD+v4V1ei+H7/xBZyz6YqvPaw7zE3V1H3ivrjuADxz2rkdMd3t2hUDABbA6n1/ICum8F+Nf+ES1NHns1u7cMH2lipX6EcioirvU6K1K1OMkeh/Cy+u9Q1WO11nw7ql0sKALJZQ+YoPQbgP5jNerav4f1rSrNta1b7PqcGo4tLHRmmCGGQ8RHd0LddwHQZ5OKi8GfEOy8ZQQxaYZrG6s03yIcAvnADgjr356jNUPFviCEL4ek+2eYdO1g205V8ugkGDuHUHGfyrtjTSjo9DzXK8tUeP634H1fwyuoan4jKR35YbYgRtTODgf0rk/Fgtf7P32t6tyr4JGwoyn0IPH5E103x38R6jf+MprOSbFvbHCxg9Svylm9yQfyrz3UdxtCd3BwQPauSb5Z2R2Qg+TmfUn8NDa7MwOza2QOrDByB74zRqVlNYNFPGVlhPMcq/dkHp9fatLR7vQIPDieddNHqIc5TacEduf61S0vxDBplzNGyLdafKf3lvIOHHt/dYdiKIvoezCVCph405uz79v+B+X59d8MPFNxo94L6ygeQRHYygbtoPY9eD05HYV1fjPxLpviC7j1eRDZXyfIoLxQiUqTj5VLOxB4BwPrXjranHoesG90G7lWJs4BJDbT1Rsdaj1DXmuL3z7dPKjG3ah5xgDjPpmr5tLM8WdHlm1cuavJeaxrNxLI73ExBd2LZyfvHk/U0azbmDTEB/uirXh7W7C3kEVxP5AmO2W4K7jGmcttH95jx7AVH4u1PSbiWaHSp5Z7cYEbSLg471lKPvKx11FCNOMU7vr5H//2Q==",
@@ -523,7 +525,7 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = /*__DATA_START__*/{
-  "updated": "21 septembre 2026, 8h36",
+  "updated": "21 septembre 2026, 20h49",
   "players": [
     {
       "key": "louis",
@@ -533,21 +535,21 @@ const DATA = /*__DATA_START__*/{
       "color": "var(--louis)",
       "color2": "var(--louis-2)",
       "rank": "Argent I",
-      "lp": 65,
-      "abs": 1165,
-      "games": 147,
-      "wins": 76,
-      "losses": 71,
-      "kda": 2.2,
-      "csMin": 5.4,
-      "lpPerGame": "+5.9",
-      "k": 819,
-      "d": 976,
-      "a": 1328,
-      "pace": "+31 LP/jour",
-      "paceOver": "27,9 j",
-      "eta": "5 oct.",
-      "nextMilestone": "Or IV dans 35 LP",
+      "lp": 57,
+      "abs": 1157,
+      "games": 152,
+      "wins": 78,
+      "losses": 74,
+      "kda": 2.22,
+      "csMin": 5.3,
+      "lpPerGame": "+5.6",
+      "k": 830,
+      "d": 1014,
+      "a": 1420,
+      "pace": "+30 LP/jour",
+      "paceOver": "28,4 j",
+      "eta": "6 oct.",
+      "nextMilestone": "Or IV dans 43 LP",
       "form": [
         "V",
         "D",
@@ -693,6 +695,11 @@ const DATA = /*__DATA_START__*/{
         "V",
         "D",
         "V",
+        "D",
+        "D",
+        "V",
+        "D",
+        "V",
         "D"
       ],
       "streak": "1 défaite",
@@ -700,13 +707,13 @@ const DATA = /*__DATA_START__*/{
       "champs": [
         {
           "n": "Rumble",
-          "g": 26,
+          "g": 27,
           "w": 14,
-          "l": 12,
-          "k": 191,
-          "d": 167,
-          "a": 207,
-          "kda": 2.38
+          "l": 13,
+          "k": 193,
+          "d": 172,
+          "a": 212,
+          "kda": 2.35
         },
         {
           "n": "Aurora",
@@ -749,6 +756,16 @@ const DATA = /*__DATA_START__*/{
           "kda": 1.8
         },
         {
+          "n": "Nami",
+          "g": 10,
+          "w": 6,
+          "l": 4,
+          "k": 8,
+          "d": 51,
+          "a": 163,
+          "kda": 3.35
+        },
+        {
           "n": "Seraphine",
           "g": 9,
           "w": 6,
@@ -757,16 +774,6 @@ const DATA = /*__DATA_START__*/{
           "d": 51,
           "a": 151,
           "kda": 3.51
-        },
-        {
-          "n": "Nami",
-          "g": 9,
-          "w": 5,
-          "l": 4,
-          "k": 7,
-          "d": 46,
-          "a": 141,
-          "kda": 3.22
         },
         {
           "n": "Syndra",
@@ -849,6 +856,16 @@ const DATA = /*__DATA_START__*/{
           "kda": 2.27
         },
         {
+          "n": "Rell",
+          "g": 2,
+          "w": 1,
+          "l": 1,
+          "k": 3,
+          "d": 17,
+          "a": 33,
+          "kda": 2.12
+        },
+        {
           "n": "Senna",
           "g": 2,
           "w": 1,
@@ -867,6 +884,16 @@ const DATA = /*__DATA_START__*/{
           "d": 17,
           "a": 11,
           "kda": 1.06
+        },
+        {
+          "n": "Braum",
+          "g": 2,
+          "w": 0,
+          "l": 2,
+          "k": 7,
+          "d": 20,
+          "a": 43,
+          "kda": 2.5
         },
         {
           "n": "Ambessa",
@@ -979,16 +1006,6 @@ const DATA = /*__DATA_START__*/{
           "kda": 0.67
         },
         {
-          "n": "Rell",
-          "g": 1,
-          "w": 0,
-          "l": 1,
-          "k": 2,
-          "d": 9,
-          "a": 11,
-          "kda": 1.44
-        },
-        {
           "n": "Ryze",
           "g": 1,
           "w": 0,
@@ -1031,7 +1048,7 @@ const DATA = /*__DATA_START__*/{
       ],
       "signature": {
         "champ": "Rumble",
-        "note": "14V 12D · 2.38 de KDA"
+        "note": "14V 13D · 2.35 de KDA"
       },
       "avgLen": 31,
       "laneScore": 52,
@@ -1045,21 +1062,21 @@ const DATA = /*__DATA_START__*/{
       "color": "var(--thomas)",
       "color2": "var(--thomas-2)",
       "rank": "Or II",
-      "lp": 78,
-      "abs": 1478,
-      "games": 89,
-      "wins": 54,
-      "losses": 35,
-      "kda": 2.69,
+      "lp": 94,
+      "abs": 1494,
+      "games": 93,
+      "wins": 56,
+      "losses": 37,
+      "kda": 2.7,
       "csMin": 7.6,
-      "lpPerGame": "+13.2",
-      "k": 712,
-      "d": 456,
-      "a": 515,
+      "lpPerGame": "+12.8",
+      "k": 753,
+      "d": 484,
+      "a": 553,
       "pace": "+44 LP/jour",
-      "paceOver": "26,6 j",
-      "eta": "23 sept.",
-      "nextMilestone": "Or I dans 22 LP",
+      "paceOver": "27,4 j",
+      "eta": "24 sept.",
+      "nextMilestone": "Or I dans 6 LP",
       "form": [
         "V",
         "V",
@@ -1146,9 +1163,13 @@ const DATA = /*__DATA_START__*/{
         "D",
         "V",
         "V",
-        "D"
+        "D",
+        "D",
+        "V",
+        "D",
+        "V"
       ],
-      "streak": "1 défaite",
+      "streak": "1 victoire",
       "bestStreak": "11 victoires",
       "champs": [
         {
@@ -1230,6 +1251,16 @@ const DATA = /*__DATA_START__*/{
           "d": 25,
           "a": 14,
           "kda": 2.52
+        },
+        {
+          "n": "Yasuo",
+          "g": 4,
+          "w": 2,
+          "l": 2,
+          "k": 41,
+          "d": 28,
+          "a": 38,
+          "kda": 2.82
         },
         {
           "n": "Gnar",
@@ -1436,8 +1467,8 @@ const DATA = /*__DATA_START__*/{
       "label": "Games par jour",
       "unit": "",
       "vals": [
-        5.3,
-        3.3
+        5.4,
+        3.4
       ],
       "hib": true
     },
@@ -1472,8 +1503,8 @@ const DATA = /*__DATA_START__*/{
       "label": "KDA",
       "unit": "",
       "vals": [
-        2.2,
-        2.69
+        2.22,
+        2.7
       ],
       "hib": true
     },
@@ -1481,8 +1512,8 @@ const DATA = /*__DATA_START__*/{
       "label": "LP par game",
       "unit": "LP",
       "vals": [
-        5.9,
-        13.2
+        5.6,
+        12.8
       ],
       "hib": true
     },
@@ -1490,8 +1521,8 @@ const DATA = /*__DATA_START__*/{
       "label": "LP gagnés",
       "unit": "LP",
       "vals": [
-        865,
-        1178
+        857,
+        1194
       ],
       "hib": true
     },
@@ -1551,35 +1582,35 @@ const DATA = /*__DATA_START__*/{
   },
   "fun": {
     "louis": {
-      "kills": 819,
-      "deaths": 976,
-      "assists": 1328,
-      "ingame": "74 h 43",
-      "dead": "7 h 31",
-      "cs": 24127,
-      "gold": 1752597,
-      "ie": 515,
-      "dmg": 3784511,
-      "teemos": 6329,
-      "wards": 2163,
-      "wardKills": 350,
+      "kills": 830,
+      "deaths": 1014,
+      "assists": 1420,
+      "ingame": "77 h 25",
+      "dead": "7 h 50",
+      "cs": 24485,
+      "gold": 1803906,
+      "ie": 531,
+      "dmg": 3863642,
+      "teemos": 6461,
+      "wards": 2285,
+      "wardKills": 388,
       "spree": 12,
       "multi": "Triple kill",
       "longest": 55
     },
     "thomas": {
-      "kills": 712,
-      "deaths": 456,
-      "assists": 515,
-      "ingame": "41 h 06",
-      "dead": "3 h 22",
-      "cs": 18862,
-      "gold": 1194536,
-      "ie": 351,
-      "dmg": 2341531,
-      "teemos": 3916,
-      "wards": 731,
-      "wardKills": 140,
+      "kills": 753,
+      "deaths": 484,
+      "assists": 553,
+      "ingame": "43 h 16",
+      "dead": "3 h 35",
+      "cs": 19802,
+      "gold": 1255489,
+      "ie": 369,
+      "dmg": 2453844,
+      "teemos": 4103,
+      "wards": 770,
+      "wardKills": 148,
       "spree": 13,
       "multi": "Quadra kill",
       "longest": 44
@@ -1587,19 +1618,19 @@ const DATA = /*__DATA_START__*/{
   },
   "tribunal": {
     "louis": {
-      "sample": 105,
+      "sample": 106,
       "botKda": 2.15,
-      "enemyBotKda": 2.37,
-      "botLane": 49,
+      "enemyBotKda": 2.38,
+      "botLane": 48,
       "fusPct": 8,
-      "botWinPct": 48,
+      "botWinPct": 47,
       "worst": {
         "champs": "Jinx + Nautilus",
         "kda": "1/27/8",
         "lane": 22
       },
       "mvpPct": 18,
-      "avgRank": 5.7,
+      "avgRank": 5.8,
       "verdict": "Plainte rejetée : le plaignant n'est pas irréprochable",
       "tone": "good"
     },
