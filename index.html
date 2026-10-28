@@ -441,6 +441,7 @@
 <script>
 /* ═════════════ ICÔNES DE CHAMPIONS (Data Dragon, intégrées) ═════════════ */
 const CHAMP_IMG = {
+  "Wukong": "data:image/jpeg;base64,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",
   "Orianna": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5itraOWIMwOav2Ohfb5vLjXAA3MxPCj1qvpy7ogPeuq06zmbSrpIeHnMcQ+pbFbyVoNocFeSTMuHSNEF2sDm4lVT87IeT6/SnJ4Nl1S+mttEtZ7tVPyMepXGeg7gdcV63pvwlXRrCLzlEksi7nbHLn39vQfjWPq2m3fhi8t9Q0yWS2uYZVaN045z0+nrXM6VRLmTOpcj0sebT+EjZTtBdXEcUqA7kbIP0HvWbqenwWiboXY84w3Wuw8XWU1z4q1i4fLM8hmBHctz/ADNcbqjv/q3H3TlTjqDUUq3NoKrSUVexPpC7kH1r0Pw9ZyXdvHbogZfNWZ8n+FAePxJFefaL90V7R8MdNWW8vFmXzFit496A8jfknHfgbelehzJRS7mFOHNK56NoXjTSoNFXTtVgJvZZH8t1GEhQ8gMPz4HrXEeKEfUrUX0M9sI0jM0SMskYnHP3Sy89OPWptY0uNC6wszRgYDEYOK43xbPqdzZo9xdL+6IWLBIyM5+70/HA5NVNxcXzblcrg1ybGTe3u+T7YV3JIgJYc/KeP0YFT+FcTr6fvCR/Adn4ZOK6L+0GHhd7JtokS73I2OQjD5l+hKqfwrmdUdnRi2fmbdXj04JVG0dM53p2JdDl8kpJtVtrZwwyD9R6V7x8FU0zWbPWzfX1uupvOk6RNL5chAU5eP3BJ4HbtXz1aXaQxgHOatprPlOrxyOjLyGU4INerFq2pxRk4u6PofxVqNtYoYPPLMpyWdhk8d8YryzWtW+1zeWhWTjHDcKPWuPbWUud5uZ55GOMMzEn9ajGrwQRtFBGyg9Wz8x/Gs60nb3TZVFLfQ0rqRZpEtbc7gn3mx1aqmsxJBZZZx5rkALnoPSqR1QLCViLRk9Nvf6mqc8qykkE9q44UZXTZUqqs0j/2Q==",
   "Mel": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAAwADADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5ksre3ZPNuAxXkBVPJNPMEDN8sWB6E0W8gNqkYA9Scc1ctIQ5zt3KDzuHFEpWNYxvoFloIu50UxMqMeSG4H41uH4ehs+XIWwcZB3An2Ip1mBBIVVo4cfdUgnrz0rV0bxPBZXLQ6oPJR/lS6thlR7OvJH61k3J7M64Uqa+IwV8KJo9/CdTtnks3fY7jPAzyR7itzxp4H0PSvDQ1TTt5LlSrFsgg11V5Yxy28W+eOSBUwrbwBzg5xnrWb41EY+GsXlZ2IwjGcc4JHahuSauX7GPJJpdDy/TLVZoNzSFOcfdz+NbFvCEinjWNdoAbeOSefWs3QWQo0TnG/gc4rqNP0u7CWpACNJkFQcgqDySPTrSqy1Iw9NNXQafarqRiBYG5jPyJIx2SD0bBBx+NbXiTwPbL50totvAgA2NBKzrM2F5CsMoPvd/T61k3EsFvqLNZqY4xxg9h6f/AF66BNZgGnSG9lVImQozMccEYyD60qdt2ayimjndZ0i7vorExZkgjURyLuHEh6HBIGDV/VreWD4X3Alj8pvtZXysY27TgnHbJH6VV8Mf2c3iCKaLU3uYI9x8icFjKdp4Oew6/hW/48nik+HW2KIRBZ2+Vehy5OR+f6U2rKPqC1U5eR5RpqgiPIB+cdfrXoFrfm3n+1vN9oLRbGUZARSP58/rXnmn3UUW0SNt2nNbum+I7K2hm8xmLFjsGPUYz+FFWDkzDDVFHdmhPLGX3o2VJyDUqg3cfkiOKU/whwOD7Vz11qdi7b4HZD3XHFNt9cEcq7Zcc4yw4FUosp1o3Onis72XU7OJ4VS6B2weWdwYnjk+g611vxLs49P8BC1j5ERRd3dj3P4muY8L+LdF0u7e+1C782cLtiEaEhM9Tz37fnVv4heP9F8QaFJZWMsjyu6sMriolzOa00NlOmqctdWj/9k=",
   "Galio": "data:image/jpeg;base64,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",
@@ -530,7 +531,7 @@ const START_ABS = 300;
 const GOAL_ABS = 1600;
 
 const DATA = /*__DATA_START__*/{
-  "updated": "2 octobre 2026, 20h46",
+  "updated": "28 octobre 2026, 15h12",
   "players": [
     {
       "key": "louis",
@@ -539,109 +540,87 @@ const DATA = /*__DATA_START__*/{
       "opgg": "https://op.gg/lol/summoners/euw/peixoto123-99999",
       "color": "var(--louis)",
       "color2": "var(--louis-2)",
-      "rank": "Argent II",
-      "lp": 79,
-      "abs": 1079,
-      "games": 202,
-      "wins": 99,
-      "losses": 103,
-      "kda": 2.13,
-      "csMin": 5.5,
-      "lpPerGame": "+3.9",
-      "k": 1081,
-      "d": 1344,
-      "a": 1776,
-      "pace": "+20 LP/jour",
-      "paceOver": "39,4 j",
-      "eta": "29 oct.",
-      "nextMilestone": "Argent I dans 21 LP",
+      "rank": "Argent I",
+      "lp": 50,
+      "abs": 1150,
+      "games": 263,
+      "wins": 131,
+      "losses": 132,
+      "kda": 2.3,
+      "csMin": 4.5,
+      "lpPerGame": "+3.2",
+      "k": 964,
+      "d": 1394,
+      "a": 2239,
+      "pace": "+13 LP/jour",
+      "paceOver": "65,2 j",
+      "eta": "2 déc.",
+      "nextMilestone": "Or IV dans 50 LP",
       "form": [
-        "V",
         "D",
         "D",
         "D",
         "D",
-        "V",
-        "V",
+        "D",
+        "D",
         "V",
         "V",
+        "D",
         "D",
         "V",
         "D",
         "D",
         "D",
-        "V",
         "D",
+        "V",
         "D",
         "D",
         "V",
         "V",
         "D",
         "V",
-        "D",
         "V",
-        "D",
-        "D",
-        "D",
-        "D",
-        "D",
-        "D",
-        "D",
         "V",
         "V",
-        "D",
         "V",
         "V",
-        "D",
-        "D",
-        "D",
         "V",
         "V",
-        "D",
         "D",
         "V",
         "D",
         "D",
         "V",
         "V",
-        "D",
-        "D",
-        "D",
         "D",
         "D",
         "D",
         "V",
         "V",
         "D",
-        "D",
         "V",
-        "D",
-        "D",
         "D",
         "D",
         "V",
-        "D",
-        "D",
         "V",
         "V",
         "D",
-        "V",
+        "D",
         "V",
         "V",
         "V",
         "V",
+        "D",
         "V",
         "V",
         "V",
         "D",
         "V",
         "D",
+        "V",
         "D",
         "V",
         "V",
-        "D",
-        "D",
-        "D",
         "V",
         "V",
         "D",
@@ -651,46 +630,69 @@ const DATA = /*__DATA_START__*/{
         "V",
         "V",
         "V",
-        "D",
+        "V",
         "D",
         "V",
         "V",
         "V",
         "V",
-        "D",
         "V",
         "V",
         "V",
         "D",
         "V",
-        "D",
         "V",
-        "D",
         "V",
+        "D",
+        "D",
+        "D",
+        "D",
         "V",
         "V",
+        "D",
         "V",
         "D",
         "V",
         "D",
         "D",
-        "V",
         "V",
+        "D",
         "V",
+        "D",
+        "D",
+        "D",
         "V",
         "D",
         "V",
+        "D",
         "V",
+        "D",
+        "D",
+        "D",
         "V",
+        "D",
         "V",
         "V",
+        "D",
         "V",
+        "D",
+        "D",
+        "D",
+        "D",
         "V",
         "D",
+        "D",
+        "D",
+        "D",
         "V",
         "V",
         "V",
+        "V",
+        "D",
+        "D",
         "D",
+        "V",
+        "V",
         "D",
         "D",
         "D",
@@ -699,28 +701,46 @@ const DATA = /*__DATA_START__*/{
         "D",
         "V",
         "D",
+        "V",
         "V",
+        "V",
         "D",
         "D",
         "V",
         "D",
-        "V",
         "D",
+        "D",
+        "V",
         "D",
         "D",
         "V",
+        "V",
         "D",
+        "V",
+        "V",
+        "V",
+        "V",
+        "V",
         "V",
         "D",
         "V",
         "D",
+        "V",
+        "V",
+        "V",
         "D",
+        "V",
         "D",
+        "V",
+        "V",
         "V",
+        "V",
         "D",
+        "D",
         "V",
         "V",
         "D",
+        "V",
         "V",
         "D",
         "D",
@@ -731,20 +751,16 @@ const DATA = /*__DATA_START__*/{
         "D",
         "D",
         "D",
+        "D",
+        "D",
         "V",
         "V",
         "V",
         "V",
-        "D",
         "D",
-        "D",
         "V",
-        "V",
-        "D",
         "D",
         "D",
-        "V",
-        "V",
         "D",
         "V",
         "D",
@@ -752,73 +768,61 @@ const DATA = /*__DATA_START__*/{
         "V",
         "V",
         "D",
-        "D",
-        "V",
         "D",
         "D"
       ],
-      "streak": "2 défaites",
+      "streak": "3 défaites",
       "bestStreak": "8 victoires",
       "champs": [
         {
           "n": "Rumble",
-          "g": 31,
-          "w": 15,
-          "l": 16,
-          "k": 206,
-          "d": 199,
-          "a": 243,
-          "kda": 2.26
-        },
-        {
-          "n": "Viktor",
-          "g": 17,
-          "w": 6,
-          "l": 11,
-          "k": 97,
-          "d": 161,
-          "a": 122,
-          "kda": 1.36
-        },
-        {
-          "n": "Syndra",
-          "g": 16,
-          "w": 6,
-          "l": 10,
-          "k": 84,
-          "d": 121,
-          "a": 90,
-          "kda": 1.44
+          "g": 35,
+          "w": 18,
+          "l": 17,
+          "k": 250,
+          "d": 215,
+          "a": 289,
+          "kda": 2.51
         },
         {
           "n": "Nami",
-          "g": 14,
-          "w": 8,
-          "l": 6,
-          "k": 12,
-          "d": 84,
-          "a": 228,
-          "kda": 2.86
-        },
-        {
-          "n": "Aurora",
-          "g": 14,
-          "w": 6,
-          "l": 8,
-          "k": 114,
-          "d": 73,
-          "a": 94,
-          "kda": 2.85
+          "g": 34,
+          "w": 18,
+          "l": 16,
+          "k": 42,
+          "d": 196,
+          "a": 557,
+          "kda": 3.06
         },
         {
           "n": "Karma",
-          "g": 13,
-          "w": 9,
-          "l": 4,
+          "g": 26,
+          "w": 14,
+          "l": 12,
+          "k": 49,
+          "d": 165,
+          "a": 348,
+          "kda": 2.41
+        },
+        {
+          "n": "Jax",
+          "g": 12,
+          "w": 6,
+          "l": 6,
+          "k": 86,
+          "d": 88,
+          "a": 61,
+          "kda": 1.67
+        },
+        {
+          "n": "Seraphine",
+          "g": 11,
+          "w": 8,
+          "l": 3,
           "k": 30,
-          "d": 77,
-          "a": 136,
-          "kda": 2.16
+          "d": 65,
+          "a": 197,
+          "kda": 3.49
         },
         {
           "n": "Camille",
@@ -831,34 +835,44 @@ const DATA = /*__DATA_START__*/{
           "kda": 1.66
         },
         {
-          "n": "Ahri",
+          "n": "Syndra",
           "g": 10,
-          "w": 5,
-          "l": 5,
-          "k": 67,
-          "d": 54,
-          "a": 77,
-          "kda": 2.67
+          "w": 3,
+          "l": 7,
+          "k": 50,
+          "d": 77,
+          "a": 54,
+          "kda": 1.35
         },
         {
-          "n": "Seraphine",
+          "n": "Ahri",
           "g": 9,
-          "w": 6,
-          "l": 3,
-          "k": 28,
-          "d": 51,
-          "a": 151,
-          "kda": 3.51
+          "w": 5,
+          "l": 4,
+          "k": 67,
+          "d": 45,
+          "a": 73,
+          "kda": 3.11
         },
         {
-          "n": "Jax",
-          "g": 7,
+          "n": "Nautilus",
+          "g": 8,
+          "w": 6,
+          "l": 2,
+          "k": 18,
+          "d": 44,
+          "a": 114,
+          "kda": 3.0
+        },
+        {
+          "n": "Viktor",
+          "g": 8,
           "w": 4,
-          "l": 3,
-          "k": 52,
-          "d": 50,
-          "a": 44,
-          "kda": 1.92
+          "l": 4,
+          "k": 33,
+          "d": 79,
+          "a": 47,
+          "kda": 1.01
         },
         {
           "n": "Pantheon",
@@ -871,44 +885,34 @@ const DATA = /*__DATA_START__*/{
           "kda": 2.5
         },
         {
-          "n": "Lux",
-          "g": 4,
-          "w": 4,
-          "l": 0,
-          "k": 18,
-          "d": 17,
-          "a": 51,
-          "kda": 4.06
-        },
-        {
-          "n": "Taliyah",
+          "n": "Renekton",
           "g": 4,
           "w": 1,
           "l": 3,
-          "k": 15,
-          "d": 38,
+          "k": 25,
+          "d": 27,
+          "a": 26,
+          "kda": 1.89
+        },
+        {
+          "n": "Ambessa",
+          "g": 3,
+          "w": 3,
+          "l": 0,
+          "k": 27,
+          "d": 27,
           "a": 20,
-          "kda": 0.92
+          "kda": 1.74
         },
         {
-          "n": "Annie",
+          "n": "Lux",
           "g": 3,
-          "w": 2,
-          "l": 1,
-          "k": 3,
-          "d": 15,
-          "a": 11,
-          "kda": 0.93
-        },
-        {
-          "n": "Swain",
-          "g": 3,
-          "w": 2,
-          "l": 1,
-          "k": 17,
+          "w": 3,
+          "l": 0,
+          "k": 15,
           "d": 16,
-          "a": 33,
-          "kda": 3.12
+          "a": 39,
+          "kda": 3.38
         },
         {
           "n": "Galio",
@@ -941,14 +945,24 @@ const DATA = /*__DATA_START__*/{
           "kda": 4.29
         },
         {
-          "n": "Gnar",
+          "n": "Taliyah",
+          "g": 3,
+          "w": 1,
+          "l": 2,
+          "k": 4,
+          "d": 24,
+          "a": 12,
+          "kda": 0.67
+        },
+        {
+          "n": "Annie",
           "g": 2,
           "w": 1,
           "l": 1,
-          "k": 11,
-          "d": 15,
-          "a": 18,
-          "kda": 1.93
+          "k": 1,
+          "d": 10,
+          "a": 10,
+          "kda": 1.1
         },
         {
           "n": "Malzahar",
@@ -961,16 +975,6 @@ const DATA = /*__DATA_START__*/{
           "kda": 1.56
         },
         {
-          "n": "Nautilus",
-          "g": 2,
-          "w": 1,
-          "l": 1,
-          "k": 3,
-          "d": 11,
-          "a": 22,
-          "kda": 2.27
-        },
-        {
           "n": "Rell",
           "g": 2,
           "w": 1,
@@ -979,16 +983,6 @@ const DATA = /*__DATA_START__*/{
           "d": 17,
           "a": 33,
           "kda": 2.12
-        },
-        {
-          "n": "Renekton",
-          "g": 2,
-          "w": 1,
-          "l": 1,
-          "k": 18,
-          "d": 8,
-          "a": 11,
-          "kda": 3.62
         },
         {
           "n": "Senna",
@@ -1031,36 +1025,6 @@ const DATA = /*__DATA_START__*/{
           "kda": 1.82
         },
         {
-          "n": "Ambessa",
-          "g": 1,
-          "w": 1,
-          "l": 0,
-          "k": 10,
-          "d": 7,
-          "a": 3,
-          "kda": 1.86
-        },
-        {
-          "n": "Anivia",
-          "g": 1,
-          "w": 1,
-          "l": 0,
-          "k": 4,
-          "d": 5,
-          "a": 8,
-          "kda": 2.4
-        },
-        {
-          "n": "Illaoi",
-          "g": 1,
-          "w": 1,
-          "l": 0,
-          "k": 13,
-          "d": 12,
-          "a": 17,
-          "kda": 2.5
-        },
-        {
           "n": "Jayce",
           "g": 1,
           "w": 1,
@@ -1091,14 +1055,14 @@ const DATA = /*__DATA_START__*/{
           "kda": 6.75
         },
         {
-          "n": "Akali",
+          "n": "Wukong",
           "g": 1,
-          "w": 0,
-          "l": 1,
-          "k": 9,
-          "d": 5,
-          "a": 4,
-          "kda": 2.6
+          "w": 1,
+          "l": 0,
+          "k": 8,
+          "d": 2,
+          "a": 7,
+          "kda": 7.5
         },
         {
           "n": "K'Sante",
@@ -1121,24 +1085,14 @@ const DATA = /*__DATA_START__*/{
           "kda": 0.29
         },
         {
-          "n": "Ryze",
+          "n": "Swain",
           "g": 1,
           "w": 0,
           "l": 1,
-          "k": 6,
-          "d": 11,
-          "a": 8,
-          "kda": 1.27
-        },
-        {
-          "n": "Sylas",
-          "g": 1,
-          "w": 0,
-          "l": 1,
-          "k": 6,
+          "k": 1,
           "d": 9,
           "a": 3,
-          "kda": 1.0
+          "kda": 0.44
         },
         {
           "n": "Twisted Fate",
@@ -1152,12 +1106,12 @@ const DATA = /*__DATA_START__*/{
         }
       ],
       "signature": {
-        "champ": "Rumble",
-        "note": "15V 16D · 2.26 de KDA"
+        "champ": "Nami",
+        "note": "18V 16D · 3.06 de KDA"
       },
       "avgLen": 31,
       "laneScore": 52,
-      "kp": 42
+      "kp": 43
     },
     {
       "key": "thomas",
@@ -1167,55 +1121,24 @@ const DATA = /*__DATA_START__*/{
       "color": "var(--thomas)",
       "color2": "var(--thomas-2)",
       "rank": "Or II",
-      "lp": 90,
-      "abs": 1490,
-      "games": 98,
-      "wins": 58,
-      "losses": 40,
-      "kda": 2.6,
+      "lp": 79,
+      "abs": 1479,
+      "games": 101,
+      "wins": 59,
+      "losses": 42,
+      "kda": 2.32,
       "csMin": 7.7,
-      "lpPerGame": "+12.1",
-      "k": 788,
-      "d": 527,
-      "a": 584,
-      "pace": "+42 LP/jour",
-      "paceOver": "28,4 j",
-      "eta": "25 sept.",
-      "nextMilestone": "Or I dans 10 LP",
+      "lpPerGame": "+11.7",
+      "k": 515,
+      "d": 421,
+      "a": 462,
+      "pace": "+18 LP/jour",
+      "paceOver": "64,2 j",
+      "eta": "4 nov.",
+      "nextMilestone": "Or I dans 21 LP",
       "form": [
         "V",
         "V",
-        "V",
-        "V",
-        "V",
-        "V",
-        "V",
-        "V",
-        "V",
-        "V",
-        "V",
-        "D",
-        "V",
-        "D",
-        "D",
-        "D",
-        "V",
-        "V",
-        "D",
-        "V",
-        "V",
-        "V",
-        "V",
-        "D",
-        "V",
-        "V",
-        "D",
-        "D",
-        "D",
-        "D",
-        "V",
-        "V",
-        "V",
         "D",
         "V",
         "V",
@@ -1277,20 +1200,23 @@ const DATA = /*__DATA_START__*/{
         "D",
         "V",
         "D",
-        "V"
+        "V",
+        "D",
+        "V",
+        "D"
       ],
-      "streak": "1 victoire",
-      "bestStreak": "11 victoires",
+      "streak": "1 défaite",
+      "bestStreak": "7 victoires",
       "champs": [
         {
           "n": "Ezreal",
-          "g": 13,
+          "g": 14,
           "w": 9,
-          "l": 4,
-          "k": 93,
-          "d": 76,
-          "a": 94,
-          "kda": 2.46
+          "l": 5,
+          "k": 97,
+          "d": 83,
+          "a": 97,
+          "kda": 2.34
         },
         {
           "n": "Jinx",
@@ -1301,16 +1227,6 @@ const DATA = /*__DATA_START__*/{
           "d": 74,
           "a": 77,
           "kda": 2.18
-        },
-        {
-          "n": "Vayne",
-          "g": 9,
-          "w": 3,
-          "l": 6,
-          "k": 71,
-          "d": 44,
-          "a": 29,
-          "kda": 2.27
         },
         {
           "n": "Caitlyn",
@@ -1333,26 +1249,6 @@ const DATA = /*__DATA_START__*/{
           "kda": 2.0
         },
         {
-          "n": "Graves",
-          "g": 6,
-          "w": 4,
-          "l": 2,
-          "k": 69,
-          "d": 27,
-          "a": 34,
-          "kda": 3.81
-        },
-        {
-          "n": "Kennen",
-          "g": 5,
-          "w": 3,
-          "l": 2,
-          "k": 55,
-          "d": 20,
-          "a": 28,
-          "kda": 4.15
-        },
-        {
           "n": "Ashe",
           "g": 5,
           "w": 1,
@@ -1363,54 +1259,34 @@ const DATA = /*__DATA_START__*/{
           "kda": 3.03
         },
         {
-          "n": "Tryndamere",
-          "g": 4,
-          "w": 3,
-          "l": 1,
-          "k": 49,
-          "d": 25,
-          "a": 14,
-          "kda": 2.52
+          "n": "Vayne",
+          "g": 5,
+          "w": 0,
+          "l": 5,
+          "k": 28,
+          "d": 30,
+          "a": 20,
+          "kda": 1.6
         },
         {
-          "n": "Gnar",
-          "g": 3,
+          "n": "Kennen",
+          "g": 2,
           "w": 2,
-          "l": 1,
-          "k": 24,
-          "d": 22,
-          "a": 14,
-          "kda": 1.73
+          "l": 0,
+          "k": 20,
+          "d": 5,
+          "a": 9,
+          "kda": 5.8
         },
         {
-          "n": "Nasus",
-          "g": 3,
-          "w": 2,
-          "l": 1,
-          "k": 12,
-          "d": 8,
-          "a": 13,
-          "kda": 3.12
-        },
-        {
-          "n": "Jax",
-          "g": 3,
-          "w": 1,
-          "l": 2,
-          "k": 19,
-          "d": 18,
-          "a": 17,
-          "kda": 2.0
-        },
-        {
-          "n": "Darius",
+          "n": "Jhin",
           "g": 2,
           "w": 1,
           "l": 1,
-          "k": 13,
-          "d": 9,
-          "a": 10,
-          "kda": 2.56
+          "k": 6,
+          "d": 11,
+          "a": 18,
+          "kda": 2.18
         },
         {
           "n": "Cassiopeia",
@@ -1443,26 +1319,6 @@ const DATA = /*__DATA_START__*/{
           "kda": 3.29
         },
         {
-          "n": "Camille",
-          "g": 1,
-          "w": 1,
-          "l": 0,
-          "k": 6,
-          "d": 4,
-          "a": 4,
-          "kda": 2.5
-        },
-        {
-          "n": "Diana",
-          "g": 1,
-          "w": 1,
-          "l": 0,
-          "k": 2,
-          "d": 0,
-          "a": 8,
-          "kda": 10.0
-        },
-        {
           "n": "Gangplank",
           "g": 1,
           "w": 1,
@@ -1473,6 +1329,16 @@ const DATA = /*__DATA_START__*/{
           "kda": 1.56
         },
         {
+          "n": "Gnar",
+          "g": 1,
+          "w": 1,
+          "l": 0,
+          "k": 3,
+          "d": 9,
+          "a": 4,
+          "kda": 0.78
+        },
+        {
           "n": "Malphite",
           "g": 1,
           "w": 1,
@@ -1481,16 +1347,6 @@ const DATA = /*__DATA_START__*/{
           "d": 3,
           "a": 8,
           "kda": 5.67
-        },
-        {
-          "n": "Renekton",
-          "g": 1,
-          "w": 1,
-          "l": 0,
-          "k": 14,
-          "d": 2,
-          "a": 2,
-          "kda": 8.0
         },
         {
           "n": "Sivir",
@@ -1513,26 +1369,6 @@ const DATA = /*__DATA_START__*/{
           "kda": 14.0
         },
         {
-          "n": "Viego",
-          "g": 1,
-          "w": 1,
-          "l": 0,
-          "k": 3,
-          "d": 1,
-          "a": 4,
-          "kda": 7.0
-        },
-        {
-          "n": "Xerath",
-          "g": 1,
-          "w": 1,
-          "l": 0,
-          "k": 9,
-          "d": 0,
-          "a": 5,
-          "kda": 14.0
-        },
-        {
           "n": "Garen",
           "g": 1,
           "w": 0,
@@ -1543,16 +1379,6 @@ const DATA = /*__DATA_START__*/{
           "kda": 2.1
         },
         {
-          "n": "Jhin",
-          "g": 1,
-          "w": 0,
-          "l": 1,
-          "k": 4,
-          "d": 4,
-          "a": 1,
-          "kda": 1.25
-        },
-        {
           "n": "Kai'Sa",
           "g": 1,
           "w": 0,
@@ -1561,15 +1387,35 @@ const DATA = /*__DATA_START__*/{
           "d": 8,
           "a": 5,
           "kda": 0.88
+        },
+        {
+          "n": "Tryndamere",
+          "g": 1,
+          "w": 0,
+          "l": 1,
+          "k": 5,
+          "d": 7,
+          "a": 0,
+          "kda": 0.71
+        },
+        {
+          "n": "Twisted Fate",
+          "g": 1,
+          "w": 0,
+          "l": 1,
+          "k": 11,
+          "d": 9,
+          "a": 7,
+          "kda": 2.0
         }
       ],
       "signature": {
         "champ": "Ezreal",
-        "note": "9V 4D · 2.46 de KDA"
+        "note": "9V 5D · 2.34 de KDA"
       },
-      "avgLen": 29,
-      "laneScore": 55,
-      "kp": 44
+      "avgLen": 30,
+      "laneScore": 54,
+      "kp": 46
     }
   ],
   "duel": [
@@ -1577,8 +1423,8 @@ const DATA = /*__DATA_START__*/{
       "label": "Games par jour",
       "unit": "",
       "vals": [
-        5.1,
-        2.6
+        4.0,
+        1.6
       ],
       "hib": true
     },
@@ -1587,7 +1433,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "min",
       "vals": [
         31,
-        29
+        30
       ],
       "hib": null
     },
@@ -1595,8 +1441,8 @@ const DATA = /*__DATA_START__*/{
       "label": "Participation aux kills",
       "unit": "%",
       "vals": [
-        42,
-        44
+        43,
+        46
       ],
       "hib": true
     },
@@ -1605,7 +1451,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "",
       "vals": [
         52,
-        55
+        54
       ],
       "hib": true
     },
@@ -1613,8 +1459,8 @@ const DATA = /*__DATA_START__*/{
       "label": "KDA",
       "unit": "",
       "vals": [
-        2.13,
-        2.6
+        2.3,
+        2.32
       ],
       "hib": true
     },
@@ -1622,8 +1468,8 @@ const DATA = /*__DATA_START__*/{
       "label": "LP par game",
       "unit": "LP",
       "vals": [
-        3.9,
-        12.1
+        3.2,
+        11.7
       ],
       "hib": true
     },
@@ -1631,8 +1477,8 @@ const DATA = /*__DATA_START__*/{
       "label": "LP gagnés",
       "unit": "LP",
       "vals": [
-        779,
-        1190
+        850,
+        1179
       ],
       "hib": true
     },
@@ -1641,7 +1487,7 @@ const DATA = /*__DATA_START__*/{
       "unit": "V",
       "vals": [
         8,
-        11
+        7
       ],
       "hib": true
     }
@@ -1671,56 +1517,56 @@ const DATA = /*__DATA_START__*/{
   "lobby": {
     "louis": {
       "ally": {
-        "rank": "Argent III",
-        "wr": 49
+        "rank": "Argent II",
+        "wr": 50
       },
       "enemy": {
-        "rank": "Argent III",
-        "wr": 48
+        "rank": "Argent II",
+        "wr": 49
       }
     },
     "thomas": {
       "ally": {
-        "rank": "Argent II",
-        "wr": 49
+        "rank": "Argent I",
+        "wr": 50
       },
       "enemy": {
-        "rank": "Argent II",
-        "wr": 48
+        "rank": "Or IV",
+        "wr": 49
       }
     }
   },
   "fun": {
     "louis": {
-      "kills": 1081,
-      "deaths": 1344,
-      "assists": 1776,
-      "ingame": "102 h 37",
-      "dead": "10 h 20",
-      "cs": 34036,
-      "gold": 2387873,
-      "ie": 702,
-      "dmg": 5068645,
-      "teemos": 8476,
-      "wards": 2918,
-      "wardKills": 490,
+      "kills": 964,
+      "deaths": 1394,
+      "assists": 2239,
+      "ingame": "109 h 09",
+      "dead": "10 h 40",
+      "cs": 29717,
+      "gold": 2418434,
+      "ie": 711,
+      "dmg": 4631638,
+      "teemos": 7745,
+      "wards": 3721,
+      "wardKills": 786,
       "spree": 17,
       "multi": "Triple kill",
       "longest": 55
     },
     "thomas": {
-      "kills": 788,
-      "deaths": 527,
-      "assists": 584,
-      "ingame": "45 h 55",
-      "dead": "3 h 55",
-      "cs": 21173,
-      "gold": 1333047,
-      "ie": 392,
-      "dmg": 2594896,
-      "teemos": 4339,
-      "wards": 821,
-      "wardKills": 152,
+      "kills": 515,
+      "deaths": 421,
+      "assists": 462,
+      "ingame": "33 h 27",
+      "dead": "3 h 10",
+      "cs": 15460,
+      "gold": 969256,
+      "ie": 285,
+      "dmg": 1856376,
+      "teemos": 3104,
+      "wards": 605,
+      "wardKills": 120,
       "spree": 13,
       "multi": "Quadra kill",
       "longest": 44
@@ -1728,36 +1574,36 @@ const DATA = /*__DATA_START__*/{
   },
   "tribunal": {
     "louis": {
-      "sample": 151,
-      "botKda": 2.15,
-      "enemyBotKda": 2.45,
+      "sample": 124,
+      "botKda": 2.3,
+      "enemyBotKda": 2.38,
       "botLane": 49,
-      "fusPct": 9,
-      "botWinPct": 49,
+      "fusPct": 8,
+      "botWinPct": 50,
       "worst": {
         "champs": "Yunara + Brand",
         "kda": "0/11/0",
         "lane": 25
       },
-      "mvpPct": 19,
-      "avgRank": 5.9,
+      "mvpPct": 17,
+      "avgRank": 6.0,
       "verdict": "Plainte rejetée : le plaignant n'est pas irréprochable",
       "tone": "good"
     },
     "thomas": {
-      "sample": 42,
-      "botKda": 2.39,
-      "enemyBotKda": 2.11,
-      "botLane": 49,
-      "fusPct": 2,
+      "sample": 12,
+      "botKda": 2.23,
+      "enemyBotKda": 2.25,
+      "botLane": 50,
+      "fusPct": 8,
       "botWinPct": 50,
       "worst": {
-        "champs": "Senna + Lulu",
-        "kda": "0/16/41",
-        "lane": 38
+        "champs": "Ashe + Tahm Kench",
+        "kda": "5/21/23",
+        "lane": 34
       },
-      "mvpPct": 29,
-      "avgRank": 4.3,
+      "mvpPct": 17,
+      "avgRank": 5.1,
       "verdict": "Classé sans suite : botlanes dans la moyenne",
       "tone": "mid"
     }
